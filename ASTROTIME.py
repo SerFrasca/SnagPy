@@ -2,7 +2,7 @@ import astropy
 import time
 import GD
 
-### TIME ###
+### TIME ### ---------------------------
 
 # mjd time ----------------------------
 
@@ -58,6 +58,15 @@ def adds2mjd(mjd1,nsec):
 
 # gps time ----------------------------
 
+
+def gps_now():
+# Return the current GPS time as a float using Astropy.
+
+    from astropy.time import Time
+
+    return float(Time.now().gps)
+
+
 def gps2mjd(tgps): # conversion from gps time to mjd
     pass
 
@@ -80,7 +89,8 @@ def sidereal_hour(t):
     pass
 
 
-def gmst(t):   # Greenwich mean sidereal time (in hours)
+def gmst(t):
+# Greenwich mean sidereal time (in hours)
     st=sidereal_hour(t)
 
     return st

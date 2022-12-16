@@ -1,18 +1,43 @@
-import numpy as np
 from scipy.fft import fft, ifft
 import cmath as cm
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import copy
 import time
-import SERV
+import numpy as np
+import BASIC,SERV
 
 pi=cm.pi
 deg2rad=pi/180
 
 # class gd  -----------------------------------------------
 
-class gd:
+class gd:  
+
+#           gd creation
+#
+# gd is the basic class-container in SnagPy.
+#
+# The attributes are:
+#
+# > y      the ordinate (basic data)
+# > n      the length
+# > ini    initial abscissa (used in type 1 gds)
+# > dx     sampling step (used in type 1 gds)
+# > x      abscissas (used in type 2 gds)
+# > typ    determine type 1 (virtual abscissa) or type 2 (real abscissa)
+# > capt   caption (a string)
+# > cont   a control variable (in the case of a bsd, a special structure)
+# > unc    ordinate uncertainty (typically not used)
+# > uncx   abscissa uncertainty (used for other)
+#
+# Any gd can be modified by edit_gd. 
+# A gd can be created giving just the number of samples, 
+# or transform a 1-dimensional array to a gd, or give the other information. 
+# Addition and multiplication are overloaded for gd objects, 
+# so you can write, e.g.,  30.5*gd1+gd2*gd3
+#
+
     def __init__(self,y,**gdpar): # y ordinate or n
         if isinstance(y,int):
             y=np.zeros(y)
@@ -90,7 +115,11 @@ class gd:
         return outgd   
   
 
-def edit_gd(ingd,**gdpar): # 'new'-1  -> new object
+def edit_gd(ingd,**gdpar): 
+# changes parameters of a gd or copy a gd
+# 'new'-1  -> new object
+# in gdpar any couple varname=varvalue
+
     if 'new' in gdpar:
         outgd=copy.copy(ingd)
     else:
@@ -118,17 +147,25 @@ def edit_gd(ingd,**gdpar): # 'new'-1  -> new object
 
 
 def x_gd(ingd):
+# gd abscissa (real or realized)
     if ingd.typ == 1 :
         x=ingd.ini+np.arange(ingd.n)*ingd.dx
     else:
         x=ingd.x
-    x=SERV.deshape(x)
+    x=BASIC.deshape(x)
 
     return x        
 
 
+# gd - dictionary management ------------------------
+
 def dict2gd(dicin):
-    outgd=gd(dicin['y'],ini=dicin['ini'],dx=dicin['dx'],x=dicin['x'],
+    y=dicin['y']
+    if isinstance(y[1],complex):
+        print('y is complex')
+    else:
+        print('y is real') 
+    outgd=gd(y,ini=dicin['ini'],dx=dicin['dx'],x=dicin['x'],
     capt=dicin['capt'],cont=dicin['cont'],unc=dicin['unc'],uncx=dicin['uncx'])
     outgd.typ=dicin['type']
     return outgd
@@ -139,6 +176,8 @@ def gd2dict(ingd):
     'capt':ingd.capt,'cont':ingd.cont,'unc':ingd.unc,'uncx':ingd.uncx}
     return outdic
 
+
+# gd display -----------------------------
 
 def show_gd(ingd):
     print('type   ',ingd.typ)
@@ -155,9 +194,13 @@ def show_gd(ingd):
 
 # set functions -----------------------------------------------
 
+# To create gds with certain simple signals or random series
+
 def set_gd(ingd,fun,par1=1,par2=0.1,par3=0):
     # ingd a gd or an integer that is the length of the new gd
-    # fun is the function
+    # fun is the function and can be:
+    #     'delt','step','ramp','cos','sin','cexp','exp','power','rect'
+    # par1,pae2,par3  are parameters for fun
 
     if isinstance(ingd,int):
         ingd=gd(np.zeros(ingd))
@@ -247,9 +290,11 @@ def set_gd(ingd,fun,par1=1,par2=0.1,par3=0):
 
 
 def rand_gd(ingd,dist,par1=0,par2=1,par3=0): 
-    # ingd a gd or an integer that is the length of the new gd
-    # dist is the distribution
-    # par3 seed
+# Random numbers
+# ingd  a gd or an integer that is the length of the new gd
+# dist  is the distribution ('norm','unif',...)
+# par1,par2  are the parameters of the distribution
+# par3  seed
 
     if isinstance(ingd,int):
         ingd=gd(np.zeros(ingd))
@@ -276,6 +321,9 @@ def rand_gd(ingd,dist,par1=0,par2=1,par3=0):
 # modification function -----------------------------------------------
 
 def modif_gd(ingd,fun,par1=1,par2=0.1,par3=0):
+# gd modification by a function fun
+# 
+# fun  ex.:'abs','real','imag','angle','log10','xlog10','loglog10'
     outgd=copy.copy(ingd)
     y=ingd.y
     if fun == 'abs':
@@ -284,7 +332,7 @@ def modif_gd(ingd,fun,par1=1,par2=0.1,par3=0):
         y=np.real(y)
     if fun == 'imag':
         y=np.imag(y)
-    if fun == 'imag':
+    if fun == 'angle':
         y=np.angle(y,deg=True)
     if fun == 'log10':
         y=np.log10(y)
@@ -308,6 +356,8 @@ def modif_gd(ingd,fun,par1=1,par2=0.1,par3=0):
 
 
 def rota_gd(ingd,n):
+# circular shift of a gd ordinate
+# n is a positive or negative integer
 
     outgd=ingd
     outgd.capt=outgd.capt+'- rota'
@@ -322,9 +372,82 @@ def rota_gd(ingd,n):
     return outgd  
 
 
+
+def resamp_gd(ingd,dx,nmax=0):
+# gd resampling with frequency domain filter
+# dx new sampling step
+# nmax if > 0, impose fft length
+    N0=ingd.n
+    DX0=ingd.dx
+    T0=N0*DX0
+    DF0=1/T0
+    FRMAX0=1/DX0
+
+    if dx == DX0:
+        return ingd
+
+    if nmax > 0:
+        if nmax < N0:
+            print('*** ERROR: nmax ',nmax,' < ',N0,' (gd length)')
+            raise RuntimeError
+        else:
+            y=np.zeros(nmax)
+    else:
+        y=np.zeros(N0)
+
+    me=np.mean(ingd.y)
+
+    y[0:N0-1]=ingd.y.copy()-me
+
+    if isinstance(y,complex):
+        iccompl=1
+    else:
+        iccompl=0
+        if N0 % 2 == 1:
+            N0=N0+1
+            y=np.append(y,-me)
+
+    enh=DX0/dx
+    N1=round(enh*N0/2)*2
+    DN=N1-N0
+
+    #  fr0=1/(dx*(2-iccompl))
+    y=fft(y)
+
+    Y=np.zeros(N1)
+
+    if iccompl == 0:
+        if DN > 0:
+            Y[0:N0/2]=y[0:N0/2]
+        else:
+            Y[0:N1/2]=y[0:N1/2]
+
+        Y[N1:N1/2:-1]=Y[1:N1/2]
+    else:
+        if DN > 0:
+            Y[0:N0]=y
+        else:
+            Y=y[0:N1]
+
+    Y=ifft(Y)
+
+    out_gd=gd(Y,ini=ingd.ini,dx=ingd.dx,capt=ingd.capt+' resampled')
+
+    return out_gd
+    
+
+
+
+def parallel_gd(ingd1,ingd2,**gdpar):
+    pass
+
+
 # simple functions
 
 def stat_gd(ingd,nbins=20):
+# Simple statistics (parameters and histogram)
+# nbins number of bins of the output histogram (a gd)
+# producs a simple dictionary with median, mean, std, skew and kurt
     y=ingd.y
     N=len(y)
     median=np.nanmedian(y)
@@ -342,7 +465,9 @@ def stat_gd(ingd,nbins=20):
     return stat,Hist
 
 
-def fft_gd(ingd,fif=1):  # fif = -1 ifft
+def fft_gd(ingd,fif=1):  
+# fft of the ordianate of a gd
+# fif = -1 ifft
     outgd=ingd
     y=ingd.y
     dx=1/(ingd.n*ingd.dx)
@@ -363,35 +488,86 @@ def fft_gd(ingd,fif=1):  # fif = -1 ifft
 # plot functions -----------------------------------------------
 
 def plot_gd(ingd):
-    x=x_gd(ingd)
+    if isinstance(ingd,np.ndarray):
+        x=np.arange(len(ingd))
+        y=ingd
+    else:
+        x=x_gd(ingd)
+        y=ingd.y
     plt.ion()
-    plt.plot(x,ingd.y)
+    plt.plot(x,y)
     plt.show() 
     gridon()
 
 
 def semilogx_gd(ingd):
-    x=x_gd(ingd)
+    if isinstance(ingd,np.ndarray):
+        x=np.arange(len(ingd))
+        y=ingd
+    else:
+        x=x_gd(ingd)
+        y=ingd.y
     plt.ion()
-    plt.semilogx(x,ingd.y)
+    plt.semilogx(x,y)
     plt.show() 
     gridon()
 
 
 def semilogy_gd(ingd):
-    x=x_gd(ingd)
+    if isinstance(ingd,np.ndarray):
+        x=np.arange(len(ingd))
+        y=ingd
+    else:
+        x=x_gd(ingd)
+        y=ingd.y
     plt.ion()
-    plt.semilogy(x,ingd.y)
+    plt.semilogy(x,y)
     plt.show() 
     gridon()
 
 
 def loglog_gd(ingd):
-    x=x_gd(ingd)
+    if isinstance(ingd,np.ndarray):
+        x=np.arange(len(ingd))
+        y=ingd
+    else:
+        # x=x_7gd(ingd)
+        y=ingd.y
     plt.ion()
-    plt.loglog(x,ingd.y)
+    plt.loglog(x,y)
     plt.show()
-    gridon()
+    plt.grid()
+
+
+
+def c_plot_gd(typ,ingd): 
+# plot for complex array
+# typ = 0 i vs r, 1 real, 2 imag, 3 abs, 4 angle
+    if isinstance(ingd,np.ndarray):
+        x=np.arange(len(ingd))
+        y=ingd
+    else:
+        x=x_gd(ingd)
+        y=ingd.y
+    plt.ion()
+    if typ == 0:
+        x=np.real(y)
+        y=np.imag(y)
+        plt.plot(x,y)
+    if typ == 1:
+        y=np.real(y)
+        plt.plot(x,y)
+    if typ == 2:
+        y=np.imag(y)
+        plt.plot(x,y)
+    if typ == 3:
+        y=np.abs(y)
+        plt.plot(x,y)
+    if typ == 4:
+        y=SERV.atan3(y)
+        plt.plot(x,y)
+    plt.show() 
+    plt.grid()
 
 
 def close_fig():
@@ -421,6 +597,7 @@ def ylin():
 # calc functions -------------------------------
 
 def minmax_gd(ingd):
+# Min and max for abscissa and ordinate
     x=x_gd(ingd)
     mima_x=[min(x),max(x)] 
     mima_y=[min(ingd.y),max(ingd.y)]

@@ -1,35 +1,13 @@
 import numpy as np
-import inspect
-import os.path
 
-def Eval(file):   # exec(open('test_file').read())
-    a="exec(open('"
-    b="').read())"
-
-    eval(a+file+b)
-
-def Exec(file):   # exec(open('test_file').read())
-    a="exec(open('"
-    b="').read())"
-
-    exec(a+file+b) 
-
-
-def show_dict(dict):
-    print('    ')
-    for keys,values in dict.items():
-        if isinstance(values,float):
-            print(f'{keys:15} ==> {values:15f}')
-        elif isinstance(values,int):
-            print(f'{keys:15} ==> {values:15d}')
-        elif isinstance(values,str):
-            print(f'{keys:15} ==> {values:15}')
-        else:
-            print(f'{keys:15} ==>   xxx')
-    print('    ')
-
+'''
+Service computational routines
+'''
 
 def rota(inp,n):
+# circular shift of an array or a list
+# n is a positive or negative integer
+
     isarr=0
     if isinstance(inp,np.ndarray):
         isarr=1
@@ -44,9 +22,10 @@ def rota(inp,n):
 
 
 def thresh(inp,t1,t2):
-  #  threshold function (0 if out, 1 if in)
-  #     a=thresh(b,t1,t2)
-  #  if t1 < t2  in is in the interval, else it is out
+#  threshold function (0 if out, 1 if in)
+#     a=thresh(b,t1,t2)
+#  if t1 < t2  is in the interval, else it is out
+#  (used, e.g., in atan3)
     if t1 < t2:
         a1=np.floor((np.sign(inp-t1)+2)/2)
         a=a1*np.floor((np.sign(t2-inp)+2)/2)
@@ -58,7 +37,8 @@ def thresh(inp,t1,t2):
 
 
 def atan3(inp):
-  # computes atan3 (in number of turns; 1 turn = 360 degrees)
+# operates on complex arrays: computes the phases in a domain larger than 360 deg
+# computes atan3 (in number of turns; 1 turn = 360 degrees)
     pi2=np.pi*2
     n=len(inp)
     b=np.angle(inp)/pi2
@@ -81,8 +61,10 @@ def atan3(inp):
     return a
 
 
-def mask(n,n1,**pars): # n=length, n1 cut or list cuts, ** lenw (def 3),
-                       #     mode 'symfr'
+def mask(n,n1,**pars): 
+# Mask function (e.g. for frequency filters)
+#  n=length, n1 cut or list cuts, 
+#    ** lenw (def 3), mode 'symfr'
     mas=np.ones(n)
     if isinstance(n1,int):
         nw=1
@@ -98,7 +80,6 @@ def mask(n,n1,**pars): # n=length, n1 cut or list cuts, ** lenw (def 3),
     type(mas)
     w1=np.flip(w)
     fin=0
-    ini=0
 
     for i in range(0,nw,2):
         len1=n1[i]-fin
@@ -122,36 +103,15 @@ def mask(n,n1,**pars): # n=length, n1 cut or list cuts, ** lenw (def 3),
     return mas
 
 
-def retrieve_name(var):
-   for fi in reversed(inspect.stack()):
-            names = [var_name for var_name, var_val in fi.frame.f_locals.items() if var_val is var]
-            if len(names) > 0:
-                return names[0]
+def ifr(ingd,fr):
+# Frequency sample index for a given frequency
+#  ingd   the gd to be transformed
+#  fr     the requested frequency
+    n=ingd.n
+    dx=ingd.dx
+    frmax=1/dx
+    i=np.round(fr*n/frmax)
+    if i >= n:
+        print(' *** OUT OF THE BAND: i = ',i,' max ',n-1)
 
-
-
-def path_fil_ext(ffil):
-    path,a2=os.path.split(ffil)
-    filnam,ext=os.path.splitext(a2)
-
-    return path,filnam,ext
-
-
-
-def deshape(inarr):
-    outarr=inarr
-    aa=inarr.shape
-    if len(aa) == 1:
-        return outarr 
-    elif aa[0] == 1:
-        outarr=inarr[0]
-    elif aa[1] == 1:
-        outarr=outarr.transpose()
-        outarr=outarr[0]
-    else:
-        n=aa[0]*aa[1]
-        outarr=outarr.reshape(n)
-
-    return outarr
-
-
+    return i

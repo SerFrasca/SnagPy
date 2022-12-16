@@ -5,13 +5,34 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import copy
 import time
+import SERV
 
 pi=cm.pi
 deg2rad=pi/180
 
-# class gd  -----------------------------------------------
+# class gd2  -----------------------------------------------
+"""  
+gd2 is the class-container for 2-D data in SnagPy.
+The attributes are:
+# > y      the ordinate (basic data)
+# > n      the length
+# > ini    initial abscissa (used in type 1 gds)
+# > dx     sampling step (used in type 1 gds)
+# > x      abscissas (used in type 2 gds)
+# > typ    determine type 1 (virtual abscissa) or type 2 (real abscissa)
+# > capt   caption (a string)
+# > cont   a control variable (in the case of a bsd, a special structure)
+# > unc    ordinate uncertainty (typically not used)
+# > uncx   abscissa uncertainty (used for other)
+#
 
-class gd2:
+Any gd can be modified by edit_gd. 
+A gd can be created giving just the number of samples, 
+or transform a 1-dimensional array to a gd, or give the other information. 
+Addition and multiplication are overloaded for gd objects.
+"""
+
+class gd2:    # gd2 creation
     def __init__(self,y,**gdpar): # y ordinate or n
         if isinstance(y,int):
             y=np.zeros(y)
@@ -89,7 +110,7 @@ class gd2:
         return outgd   
   
 
-def edit_gd2(ingd,**gdpar): # 'new'-1  -> new object
+def edit_gd(ingd,**gdpar): # 'new'-1  -> new object
     if 'new' in gdpar:
         outgd=copy.copy(ingd)
     else:
@@ -116,11 +137,11 @@ def edit_gd2(ingd,**gdpar): # 'new'-1  -> new object
     return outgd
 
 
-def x_gd2(ingd):
+def x_gd(ingd):
     if ingd.typ == 1 :
         x=ingd.ini+np.arange(ingd.n)*ingd.dx
     else:
         x=ingd.x
+    x=SERV.deshape(x)
 
     return x        
-

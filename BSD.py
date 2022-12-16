@@ -1,3 +1,5 @@
 import GD
 
-pass
+
+def mult_gd_par():
+    pass

@@ -5,15 +5,25 @@ import csv
 import mat73
 import GD,SERV
 
-# read - write v.7 format mat file
+'''
+This module deals with operations with Matlab. 
+The most important part is the management of the mat files. 
+Some mat files could not be read because contain Matlab tables: 
+in such case the solution is saving the Matlab table 
+as a csv file (by the writetable internal function
+or table2cvs Snag function).
+'''
+# read - write v.7 format mat file -------------
 
 def loadmat7(fil):
+# Generic load
     dat=sio.loadmat(fil)
 
     return dat
 
 
 def gdloadmat7(fil):
+# load a file containing a gd
     matc=sio.loadmat(fil)
     ke=list(matc.keys())
     gdnam=ke[3]
@@ -26,6 +36,10 @@ def gdloadmat7(fil):
     x_=np.reshape(x_,len(x_))
     y=tup[1]
     y=np.reshape(y,len(y))
+    if isinstance(y[1],complex):
+        print('y is complex')
+    else:
+        print('y is real') 
     n_=tup[2]
     n_=np.reshape(n_,1)
     typ=tup[3]
@@ -33,7 +47,7 @@ def gdloadmat7(fil):
     ini_=np.reshape(ini_,1)
     dx_=tup[5]
     dx_=np.reshape(dx_,1)
-    capt_=tup[6]
+    capt_=tup[6][0]
     cont_=tup[7]
     unc_=tup[8]
     uncx_=tup[9]
@@ -54,6 +68,7 @@ def gdsavemat7(fil,ingd):   ### NON FUNZIONA
 
 
 def gdsavedicmat(ingd):
+# save a gd transformed to a dictionary
     nam=SERV.retrieve_name(ingd)
     outdic=GD.gd2dict(ingd)
     filnam=nam+'_dic.mat'
@@ -64,27 +79,26 @@ def gdsavedicmat(ingd):
 
 
 def gdloaddicmat(fil):
+# load a gd transformed to a dictionary
     indic=sio.loadmat(fil)
     outgd=GD.dict2gd(indic)
 
     return outgd
 
 
-# da Edoardo Giancarli
+# by Edoardo Giancarli ---------------------------
 
 
-def mat_to_dict(pathfil):                  # convert the data from MATLAB: it seems that is better to leave goutL as a dict
+def mat_to_dict(pathfil):
+# converts the data from MATLAB (v7 format) to dictionary
     
     """
     Conversion from MATLAB data file to dict.
-    Parameters:
-    -----------------------------------------------------------------------------------------------------------------
+    Parameters: 
+
     path : (str) path of your MATLAB data file
-    -----------------------------------------------------------------------------------------------------------------
-    return:
         
-    data_dict: (dict) dict from MATLAB data file
-    -----------------------------------------------------------------------------------------------------------------     
+    data_dict: (dict) dict from MATLAB data file     
     """
     
     # SciPy reads in structures as structured NumPy arrays of dtype object
@@ -114,16 +128,19 @@ def mat_to_dict(pathfil):                  # convert the data from MATLAB: it se
 
 
 
-def mat2gd(pathfil):
+def mat2gd(pathfil):                
+# converts the data from MATLAB (v7 format) to a gd
+
     data_dict=mat_to_dict(pathfil)
     outgd=GD.dict2gd(data_dict)
     return outgd
  
 
 
-# read - write v.7.3 format mat file
+# read - write v.7.3 format mat file ---------------------
 
 def loadmat73(fil):
+# Generic load
     dat=mat73.loadmat(fil)
     obj=list(dat.keys())
 
@@ -131,6 +148,7 @@ def loadmat73(fil):
 
 
 def gdloadmat73(fil):
+# load a file containing a gd
     dat=mat73.loadmat(fil)
     obgd=list(dat.keys())
     obgd=obgd[0]
@@ -156,7 +174,7 @@ def gdloadmat73(fil):
 
 
 
-# read - write csv
+# read - write csv --------------------------
 
 def csv_read(filn):
     with open(filn, newline='') as csvfile:
