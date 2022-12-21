@@ -115,3 +115,21 @@ def ifr(ingd,fr):
         print(' *** OUT OF THE BAND: i = ',i,' max ',n-1)
 
     return i
+
+
+def range_shift(ini,fin,shift,lseg):
+#  range with shift and lseg
+# 
+    n=0
+    inis=[]
+    inis.append(ini)
+    fins=[]
+    fins.append(inis[n]+lseg)
+    while fins[n] <= fin:
+        n+=1
+        inis.append(inis[n-1]+shift)
+        fins.append(inis[n]+lseg)
+
+    inis=inis[0:n]
+    fins=fins[0:n]
+    return n,inis,fins

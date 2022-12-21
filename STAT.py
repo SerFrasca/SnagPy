@@ -160,6 +160,8 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,ce
    rang=range(0,N-n+1,sh)
    lS=int(np.ceil(res*n/2.)*2)
    lS2=int(lS/(1+singleb))
+   # print(n,res)
+   # print(lS,lS2)
    S=np.zeros(lS)
    df=1/(lS*dx)
 
@@ -175,6 +177,8 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,ce
          YY=YY+1j*YY
       YY[0:n]=yy
       YY=np.abs(fft(YY))**2
+      print(np.shape(S))
+      print(np.shape(YY))
       S+=YY[0:lS2]
 
    S=S*dx/npie
@@ -184,11 +188,54 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,ce
    return S
 
 
+def gd_welch(ingd,lenfrac,res=1,shift=1,notrend=1,win='hann',singleb=1):
+   y=ingd.y
+   dx=ingd.dx
+   fs=1/dx
+   n=ingd.n
+   nperseg=int(n*lenfrac/2)*2
+   if shift < 1:
+      noverlap=int(nperseg*shift)
+   else:
+      noverlap=None
+   nfft=int(nperseg*res/2)*2
+   f,s=signal.welch(y,fs=fs,nperseg=nperseg,noverlap=noverlap,
+   nfft=nfft,window=win)
+   s=GD.gd(s,dx=f[1])
+
+   return s
 
    
+def cross_pw(ingd1,ingd2):
+   pass
 
+def coher(ingd1,ingd2):
+   pass
+
+def lombscargle(ingd):
+   pass
+
+def pulse_spectrum(ingd):
+   pass
+
+def stft(ingd):
+   pass
 
 
 
 # Spectrograms ----------------------------
 
+def spectrogram(ingd):
+   pass
+
+
+
+
+# Period analysis ------------------------
+
+def gd_period():
+   pass
+
+
+def gd_worm():
+   pass

@@ -3,7 +3,7 @@ import scipy.io as sio
 import h5py
 import csv
 import mat73
-import GD,SERV
+import GD,SERV,BASIC
 
 '''
 This module deals with operations with Matlab. 
@@ -108,7 +108,7 @@ def mat_to_dict(pathfil):
     # Since the structure has only one element, but is 2-D, index it at [0, 0]
     
     mat = sio.loadmat(pathfil)                                 # load mat-file
-    path,filnam,ext=SERV.path_fil_ext(pathfil)
+    path,filnam,ext=BASIC.path_fil_ext(pathfil)
     mdata = mat[filnam]                                              # variable in mat file
     mdtype = mdata.dtype                                          # dtypes of structures are "unsized objects"
     data_dict = {n: mdata[n][0, 0] for n in mdtype.names}         # express mdata as a dict
