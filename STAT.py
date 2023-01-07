@@ -1,3 +1,6 @@
+   # Copyright (C) 2023  Sergio Frasca
+   #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+
 import numpy as np
 from scipy.fft import fft, ifft
 from scipy import stats
@@ -17,7 +20,7 @@ def ana_zero(indat,mode=0,eps=1.e-6):
    #      3 one  intervals
    # eps to the lowest meaningful value, as percentage of maximum
 
-   if isinstance(indat,gd):
+   if isinstance(indat,GD.gd):
       y=indat.y
       ty='gd'
    elif isinstance(indat,np.ndarray):
@@ -47,9 +50,9 @@ def ana_zero(indat,mode=0,eps=1.e-6):
       return perc
    if mode == 1:
       if ty == 'gd':
-         zer=edit_gd(indat,y=zer)
+         zer=GD.edit_gd(indat,y=zer)
       else:
-         zer=gd(zer)
+         zer=GD.gd(zer)
       return perc,zer
    if mode == 2:
       di=np.diff(zer)
@@ -106,7 +109,8 @@ def ana_zero(indat,mode=0,eps=1.e-6):
 
 # Power Spectra ----------------------------
 
-def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,center=1):
+def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
+sqr=0,center=1):
 # Standard power spectrum estimation
 # npiece    number of pieces (without shift)
 # res       resoltion (minimal 1)
@@ -115,6 +119,7 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,ce
 # notrend   =1 subtract trend
 # window    -0 no, 1 bartlett, 2 hann (default), 3 flat top cosine
 # singleb   =1 single side band (for real data, normalized for single band)
+# sqr       =1 square root of spectrum
 # center    =1 0 frequency at center, no single side band
 
    N=ingd.n
@@ -162,7 +167,7 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,ce
    lS2=int(lS/(1+singleb))
    # print(n,res)
    # print(lS,lS2)
-   S=np.zeros(lS)
+   S=np.zeros(lS2)
    df=1/(lS*dx)
 
    npie=0
@@ -171,17 +176,22 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,ce
       i1=i
       i2=i1+n
       npie+=1
+      # print(y.shape)
+      # print(win.shape)
       yy=y[i1:i2]*win
       YY=np.zeros(lS)
       if isinstance(yy[1],complex):
          YY=YY+1j*YY
       YY[0:n]=yy
       YY=np.abs(fft(YY))**2
-      print(np.shape(S))
-      print(np.shape(YY))
+  #    print(np.shape(S))
+  #    print(np.shape(YY))
       S+=YY[0:lS2]
 
-   S=S*dx/npie
+   coef=dx/(npie*lS2)
+   S=S*coef
+   if sqr == 1:
+      S=np.sqrt(S)
    print('N,n,sh,npie,lS',N,n,sh,npie,lS)
    S=GD.gd(S,dx=df)
 

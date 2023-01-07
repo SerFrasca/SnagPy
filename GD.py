@@ -1,3 +1,6 @@
+    # Copyright (C) 2023  Sergio Frasca
+    #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+
 from scipy.fft import fft, ifft
 import cmath as cm
 import matplotlib.pyplot as plt
@@ -147,14 +150,55 @@ def edit_gd(ingd,**gdpar):
 
 
 def x_gd(ingd):
-# gd abscissa (real or realized)
-    if ingd.typ == 1 :
-        x=ingd.ini+np.arange(ingd.n)*ingd.dx
+# gd abscissa (real or realized) (operates also on arrays)
+    if not isinstance(ingd,np.ndarray):
+        if ingd.typ == 1 :
+            x=ingd.ini+np.arange(ingd.n)*ingd.dx
+        else:
+            x=ingd.x
+        x=BASIC.deshape(x)
     else:
-        x=ingd.x
-    x=BASIC.deshape(x)
+        x=np.arange(len(ingd))
 
     return x        
+
+
+def div_gd(gd1,gd2):
+    try:
+        y2=gd2.y
+        outgd=copy.copy(gd2)
+        print('gd2 object')
+    except:
+        y2=gd2
+        print('gd2 numeric')
+    try:
+        y1=gd1.y
+        outgd=copy.copy(gd1)
+        print('gd1 object')
+    except:
+        y1=gd1
+        print('gd1 numeric')
+
+    y1=np.array(y1)    # strange, but fundamental
+    y2=np.array(y2)
+
+    outgd.y=y1/y2
+    outgd.capt='divide'
+    return outgd
+
+
+def zero_nan_gd(ingd,v=0.):
+# substitutes NaN values with 0 or v, for gds or arrays
+    if isinstance(ingd,np.ndarray):
+        iy=np.argwhere(np.isnan(ingd))
+        iy=BASIC.deshape(iy)
+        ingd[iy]=v
+        return ingd
+    else:
+        iy=np.argwhere(np.isnan(ingd.y))
+        iy=BASIC.deshape(iy)
+        ingd.y[iy]=v
+        return ingd
 
 
 # gd - dictionary management ------------------------
@@ -310,6 +354,9 @@ def rand_gd(ingd,dist,par1=0,par2=1,par3=0):
 
     if dist == 'norm': # par1 mu, par2 sigma, par3 seed 
         y=np.random.randn(ingd.n)*par2+par1
+
+    if dist == 'cnorm': # par1 mu, par2 sigma, par3 seed 
+        y=(np.random.randn(ingd.n)+1j*np.random.randn(ingd.n))*par2+par1
 
     if dist == 'cauchy': # par1 mu, par2 scale, par3 seed 
         y=np.random.standard_cauchy(ingd.n)*par2+par1
@@ -487,58 +534,102 @@ def fft_gd(ingd,fif=1):
 
 # plot functions -----------------------------------------------
 
-def plot_gd(ingd):
-    if isinstance(ingd,np.ndarray):
-        x=np.arange(len(ingd))
-        y=ingd
-    else:
-        x=x_gd(ingd)
-        y=ingd.y
+"""
+                Main plotting procedure
+To plot data (typically a gd, but also for arrays) the main procedure 
+consists in four steps:
+1) newfig      that can define the dimension of the window. If the 
+               parameter siz is a two element list, it defines the relative 
+               enhancement of the horizontal and vertical dimension of the
+               window, if it is just a number it applies to both h and v.
+               Example: newfig([1.33,1])
+2) plot_helper defines various aspects of the graph, e.g.:
+               mode   : normal plot, steps, scatter plot
+               scale  : linear or logatithmic scale for each axis.
+               grid   : grid lines
+               fmt    : format (color and texture)
+               linewid: line width
+               It creates a dictionary called P_H.
+3) plot_gd     general plotting function; the imput are:
+               ingd  the input gd or array
+               P_H   the output of plot_helper; if absent, the default
+4) post_plot   defines title and labels.
+
+The plot can be modified by the functions xlog, ylog, xlin, ylin,
+xlim, ylim and others.
+
+"""
+
+def newfig(siz=1):
+# creates a new figure. siz is a two-element list 
+# containing the enhancement of the horizontal and vertical dimensions
+    if not isinstance(siz,list):
+        siz1=siz
+        siz=[siz1,siz1]
+    hor=6.4*siz[0]
+    ver=4.8*siz[1]
+    plt.figure(figsize=[hor,ver])
     plt.ion()
-    plt.plot(x,y)
-    plt.show() 
-    gridon()
-
-
-def semilogx_gd(ingd):
-    if isinstance(ingd,np.ndarray):
-        x=np.arange(len(ingd))
-        y=ingd
-    else:
-        x=x_gd(ingd)
-        y=ingd.y
-    plt.ion()
-    plt.semilogx(x,y)
-    plt.show() 
-    gridon()
-
-
-def semilogy_gd(ingd):
-    if isinstance(ingd,np.ndarray):
-        x=np.arange(len(ingd))
-        y=ingd
-    else:
-        x=x_gd(ingd)
-        y=ingd.y
-    plt.ion()
-    plt.semilogy(x,y)
-    plt.show() 
-    gridon()
-
-
-def loglog_gd(ingd):
-    if isinstance(ingd,np.ndarray):
-        x=np.arange(len(ingd))
-        y=ingd
-    else:
-        # x=x_7gd(ingd)
-        y=ingd.y
-    plt.ion()
-    plt.loglog(x,y)
+    plt.grid(True)
     plt.show()
-    plt.grid()
 
 
+
+def plot_gd(ingd,P_H=0):
+#  ingd   input gd or array
+#  P_H    output of plot_helper (can be defaulted)
+
+    if isinstance(P_H,int):
+        print("default P_H")
+        P_H=plot_helper()
+    if isinstance(ingd,np.ndarray):
+        x=np.arange(len(ingd))
+        y=ingd
+    else:
+        x=x_gd(ingd)
+        y=ingd.y
+
+    sca=P_H['scale']
+    if sca[0:2] == 'lo':
+        plt.xscale('log') 
+    if sca[2:4] == 'lo':
+        plt.yscale('log') 
+    if sca[0:2] == 'li':
+        plt.xscale('linear') 
+    if sca[2:4] == 'li':
+        plt.yscale('linear')
+
+    if P_H['mode'] == 'plot':      
+        plt.plot(x,y)
+    elif P_H['mode'] == 'step': 
+        plt.step(x,y,where='mid')
+    elif P_H['mode'] == 'scat': 
+        plt.scatter(x,y)
+
+    gridon()
+
+
+
+def plot_helper(mode='plot',scale='lili',grid='norm',fmt='b',linewid=1.):
+# auxiliary input for plot_gd
+#  mode    'plot','step','scat'
+#  scale   'lili','lilo','loli','lolo'
+#  grid    'norm','dens','no'
+#  fmt     
+#  linewid
+
+    P_H={'mode':mode,'scale':scale,'grid':grid,'fmt':fmt,
+    'linewid':linewid,'marker':'o','marksiz':10}
+
+    return P_H
+
+
+
+def post_plot(tit,xlab,ylab):
+# inserts title and h and v labels
+    plt.title(tit)
+    plt.xlabel(xlab)
+    plt.ylabel(ylab)
 
 def c_plot_gd(typ,ingd): 
 # plot for complex array
@@ -566,7 +657,7 @@ def c_plot_gd(typ,ingd):
     if typ == 4:
         y=SERV.atan3(y)
         plt.plot(x,y)
-    plt.show() 
+ #   plt.show() 
     plt.grid()
 
 
@@ -592,6 +683,39 @@ def xlin():
 
 def ylin():
     plt.yscale('linear')
+
+
+def xlim(mi,ma):
+    plt.xlim([mi,ma])
+
+
+def ylim(mi,ma):
+    plt.ylim([mi,ma])
+
+
+def fig_limits():
+    l,r=plt.xlim()
+    xx=[l,r]
+    d,u=plt.ylim()
+    yy=[d,u]
+
+    return xx,yy
+
+
+
+def ioff():
+# interactive off (use plt.show() to show the figure)
+    plt.ioff()    
+
+def ion():
+# interactive on 
+    plt.ion()  
+    plt.show()
+
+
+def holdoff():
+    plt.clf()
+
 
 
 # calc functions -------------------------------

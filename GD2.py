@@ -1,3 +1,6 @@
+    # Copyright (C) 2023  Sergio Frasca
+    #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+
 import numpy as np
 from scipy.fft import fft, ifft
 import cmath as cm

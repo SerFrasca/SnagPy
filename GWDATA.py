@@ -1,9 +1,14 @@
+    # Copyright (C) 2023  Sergio Frasca
+    #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+
+import ASTROTIME
+
 # CW sources  ---------------------------------------
 
 class cw():
     def __init__(self):
         self.name='crab';
-        self.a=83.633218;
+        self.a=83.633218
         self.d=22.01446361111;
         self.v_a=0.0   # marcs/y
         self.v_d=0.0   # marcs/y
@@ -13,7 +18,7 @@ class cw():
         self.ddf0=2.359316462680000e-20
         self.fepoch=54936
 
-        self.t00=v2mjd([2000,1,1,0,0,0])
+        self.t00=ASTROTIME.v2mjd([2000,1,1,0,0,0])
         self.eta=-0.7667
         self.iota=62.165
         self.siota=0.8531

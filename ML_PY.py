@@ -1,6 +1,8 @@
+    # Copyright (C) 2023  Sergio Frasca, Edoardo Giancarli
+    #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+
 import numpy as np
 import scipy.io as sio
-import h5py
 import csv
 import mat73
 import GD,SERV,BASIC
@@ -22,35 +24,24 @@ def loadmat7(fil):
     return dat
 
 
-def gdloadmat7(fil):
-# load a file containing a gd
-    matc=sio.loadmat(fil)
-    ke=list(matc.keys())
-    gdnam=ke[3]
-    mc=matc[gdnam]
-    base=mc.base
-    tup=mc.item()
-    x_=tup[0]
- #   if len(x_) == 1:
- #       x_=[]
-    x_=np.reshape(x_,len(x_))
-    y=tup[1]
-    y=np.reshape(y,len(y))
-    if isinstance(y[1],complex):
-        print('y is complex')
-    else:
-        print('y is real') 
-    n_=tup[2]
-    n_=np.reshape(n_,1)
-    typ=tup[3]
-    ini_=tup[4]
-    ini_=np.reshape(ini_,1)
-    dx_=tup[5]
-    dx_=np.reshape(dx_,1)
-    capt_=tup[6][0]
-    cont_=tup[7]
-    unc_=tup[8]
-    uncx_=tup[9]
+
+def gd_lm7(fil):
+    mat=sio.loadmat(fil)
+    ll=list(mat.keys())
+    nam=ll[3]
+    arstr=mat[nam]
+    dic=BASIC.arrstruct2dict(arstr)
+    x_=dic['x']
+    y=dic['y']
+    y=np.squeeze(y)
+    n_=dic['n']
+    typ=dic['type']
+    ini_=dic['ini']
+    dx_=dic['dx']
+    capt_=dic['capt']
+    cont_=dic['cont']
+    unc_=dic['unc']
+    uncx_=dic['uncx']
     
     if typ == 1:
         gdout=GD.gd(y,ini=ini_,dx=dx_,typ=1,capt=capt_,cont=cont_,unc=unc_,uncx=uncx_)
@@ -61,13 +52,7 @@ def gdloadmat7(fil):
 
 
 
-def gdsavemat7(fil,ingd):   ### NON FUNZIONA
-    mdic={'ingd':ingd,'label':'gd by SnagPy'}
-    sio.savemat(fil,mdic)
-
-
-
-def gdsavedicmat(ingd):
+def gdsavedicmat7(ingd):
 # save a gd transformed to a dictionary
     nam=SERV.retrieve_name(ingd)
     outdic=GD.gd2dict(ingd)
@@ -78,63 +63,13 @@ def gdsavedicmat(ingd):
 
 
 
-def gdloaddicmat(fil):
+def gdloaddicmat7(fil):
 # load a gd transformed to a dictionary
     indic=sio.loadmat(fil)
     outgd=GD.dict2gd(indic)
 
     return outgd
 
-
-# by Edoardo Giancarli ---------------------------
-
-
-def mat_to_dict(pathfil):
-# converts the data from MATLAB (v7 format) to dictionary
-    
-    """
-    Conversion from MATLAB data file to dict.
-    Parameters: 
-
-    path : (str) path of your MATLAB data file
-        
-    data_dict: (dict) dict from MATLAB data file     
-    """
-    
-    # SciPy reads in structures as structured NumPy arrays of dtype object
-    # The size of the array is the size of the structure array, not the number-
-    #   -elements in any particular field. The shape defaults to 2-dimensional.
-    # For convenience make a dictionary of the data using the names from dtypes
-    # Since the structure has only one element, but is 2-D, index it at [0, 0]
-    
-    mat = sio.loadmat(pathfil)                                 # load mat-file
-    path,filnam,ext=BASIC.path_fil_ext(pathfil)
-    mdata = mat[filnam]                                              # variable in mat file
-    mdtype = mdata.dtype                                          # dtypes of structures are "unsized objects"
-    data_dict = {n: mdata[n][0, 0] for n in mdtype.names}         # express mdata as a dict
-        
-    # n = data_dict['n'][0, 0]
-    # data_dict['y'] = list(data_dict['y'][i][0] for i in range(n))
-    y = data_dict['y']
-    y = y.reshape(len(y))
-    data_dict['y'] = y                               # perc of total zero data in y (data from the Obs run)
-        
-    cont = data_dict['cont']
-    cont_dtype = cont.dtype
-    cont_dict = {u: cont[str(u)] for u in cont_dtype.names}       # cont in data_dict is a structured array, I converted it in a dict
-    data_dict['cont'] = cont_dict                                 # now we have a fully accessible dict
-    
-    return data_dict
-
-
-
-def mat2gd(pathfil):                
-# converts the data from MATLAB (v7 format) to a gd
-
-    data_dict=mat_to_dict(pathfil)
-    outgd=GD.dict2gd(data_dict)
-    return outgd
- 
 
 
 # read - write v.7.3 format mat file ---------------------
@@ -144,10 +79,10 @@ def loadmat73(fil):
     dat=mat73.loadmat(fil)
     obj=list(dat.keys())
 
-    return obj
+    return dat
 
 
-def gdloadmat73(fil):
+def gd_lm73(fil):
 # load a file containing a gd
     dat=mat73.loadmat(fil)
     obgd=list(dat.keys())
@@ -173,7 +108,6 @@ def gdloadmat73(fil):
 
 
 
-
 # read - write csv --------------------------
 
 def csv_read(filn):
@@ -181,3 +115,39 @@ def csv_read(filn):
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in spamreader:
             print(', '.join(row))
+
+
+
+# BSD --------------------------------
+
+def mat2bsd(fil):
+    mat=sio.loadmat(fil) # dictionary
+    path,file=BASIC.path_fil_ext(fil)
+    bsdmat=mat[file]     # MatlabObject
+    clname=bsdmat.classname
+    aai=bsdmat.item()    # tuple
+
+    x=aai[0]        # numpy.ndarray
+    y=aai[1]
+    n=aai[2]
+    typ=aai[3]
+    ini=aai[4]
+    dx=aai[5]
+    capt=aai[6]
+    cont=aai[7]     # numpy.ndarray
+    unc=aai[8]
+    uncx=aai[9]
+    
+    dcont=cont.dtype     # numpy.dtype
+    contnam=dcont.names  # tuple
+
+
+
+def ana_mat7(fil):
+    mat=sio.loadmat(fil)
+    kk=list(mat.keys())
+    nam0=kk[3]
+    A=mat[nam0]
+    dt=A.dtype
+    nam1=dt.names
+    fiel1=dt.fields
