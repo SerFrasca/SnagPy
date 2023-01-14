@@ -119,35 +119,3 @@ def csv_read(filn):
 
 
 # BSD --------------------------------
-
-def mat2bsd(fil):
-    mat=sio.loadmat(fil) # dictionary
-    path,file=BASIC.path_fil_ext(fil)
-    bsdmat=mat[file]     # MatlabObject
-    clname=bsdmat.classname
-    aai=bsdmat.item()    # tuple
-
-    x=aai[0]        # numpy.ndarray
-    y=aai[1]
-    n=aai[2]
-    typ=aai[3]
-    ini=aai[4]
-    dx=aai[5]
-    capt=aai[6]
-    cont=aai[7]     # numpy.ndarray
-    unc=aai[8]
-    uncx=aai[9]
-    
-    dcont=cont.dtype     # numpy.dtype
-    contnam=dcont.names  # tuple
-
-
-
-def ana_mat7(fil):
-    mat=sio.loadmat(fil)
-    kk=list(mat.keys())
-    nam0=kk[3]
-    A=mat[nam0]
-    dt=A.dtype
-    nam1=dt.names
-    fiel1=dt.fields

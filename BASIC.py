@@ -6,15 +6,15 @@ import csv
 import json
 import pickle
 import h5py
-import hdfdict 
 import sys
 import inspect
-import os.path
+#import os.path
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import matplotlib.colors as mcolors
 import GD,GD2
+import os
 
 """
    To reimport a module:
@@ -28,6 +28,20 @@ import GD,GD2
 """
 
 # Small apps ---------------------------------------
+
+def envir_var(var):
+# value of environment variables
+#   var    name of the environment variable (a string)
+    AA=dict(os.environ)
+    try:
+        BB=AA[var]
+    except:
+        print(var+' variable not present')
+        BB=var+' variable not present'
+
+    return BB
+
+
 
 def Exec(file):   # exec(open('test_file').read())
     a="exec(open('"
@@ -67,6 +81,22 @@ def isa(arg,typ=0):
         out=isinstance(arg,typ)
 
     return out
+
+
+def byte2str(dat):
+# converts byte object or list of b.o. to str or list of str
+
+    if isinstance(dat,bytes):
+        dat=dat.decode("utf-8")
+    elif isinstance(dat,list) or isinstance(dat,np.ndarray):
+        ii=0
+        for it in dat:
+            if isinstance(it,bytes):
+                it=it.decode("utf-8")
+                dat[ii]=it
+            ii+=1
+
+    return dat
 
 
 
@@ -110,6 +140,17 @@ def dict2pkl(dic,fil):
     f.close()
 
 
+def pkl2dict(fil):  
+# read a dictionary from a pikle file
+
+    f=open(fil,'rb')
+    dic=pickle.load(f)
+    f.close()
+
+    return dic
+
+
+
 # HDF5 -------------------------
 
 def list_baskeys_hdf5(fil):
@@ -117,14 +158,47 @@ def list_baskeys_hdf5(fil):
     li=list(f.keys())
     print(li)
 
-def read_hdf5(fil):
-    out=hdfdict.load(fil)
-
-    return out
 
 
-def write_hdf5(dic,fil):
-    hdfdict.dump(dic,fil)
+def write_hdf5_s(dic,fil):
+# writes in a hdf5 file a simple dictionary
+#  dats   simple dictionary containing the data
+    N=len(dic)
+    kk=list(dic.keys())
+    vv=list(dic.values())
+    with h5py.File(fil,'w') as f:
+        for i in range(N):
+            nam=kk[i]
+            val=vv[i]
+            try:
+                valsh=val.shape
+                valdt=val.dtype
+                dset = f.create_dataset(nam,valsh,valdt,data=val,compression='gzip')
+            except:
+                dset = f.create_dataset(nam,data=val)
+
+
+
+def read_hdf5_s(fil):
+# writes in a hdf5 file a simple dictionary
+#  dats   simple dictionary containing the data
+    dicout={}
+    with h5py.File(fil,'r') as f:
+        lk=list(f.keys())
+        for i in range(len(lk)):
+            dset=f[lk[i]]
+    #        print(lk[i],type(dset))
+            try:
+                ll=len(dset)
+                dset=dset[0:ll]
+            except:
+                dset=dset[()]
+            dset=byte2str(dset)
+            dicout[lk[i]]=dset
+
+    return dicout
+
+
 
 
 # List ----------------------------
@@ -493,21 +567,30 @@ def arrstruct2dict(arstr):
 class snag_table:
 # simple Matlab-like table management
 #
-#  data    full data (with titles, list of lists, all of the same length)
+#  data    full data (with titles, list of lists or tuples, all of the same length)
 #  nr      number of rows
 #  nc      number of colums
+#  tup     = 1 list of tuples, = 0 list of lists
 #  titles  first row of data
 #  capt    caption
 #  cont    control variable (typicalli a structure or dictionary)
 
-    def __init__(self,data):
- #   def __init__(self,data,**stpar):
+    def __init__(self,data,capt='table',cont=0,tup=1):
         self.data=data
         self.nr=len(data)-1
         self.nc=len(data[1])
+        self.tup=tup
         self.titles=data[0]
-        self.capt='table'
-        self.cont=0
+        self.capt=capt
+        self.cont=cont
+
+
+def snag_table_show(st):
+    print(st.titles)
+    for i in range(1,st.nr+1):
+        print(i-1,st.data[i])
+
+
 
 def extr_st_col(st,which):
 #  st     snag table
@@ -554,17 +637,43 @@ def extr_st_rows(st,which):
 
 
 
-def csv2list(fil):
-# reads dictionary from csv file
+def extr_st_row(st,k):
+# Creates a new table with a subset of rows
+#  st     snag table
+#  k      the index of the row
+
+    dataout=[]
+    data=st.data
+    dataout.append(data[k+1])
+
+    return dataout[0]
+
+
+
+def csv2list(fil,tup=1):
+# reads data from csv file
+#  tup     = 1 list of tuples, = 0 list of lists
     lis=[]
     with open(fil, 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             print(row)
             row1=decode_simp_list(row)
-            lis.append(row1)
+            if tup == 1:
+                row1=tuple(row1)  
+            lis.append(row1)          
 
     return lis
+
+
+
+def csv2st(fil,tup=1):
+# creates a snag_table from csv file
+#  tup     = 1 list of tuples, = 0 list of lists
+    data=csv2list(fil,tup=1)
+    st=snag_table(data,tup)
+
+    return st
 
 
 def decode_simp_list(lis):
@@ -583,6 +692,83 @@ def decode_simp_list(lis):
         out.append(elem1)
 
     return out
+
+# ArrayTable --------------------------
+
+class array_table:
+# container for huge numerical table
+#
+#  titles  names of the columns
+#  data    full data (nr x nc array)
+#  nr      number of rows
+#  nc      number of colums
+#  capt    caption
+#  cont    control variable (typicalli a structure or dictionary)
+
+    def __init__(self,titles,data):
+        self.titles=titles
+        self.data=data
+        self.nr=len(data)
+        self.nc=len(data[1])
+        self.capt='table'
+        self.cont=0
+
+
+
+def text2array(fil,noline,nr,items):
+# to read a table of floats
+#  fil     file
+#  noline  number of lenes to jump
+#  nr      number of output rows
+#  items   column to output (e.g. [0,1,3,7])
+
+    nc=len(items)
+    f=open(fil,'r')
+    arr=np.zeros((nr,nc))
+
+    for i in range(noline):
+        f.readline()
+
+    for i in range(nr):
+        lin=f.readline()
+        lis=lin.split()
+        num=[]
+        for k in range(len(lis)):
+            num.append(float(lis[k]))
+
+        num1=[]
+        for k in items:
+            num1.append(num[k])
+
+        arr[i]=num1
+
+    return arr
+
+
+
+def array_table_to_dict(at,fil=''):
+#  at    array_table
+#  fil   output file (HDF5)
+
+    atdic={'capt': at.capt,'titles': at.titles,'nr':at.nr,'nc':at.nc,'array':at.data,
+    'cont':at.cont}
+
+    if fil != '':
+        write_hdf5_s(atdic,fil)
+
+    return atdic
+
+
+# Intervals -------------------------
+
+class intervals:
+# time (or other) interval management
+    pass
+
+
+
+
+
 
 
 # system -------------------------
@@ -614,6 +800,7 @@ def list_of_func(modul):
 def deshape(inarr):
 # Eliminates "shape" (and pletoric parentheses) in array
 # reducing to simple 1-D array
+# It is similar to squeeze
     outarr=inarr
     aa=inarr.shape
     if len(aa) == 1:
@@ -824,6 +1011,7 @@ def fig_dim():
 
 
 def inter_grid(xx,lev=1):
+# to define grids
     d=xx[1]-xx[0]
     n10=int(np.log10(d))
     d10=10**(n10-lev)

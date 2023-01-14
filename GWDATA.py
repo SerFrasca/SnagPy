@@ -1,54 +1,105 @@
     # Copyright (C) 2023  Sergio Frasca
     #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
-import ASTROTIME
+import numpy as np
+import ASTROTIME,BASIC
+
+Pi=np.pi
 
 # CW sources  ---------------------------------------
 
-class cw():
-    def __init__(self):
-        self.name='crab';
-        self.a=83.633218
-        self.d=22.01446361111;
-        self.v_a=0.0   # marcs/y
-        self.v_d=0.0   # marcs/y
-        self.pepoch=5.463200000022558e+04
-        self.f0=59.473551262000001
-        self.df0=-7.433700409800000e-10
-        self.ddf0=2.359316462680000e-20
-        self.fepoch=54936
+def ligo2virgo_cw_table(ligotab,capttab='',run=''):
+# creates a Virgo format cw list from a Ligo table
+    ligtab=BASIC.csv2list(ligotab)
+    virgotab=[]
+    title=[]
+    lin=[]
+    t00=ASTROTIME.v2mjd([2000,1,1,0,0,0])
 
-        self.t00=ASTROTIME.v2mjd([2000,1,1,0,0,0])
-        self.eta=-0.7667
-        self.iota=62.165
-        self.siota=0.8531
-        self.psi=35.155
-        self.spsi=0.0908
-        self.h=1.400000000000000e-24
-        self.snr=1
-        self.coord=0
-        self.chphase=0
+    if run != '':
+        title=('run','name','a','d','v_a','v_d','fepoch','f0','df0','ddf0','pepoch',
+        't00','eps','eta','psi','h')
+    else:
+        title=('name','a','d','v_a','v_d','fepoch','f0','df0','ddf0','pepoch',
+        't00','eps','eta','psi','h')
 
-        self.dfrsim=-0.2
-        self.ephfile='/storage/targeted/band_recos/crab_ephemeris_file_O1.txt'
-        self.ephstarttime=57249
-        self.ephendtime=57403
+    virgotab.append(title)
+    N=len(ligtab)
+
+    for i in range(1,N):
+        lline=ligtab[i]
+        print(lline)
+        ii=i-1
+        a=lline[16]*180/Pi
+        d=lline[15]*180/Pi
+        v_a=0   # marcs/y
+        v_d=0   # marcs/y
+        fepoch=0 # to be corrected after gps2mjd
+        f0=lline[2]
+        df0=lline[3]
+        ddf0=0
+        pepoch=fepoch
+        eps=1
+        cosi=np.cos(lline[11])
+        eta=-2*cosi/(1+cosi**2)
+        psi=lline[12]*180/Pi
+        h=lline[8]*np.sqrt(1+6*cosi**2+cosi**4)/2
+
+        if run != '':
+            lin=(run,str(ii),a,d,v_a,v_d,fepoch,f0,df0,ddf0,pepoch,t00,eps,eta,psi,h)
+        else:
+            lin=(str(ii),a,d,v_a,v_d,fepoch,f0,df0,ddf0,pepoch,t00,eps,eta,psi,h)
+
+        virgotab.append(lin)
+
+        vt=BASIC.snag_table(virgotab,capt=capttab+run)
+
+        return vt
+
+
+
+
 
 
 
 # Antennas ------------------------- 
 
-class Antenna():
-    def __init__(self):
-        self.name='virgo'
-        self.lat=43.6314133
-        self.long=10.5044968
-        self.azim=199.4326
-        self.incl=0
-        self.height=4
-        self.whour=+1
-        self.shour=+2
-        self.type=2
+def anten(ant,anten_tab=0):
+# extract data for an antenna (a dictionary)
+#  ant         antenna name ('virgo','ligol',...)
+#  anten_tab   antenna table (def possible if the environment variable is set)
+    if anten_tab == 0:
+        anten_tab=BASIC.envir_var('ANT_TAB')
+
+    lis=BASIC.csv2list(anten_tab)
+    st=BASIC.snag_table(lis)
+    tit=list(st.titles)
+    tit[0]='Antenna'
+    col=BASIC.extr_st_col(st,0)
+    try:
+        n=col.index(ant)
+    except:
+        print(ant+' not found in table'+anten_tab)
+        return 0
+
+    antlis=list(BASIC.extr_st_row(st,n))
+
+    antdic=dict(zip(tit,antlis))
+
+    return antdic
+
+
+
+def antennas(anten_tab=0):
+# creates dictionarys for each antenna
+#  typical call: virgo,ligol,ligoh,kagra=GWDATA.antennas()
+    virgo=anten('virgo')
+    ligol=anten('ligol')
+    ligoh=anten('ligoh')
+    kagra=anten('kagra')
+
+    return virgo,ligol,ligoh,kagra
+
 
 
 # 5-vect --------------------------------------
