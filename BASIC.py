@@ -573,7 +573,7 @@ class snag_table:
 #  tup     = 1 list of tuples, = 0 list of lists
 #  titles  first row of data
 #  capt    caption
-#  cont    control variable (typicalli a structure or dictionary)
+#  cont    control variable (typically a structure or dictionary)
 
     def __init__(self,data,capt='table',cont=0,tup=1):
         self.data=data
@@ -703,7 +703,7 @@ class array_table:
 #  nr      number of rows
 #  nc      number of colums
 #  capt    caption
-#  cont    control variable (typicalli a structure or dictionary)
+#  cont    control variable (typically a structure or dictionary)
 
     def __init__(self,titles,data):
         self.titles=titles

@@ -610,15 +610,16 @@ def plot_gd(ingd,P_H=0):
 
 
 
-def plot_helper(mode='plot',scale='lili',grid='norm',fmt='b',linewid=1.):
+def plot_helper(mode='plot',scale='lili',grid='norm',absc='norm',fmt='b',linewid=1.):
 # auxiliary input for plot_gd
 #  mode    'plot','step','scat'
 #  scale   'lili','lilo','loli','lolo'
 #  grid    'norm','dens','no'
+#  absc    'norm','min','hour','days','week','mjd','date'
 #  fmt     
 #  linewid
 
-    P_H={'mode':mode,'scale':scale,'grid':grid,'fmt':fmt,
+    P_H={'mode':mode,'scale':scale,'grid':grid,'absc':absc,fmt:'fmt',
     'linewid':linewid,'marker':'o','marksiz':10}
 
     return P_H

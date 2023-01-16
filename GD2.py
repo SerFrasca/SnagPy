@@ -17,10 +17,13 @@ deg2rad=pi/180
 """  
 gd2 is the class-container for 2-D data in SnagPy.
 The attributes are:
-# > y      the ordinate (basic data)
-# > n      the length
+# > y      the 2-dim ordinate (basic data)
+# > n      
+# > m
 # > ini    initial abscissa (used in type 1 gds)
 # > dx     sampling step (used in type 1 gds)
+# > ini2
+# > dx2
 # > x      abscissas (used in type 2 gds)
 # > typ    determine type 1 (virtual abscissa) or type 2 (real abscissa)
 # > capt   caption (a string)
@@ -29,14 +32,14 @@ The attributes are:
 # > uncx   abscissa uncertainty (used for other)
 #
 
-Any gd can be modified by edit_gd. 
-A gd can be created giving just the number of samples, 
-or transform a 1-dimensional array to a gd, or give the other information. 
-Addition and multiplication are overloaded for gd objects.
+Any gd2 can be modified by edit_gd2. 
+A gd2 can be created giving just the m and n parameters, 
+or transform a 2-dimensional array to a gd2, or give the other information. 
+Addition and multiplication are overloaded for gd2 objects.
 """
 
 class gd2:    # gd2 creation
-    def __init__(self,y,**gdpar): # y ordinate or n
+    def __init__(self,y,**gdpar): # y ordinate or n and m
         if isinstance(y,int):
             y=np.zeros(y)
         self.y=y
@@ -73,78 +76,69 @@ class gd2:    # gd2 creation
             self.uncx=gdpar['uncx']
         else:
             self.uncx=0
-        self.label='SnagPy gd created on '+time.asctime()
+        self.label='SnagPy gd2 created on '+time.asctime()
 
     def __add__(self,other):
-        outgd=copy.copy(self)
+        outgd2=copy.copy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
-            outgd.y=outgd.y+other
+            outgd2.y=outgd2.y+other
         else:
-            outgd.y=outgd.y+other.y
-        return outgd   
+            outgd2.y=outgd2.y+other.y
+        return outgd2   
 
     def __radd__(self,other):
-        outgd=copy.copy(self)
+        outgd2=copy.copy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
-            outgd.y=outgd.y+other
-        return outgd   
+            outgd2.y=outgd2.y+other
+        return outgd2   
 
     def __mul__(self,other):
-        outgd=copy.copy(self)
+        outgd2=copy.copy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
-            outgd.y=outgd.y*other
+            outgd2.y=outgd2.y*other
         else:
-            outgd.y=outgd.y
+            outgd2.y=outgd2.y
             other.y
-        return outgd   
+        return outgd2  
 
     def __rmul__(self,other):
-        outgd=copy.copy(self)
+        outgd2=copy.copy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
-            outgd.y=outgd.y*other
-        return outgd   
+            outgd2.y=outgd2.y*other
+        return outgd2   
   
 
-def edit_gd(ingd,**gdpar): # 'new'-1  -> new object
+def edit_gd2(ingd2,**gdpar): # 'new'-1  -> new object
     if 'new' in gdpar:
-        outgd=copy.copy(ingd)
+        outgd2=copy.copy(ingd2)
     else:
-        outgd=ingd
+        outgd2=ingd2
     if 'x' in gdpar:
-        outgd.x=gdpar['x']
-        outgd.typ=2
+        outgd2.x=gdpar['x']
+        outgd2.typ=2
     if 'y' in gdpar:
-        outgd.y=gdpar['y']
-        outgd.n=len(outgd.y)
+        outgd2.y=gdpar['y']
+        outgd2.n=len(outgd2.y)
     if 'ini' in gdpar:
-        outgd.ini=gdpar['ini']
+        outgd2.ini=gdpar['ini']
     if 'dx' in gdpar:
         print(gdpar)
-        outgd.dx=gdpar["dx"]
+        outgd2.dx=gdpar["dx"]
     if 'capt' in gdpar:
-        outgd.capt=gdpar['capt']
+        outgd2.capt=gdpar['capt']
     if 'cont' in gdpar:
-        outgd.x=gdpar['cont']
+        outgd2.x=gdpar['cont']
     if 'unc' in gdpar:
-        outgd.unc=gdpar['unc']
+        outgd2.unc=gdpar['unc']
     if 'uncx' in gdpar:
-        outgd.uncx=gdpar['uncx']
-    return outgd
+        outgd2.uncx=gdpar['uncx']
+    return outgd2
 
-
-def x_gd(ingd):
-    if ingd.typ == 1 :
-        x=ingd.ini+np.arange(ingd.n)*ingd.dx
-    else:
-        x=ingd.x
-    x=SERV.deshape(x)
-
-    return x        
