@@ -7,6 +7,7 @@ import json
 import pickle
 import h5py
 import sys
+import time
 import inspect
 #import os.path
 import numpy as np
@@ -98,6 +99,19 @@ def byte2str(dat):
 
     return dat
 
+
+def tic():
+# similar to Matlab tic
+    global ttic
+    ttic=time.time()
+    return ttic
+
+
+def toc(tticin=0):
+    if tticin == 0:
+        return time.time()-ttic
+    else:
+        return time.time()-tticin
 
 
 # load & save dictionary: text, csv, json and pickle ---------------
@@ -573,16 +587,16 @@ class snag_table:
 #  tup     = 1 list of tuples, = 0 list of lists
 #  titles  first row of data
 #  capt    caption
-#  cont    control variable (typically a structure or dictionary)
+#  meta    meta data or control variable (typically a structure or dictionary)
 
-    def __init__(self,data,capt='table',cont=0,tup=1):
+    def __init__(self,data,capt='table',meta=0,tup=1):
         self.data=data
         self.nr=len(data)-1
         self.nc=len(data[1])
         self.tup=tup
         self.titles=data[0]
         self.capt=capt
-        self.cont=cont
+        self.meta=meta
 
 
 def snag_table_show(st):
@@ -650,6 +664,18 @@ def extr_st_row(st,k):
 
 
 
+def extr_st_dict(st,which):
+#  st     snag table
+#  which  a 2-values list, with the numbers of the columns uses for keys and values
+    ke=extr_st_col(st,which[0])
+    va=extr_st_col(st,which[1])
+
+    dic=dict(zip(ke,va))
+
+    return dic
+
+
+
 def csv2list(fil,tup=1):
 # reads data from csv file
 #  tup     = 1 list of tuples, = 0 list of lists
@@ -674,6 +700,17 @@ def csv2st(fil,tup=1):
     st=snag_table(data,tup)
 
     return st
+
+
+
+def st2csv(st,fil):
+# store a snag_table in a csv file
+# fil  file without extension
+    data=st.data
+    fil1=fil+'.csv'
+    w=csv.writer(open(fil1,'w',newline=''))
+    for it in data:
+        w.writerow(it)
 
 
 def decode_simp_list(lis):
@@ -703,7 +740,7 @@ class array_table:
 #  nr      number of rows
 #  nc      number of colums
 #  capt    caption
-#  cont    control variable (typically a structure or dictionary)
+#  meta    meta data or control variable (typically a structure or dictionary)
 
     def __init__(self,titles,data):
         self.titles=titles
@@ -711,7 +748,7 @@ class array_table:
         self.nr=len(data)
         self.nc=len(data[1])
         self.capt='table'
-        self.cont=0
+        self.meta=0
 
 
 
@@ -751,7 +788,7 @@ def array_table_to_dict(at,fil=''):
 #  fil   output file (HDF5)
 
     atdic={'capt': at.capt,'titles': at.titles,'nr':at.nr,'nc':at.nc,'array':at.data,
-    'cont':at.cont}
+    'meta':at.meta}
 
     if fil != '':
         write_hdf5_s(atdic,fil)
@@ -759,14 +796,13 @@ def array_table_to_dict(at,fil=''):
     return atdic
 
 
+
+
 # Intervals -------------------------
 
 class intervals:
 # time (or other) interval management
     pass
-
-
-
 
 
 

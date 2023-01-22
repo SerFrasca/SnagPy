@@ -51,7 +51,6 @@ def gd_lm7(fil):
     return gdout
 
 
-
 def gdsavedicmat7(ingd):
 # save a gd transformed to a dictionary
     nam=SERV.retrieve_name(ingd)
@@ -62,14 +61,12 @@ def gdsavedicmat7(ingd):
     return 'File '+filnam+' created'
 
 
-
 def gdloaddicmat7(fil):
 # load a gd transformed to a dictionary
     indic=sio.loadmat(fil)
     outgd=GD.dict2gd(indic)
 
     return outgd
-
 
 
 # read - write v.7.3 format mat file ---------------------
@@ -115,7 +112,6 @@ def csv_read(filn):
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in spamreader:
             print(', '.join(row))
-
 
 
 # BSD --------------------------------
