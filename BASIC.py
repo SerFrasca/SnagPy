@@ -6,6 +6,7 @@ import csv
 import json
 import pickle
 import h5py
+import silx.io.dictdump as silx
 import sys
 import time
 import inspect
@@ -213,6 +214,16 @@ def read_hdf5_s(fil):
     return dicout
 
 
+def write_dic2hdf5(dic,fil):
+# writes a dictionary in a hdf5 file
+    silx.dicttoh5(dic,fil, h5path='/', mode='a', overwrite_data=False, create_dataset_args=None)
+
+
+def read_hdf52dic(fil,dic):
+# reads a dictionary in a hdf5 file, transforming data in numpy data
+    dic=silx.h5todict(fil, path='/')
+    
+    return dic
 
 
 # List ----------------------------
