@@ -115,6 +115,38 @@ def toc(tticin=0):
         return time.time()-tticin
 
 
+def num_var_odd(lin):  
+# analyze the string lin to identifies numbers or variable names
+# 1 num, 2 var, 3 odd
+    res=0
+    lin1=lin.strip(' \n')
+    try:
+        lin0=float(lin1)
+    except:
+  #       ValueError
+        lin2=lin1.replace('_','')
+        res=3
+        if lin2.isalnum():
+            if lin2[0].isalpha():
+                res=2
+        lin0=lin1
+    else:
+        res=1
+
+    return res,lin0
+
+
+
+def path_fil_ext(ffil):
+# identifies in a file name with path 
+# the path, the file name without extension, the extension
+    path,a2=os.path.split(ffil)
+    filnam,ext=os.path.splitext(a2)
+
+    return path,filnam,ext
+
+
+
 # load & save dictionary: text, csv, json and pickle ---------------
 
 def dict2text(dic,fil):
@@ -219,11 +251,24 @@ def write_dic2hdf5(dic,fil):
     silx.dicttoh5(dic,fil, h5path='/', mode='a', overwrite_data=False, create_dataset_args=None)
 
 
-def read_hdf52dic(fil,dic):
+def read_hdf52dic(fil):
 # reads a dictionary in a hdf5 file, transforming data in numpy data
     dic=silx.h5todict(fil, path='/')
     
     return dic
+
+
+def read_hdf5_part(fil,dataset,slice):
+# partial read of HDF5 file
+#   fil      file (with path)
+#   dataset  dataset (string)
+#   slice    string (ex.: '[1:20,[6,7]]')
+
+    hf=h5py.File(fil, 'r')
+    ds=hf.get(dataset)
+    out=eval("hf[dataset]"+slice)
+
+    return out
 
 
 # List ----------------------------
@@ -862,37 +907,6 @@ def deshape(inarr):
         outarr=outarr.reshape(n)
 
     return outarr
-
-
-def num_var_odd(lin):  
-# analyze the string lin to identifies numbers or variable names
-# 1 num, 2 var, 3 odd
-    res=0
-    lin1=lin.strip(' \n')
-    try:
-        lin0=float(lin1)
-    except:
-  #       ValueError
-        lin2=lin1.replace('_','')
-        res=3
-        if lin2.isalnum():
-            if lin2[0].isalpha():
-                res=2
-        lin0=lin1
-    else:
-        res=1
-
-    return res,lin0
-
-
-
-def path_fil_ext(ffil):
-# identifies in a file name with path 
-# the path, the file name without extension, the extension
-    path,a2=os.path.split(ffil)
-    filnam,ext=os.path.splitext(a2)
-
-    return path,filnam,ext
 
 
 

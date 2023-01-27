@@ -8,6 +8,7 @@ from astropy.time import Time
 from astropy import units as u
 from astropy.coordinates import SkyCoord, EarthLocation, AltAz
 from astropy.coordinates import Angle
+from skyfield.api import load
 import time
 import datetime
 import copy
@@ -560,6 +561,69 @@ def ang_sep(lon1,lat1,lon2,lat2):
     out=astropy.coordinates.angular_separation(lon1, lat1, lon2, lat2)
 
     return out*rad2deg
+
+
+# Using Skyfield ------------------------
+
+def sf_arrtime(tini,tfin,step):
+# Skyfield time array
+#  tini    initial time tuple (a,m,d,h,m,s)
+#  fion    final time tuple
+#  step    in s
+
+    ts = load.timescale()
+
+    lini=list(tini)
+    l=len(lini)
+    for i in range(l,6):
+        lini.append(0)
+    ini=ts.utc(lini[0],lini[1],lini[2],lini[3],lini[4],lini[5])
+
+    lfin=list(tfin)
+    l=len(lfin)
+    for i in range(l,6):
+        lfin.append(0)
+    fin=ts.utc(lfin[0],lfin[1],lfin[2],lfin[3],lfin[4],lfin[5])
+
+    ii=np.arange(0,fin-ini,step/86400)
+    lini[2]=lini[2]+ii
+    lini[2]=list(lini[2])
+
+    t=ts.utc(lini[0],lini[1],lini[2],lini[3],lini[4],lini[5])
+
+    return t
+
+
+def sf_coord():
+    pass
+
+
+def sf_earth(t,epht='de440s.bsp'):
+# position and velocity of the Earth
+#  output:   cartesian position (AU)
+#            cartesian velocity (in unit of c)
+#            Einstein effect
+
+    c=299792458
+    G=6.6743e-11
+    UA=149597870700
+    MS=1.98855e30
+
+    eph = load(epht)
+    earth=eph['earth']
+    e = earth.at(t)
+    p=e.position
+    w=e.velocity
+    v=w.m_per_s/c
+    pp=p.au
+    d=pp[1]**2+pp[2]**2+pp[0]**2
+    
+    rs=2*G*MS/c**2
+    einstSol=rs/UA
+    einst=einstSol/d
+
+    return pp,v,einst
+
 
 
 
