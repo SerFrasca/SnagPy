@@ -11,6 +11,7 @@ import importlib
 # useful services -------------
 
 from BASIC import tic,toc
+tic()
 
 
 # symbols -----------------

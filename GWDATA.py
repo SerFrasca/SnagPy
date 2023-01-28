@@ -55,9 +55,11 @@ def extr_doppler(tab,tin,tfi,table_par):
     ifi=int((gtfi-table_par[0])/table_par[2])+1
 
     out=BASIC.read_hdf5_part(tab,'array','['+str(ini)+':'+str(ifi)+']')
+    t=out[:,0]
+    tmjd=ASTROTIME.t_conv(t,'gps','mjd')
 
-    return out
-    
+    return out,tmjd
+
 
 # CW sources ---------------------------------------
 

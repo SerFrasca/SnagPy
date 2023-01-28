@@ -575,9 +575,16 @@ def newfig(siz=1):
 
 
 
-def plot_gd(ingd,P_H=0):
+def plot_gd(ingd,x=0,P_H=0):
 #  ingd   input gd or array
+#  x      changed x
 #  P_H    output of plot_helper (can be defaulted)
+
+    if len(x)  > 1:
+        xx=x
+        chx=1
+    else:
+        chx=0
 
     if isinstance(P_H,int):
         print("default P_H")
@@ -588,6 +595,9 @@ def plot_gd(ingd,P_H=0):
     else:
         x=x_gd(ingd)
         y=ingd.y
+
+    if chx == 1:
+        x=xx
 
     sca=P_H['scale']
     if sca[0:2] == 'lo':

@@ -12,7 +12,7 @@ from skyfield.api import load
 import time
 import datetime
 import copy
-import GD,BASIC
+import GD,BASIC,GWDATA
 
 Pi=np.pi
 deg2rad=Pi/180
@@ -625,6 +625,20 @@ def sf_earth(t,epht='de440s.bsp'):
     return pp,v,einst
 
 
+# Using jpl tables ------------------------
+
+def ant_pos_vel(table_p,table_par,tin,tfi):
+# position and velocity of an antenna + Einstein effect
+# table_p    symbol (e.g.: table_virgo_p)
+# table_par  table parameters symbol (e.g.: table_par)
+# tin,tfi    vectorial time ini,fin (e.g. [2021,1,20,0])
+
+    out,tmjd=GWDATA.extr_doppler(table_p,tin,tfi,table_par)
+    pos=out[:,1:4]
+    vel=out[:,4:7]
+    einst=out[:,7]
+
+    return pos,vel,einst,tmjd
 
 
 # Doppler --------------------------------
