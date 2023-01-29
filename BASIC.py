@@ -162,7 +162,7 @@ def dict2csv(dic,fil):
 # write a dictionary on a csv file
 # fil  file without extension
     fil1=fil+'.csv'
-    w=csv.writer(open(fil1,'w'))
+    w=csv.writer(open(fil1,'w', delimiter=';'))
     for key, val in dic.items():
         w.writerow([key,val])
 
@@ -764,7 +764,7 @@ def st2csv(st,fil):
 # fil  file without extension
     data=st.data
     fil1=fil+'.csv'
-    w=csv.writer(open(fil1,'w',newline=''))
+    w=csv.writer(open(fil1,'w',newline=''),delimiter=';')
     for it in data:
         w.writerow(it)
 
@@ -984,6 +984,7 @@ def all_modules(pack_path,filout):
 
     mod_list=['GD',
     'GD2',
+    'MGD',
     'BASIC',
     'SERV',
     'ML_PY',
@@ -997,15 +998,17 @@ def all_modules(pack_path,filout):
     'GWOTH',
     'GUISNAG',
     'PARGPU',
-    'WEB_SNAG']
+    'WEB_SNAG',
+    'FANCY_FIG']
     # 'DEEPSNAG',
     # 'PERS//SF']
 
     fo=open(filout,'w')
 
     for modu in mod_list:
+        funcs=[]
         fo.write('\n\n__________________________________________\n')
-        fo.write('\n'+'         Module '+modu)
+        fo.write('\n'+'         Module '+modu+'\n')
 
         f=open(pack_path+modu+'.py','r')
         nchap=0
@@ -1019,6 +1022,7 @@ def all_modules(pack_path,filout):
             if line == '':
                 strin=list2string(funcs)
                 fo.write('Functions: '+strin)
+                funcs=[]
                 # strin1='\n {0}+{1} functions  {2} classes  {3} comment lines  {4} total lines\n'.format(nfun-npass,npass,ncla,ncom,lins)
                 # fo.write(strin1)
                 # fo.close()

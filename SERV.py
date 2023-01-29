@@ -138,3 +138,21 @@ def range_shift(ini,fin,shift,lseg):
     inis=inis[0:n]
     fins=fins[0:n]
     return n,inis,fins
+
+
+def vec_ccdot(in1,in2):
+# vectorial complex conjugate dot product
+#  in1,in2   equal shape arrays (nxm)
+# output n array
+
+    aa=in1.shape
+    n=aa[0]
+
+    out=np.zeros(n)
+
+    for i in range(n):
+        iin1=in1[i]
+        iin2=in2[i]
+        out[i]=np.vdot(iin1,iin2)
+
+    return out

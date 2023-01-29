@@ -305,6 +305,7 @@ def nearest_tsid(ts,t0):
 # Constants -----------------------------
 
 def const_table(file=0):
+# file, if it is present, save the constants table in a file
     lis0=['G', 'GM_earth', 'GM_jup', 'GM_sun', 'L_bol0', 'L_sun', 'M_earth', 'M_jup', 'M_sun',
      'N_A', 'R', 'R_earth', 'R_jup','R_sun', 'Ryd', 'a0', 'alpha', 'atm', 'au', 'b_wien', 'c', 
      'e', 'eps0', 'g0', 'h', 'hbar','k_B', 'kpc', 'm_e', 'm_n', 'm_p', 'mu0', 'muB', 
@@ -330,44 +331,34 @@ def const_table(file=0):
 def sites():
 # sites for gravitational antennas
 
-    virgo=EarthLocation.of_site('VIRGO')
-    print(virgo.lon,virgo.lat,virgo.height)
+    virgo_s=EarthLocation.of_site('VIRGO')
+    print(virgo_s.lon,virgo_s.lat,virgo_s.height)
 
-    ligol=EarthLocation.of_site('LIGO Livingston Observatory')
-    print(ligol.lon,ligol.lat,ligol.height)
+    ligol_s=EarthLocation.of_site('LIGO Livingston Observatory')
+    print(ligol_s.lon,ligol_s.lat,ligol_s.height)
 
-    ligoh=EarthLocation.of_site('LIGO Hanford Observatory')
-    print(ligoh.lon,ligoh.lat,ligoh.height)
+    ligoh_s=EarthLocation.of_site('LIGO Hanford Observatory')
+    print(ligoh_s.lon,ligoh_s.lat,ligoh_s.height)
 
-    kagra=EarthLocation.of_site('KAGRA')
-    print(kagra.lon,kagra.lat,kagra.height)
+    kagra_s=EarthLocation.of_site('KAGRA')
+    print(kagra_s.lon,kagra_s.lat,kagra_s.height)
+
+    return virgo_s,ligol_s,ligoh_s,kagra_s
 
 
 # Coordinates --------------------------
 
-# def astro_coord(cin,cout,ai,di,ltsid,lat):
-#     pass
-
 def astro_coord(cin, cout, ai, di):
 # ASTRO_COORD   astronomical coordinate conversion, from cin to cout
 #
-#      [ao,do]=astro_coord(cin,cout,ai,di,ltsid,lat)
-#
-#   See also astro_coord_fix
-#
-#  Angles are in degrees. Local tsid (in hours) and latitude is needed
-#  for conversions to and from the horizon coordinates.
 #  cin and cout can be
 #
-#    'hor'      azimuth, altitude
 #    'equ'      celestial equatorial: right ascension, declination
 #    'ecl'      ecliptical: longitude, latitude
 #    'gal'      galactic longitude, latitude
 #
-#    ai,di      input coordinates
-#    ltsid,lat  local sidereal time and latitude (only for horizontal coordinates)
-#
-#    ao,do      output coordinates
+#    ai,di      input coordinates  (deg)
+#    ao,do      output coordinates (deg)
 #
 #  epsilon = 23.4392911 deg is the inclination of the Earth orbit on the
 #  equatorial plane, referred to the standard equinox of year 2000
@@ -466,9 +457,10 @@ def astro2rect(a, icrad=0):
 
 # AstroPy coordinates ----------------------
 
-def EarLoc(lon,lat):
+def EarLoc(lon,lat,h=0):
 # Earth location object
 #  lon,lat  angles
+#  h        height in m
 #
 # Angles can be expressed as:
 #
@@ -484,7 +476,7 @@ def EarLoc(lon,lat):
     if isinstance(lat,(int,float)):
         lat=str(lat)+'d'
 
-    EL=EarthLocation(lon=lon,lat=lat)
+    EL=EarthLocation(lon=lon,lat=lat,height=h)
 
     return EL
 
@@ -627,14 +619,21 @@ def sf_earth(t,epht='de440s.bsp'):
 
 # Using jpl tables ------------------------
 
-def ant_pos_vel(table_p,table_par,tin,tfi):
+def ant_pos_vel(table_p,table_par,tin,tfi,au=0):
 # position and velocity of an antenna + Einstein effect
 # table_p    symbol (e.g.: table_virgo_p)
 # table_par  table parameters symbol (e.g.: table_par)
 # tin,tfi    vectorial time ini,fin (e.g. [2021,1,20,0])
+# au = 0   pos is in light seconds, vel in fraction of c
+# au = 1   pos is converted to au
+# au = 2   pos is converted to km
 
     out,tmjd=GWDATA.extr_doppler(table_p,tin,tfi,table_par)
     pos=out[:,1:4]
+    if au == 1:
+        pos=pos*299792458/1.495978707e11
+    if au == 2:
+        pos=pos*299792.458
     vel=out[:,4:7]
     einst=out[:,7]
 

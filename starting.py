@@ -21,6 +21,8 @@ antennas_p,cwinj_o2_p,cwinj_o3_p,cwsour_p,\
 table_ligoh_p,table_ligol_p,table_virgo_p,table_kagra_p,de440s_p\
     =GWDATA.set_symbols()
 
-table_par=[1261872018.0, 1577490618.0, 600.0]
+table_par=[1261872018.0, 1577490618.0, 600.0]   # start, stop in gps, step in s
+# Rectangular equatorial: posx,posy,posz in light seconds , velx/C vely/C velz/C deinstein
+# Time is: TDT given as mjd and gpstime [s]. Leap seconds: 37 last added January 2017
 
 virgo,ligol,ligoh,kagra=GWDATA.antennas(antennas_p)
