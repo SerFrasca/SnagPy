@@ -13,6 +13,7 @@ import importlib
 from BASIC import tic,toc
 tic()
 
+from BASIC import var
 
 # symbols -----------------
 

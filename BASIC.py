@@ -44,12 +44,30 @@ def envir_var(var):
     return BB
 
 
+def var(v):
+# variable analysis
+#   v     input variable
+    print('\n',type(v))
+    print('id : ',id(v),'\n')
+    print(v,'\n')
+    
+    di=dir(v)
+    print(show_list(di))
+
+    # return di
+
+
 
 def Exec(file):   # exec(open('test_file').read())
+# just to see how to use exec
+# or launch C:\Users\fam_f>python -i D:\OneDrive\SF\_Prog\Python\SnagPy\starting.py
     a="exec(open('"
     b="').read())"
 
     exec(a+file+b) 
+
+# aaastart="exec(open('"
+# bbbend="').read())"
 
 
 
@@ -254,7 +272,7 @@ def write_dic2hdf5(dic,fil):
 def read_hdf52dic(fil):
 # reads a dictionary in a hdf5 file, transforming data in numpy data
     dic=silx.h5todict(fil, path='/')
-    
+
     return dic
 
 

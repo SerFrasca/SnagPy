@@ -575,12 +575,12 @@ def newfig(siz=1):
 
 
 
-def plot_gd(ingd,x=0,P_H=0):
+def plot_gd(ingd,x=[],P_H=0):
 #  ingd   input gd or array
 #  x      changed x
 #  P_H    output of plot_helper (can be defaulted)
 
-    if len(x)  > 1:
+    if len(x) > 0:
         xx=x
         chx=1
     else:

@@ -7,7 +7,7 @@ from scipy import stats
 from scipy import signal
 import scipy as sc
 import matplotlib.pyplot as plt
-import GD 
+import GD,BASIC
 
 
 # Zero management ----------------------------
@@ -103,8 +103,128 @@ def ana_zero(indat,mode=0,eps=1.e-6):
 
 # Histograms ----------------------------
 
+def CW_histogram(x,w=[],ini=[],step=1,n=[],enl=10,typ='tri',edg=0,verb=1):
+# Convolutional weghted histogram
+#  x     values
+#  w     wheights
+#  ini   initial value (def the minimum)
+#  step  histogram step
+#  n     number of bin (def such to cover all the x range)
+#  enl   enlargement factor
+#  typ   'tri' triangular, 'gau' gaussian, 'rec' rectangular, if array -> personal fun
+#  edg   = 1, out values in the edge bins
+#  verb  verbosity
+   if verb > 1:
+      BASIC.tic()
+
+   x=np.array(x)
+   N=len(x)
+   dic={'N':N}
+   mea=np.mean(x)
+   med=np.median(x)
+   std=np.std(x)
+   ske=stats.skew(x)
+   kur=stats.kurtosis(x)
+   dic['xmean']=mea
+   dic['xmedian']=med
+   dic['xstd']=std
+   dic['xskew']=ske
+   dic['xkurt']=kur
+
+   w=np.array(w)
+
+   if ini == []:
+      ini=min(x)
+   if n == []:
+      ma=max(x)
+      n=np.ceil((ma-ini)/step)
+
+   if len(w) == 0:
+      w=np.ones(len(x))
+   else:
+      M=sum(w)
+      wmea=np.mean(w)
+      wmed=np.median(w)
+      wstd=np.std(w)
+      dic['M']=M
+      dic['wmean']=wmea
+      dic['wmedian']=wmed
+      dic['wstd']=wstd
+
+   sstep=step/enl
+   N=round(n*enl)
+   base=np.zeros(N)
+   y=np.round((x-ini)/sstep)
+   # print(n,N,ini,sstep)
+   # print(len(w))
+
+   for i in range(len(x)):
+      # print(x[i])
+      yi=int(y[i])
+      if yi >=0 and yi < N:
+         # print(i,yi)
+         base[yi]=base[yi]+w[i]
+
+   nenl=np.round(enl)
+   nenl2=2*nenl-1
+   # print(nenl,nenl2)
+
+   if typ == 'tri':
+      fun=np.arange(nenl2)
+      for i in range(1,nenl):
+         # print(i,i+nenl,fun[i+nenl],nenl2-fun[i+nenl])
+         fun[i+nenl-1]=fun[nenl-i-1]
+      # print(fun)
+      rit=nenl-1
+      dic['type']='Triangular'
+   elif typ == 'gau':
+      fun=np.zeros(nenl*6-1)
+      for i in range(0,nenl*6-1):
+         fun[i]=np.exp(-(i-nenl*3+1)**2/(2*nenl**2))
+      rit=3*nenl-1
+      dic['type']='Gaussian'
+   elif typ == 'rec':
+      fun=np.ones(nenl)
+      rit=(nenl-1)/2
+      dic['type']='Rectangular'
+   else:
+      dic['type']='Personal'
+      fun=typ
+
+   fun=fun*nenl/np.sum(np.abs(fun))
+
+   out=signal.convolve(base,fun)
+   out=GD.gd(out,ini=ini-rit/enl,dx=sstep)
+   fun=GD.gd(fun,ini=-rit)
+
+   mu,sig=param_from_hist(out)
+   dic['mu_hist']=mu
+   dic['sig_hist']=sig
+
+   if verb > 1:
+      mu,sig=param_from_hist(fun)
+      dic['mu_fun']=mu
+      dic['sig_fun']=sig
+      dic['tictoc']=BASIC.toc()
+      GD.newfig()
+      GD.plot_gd(out)
+
+   BASIC.show_simp(dic)
+
+   return out,dic,fun
 
 
+def param_from_hist(hist):
+# estimate population parameters from histogram
+#  hist   gd containing the histogram
+   x=GD.x_gd(hist)
+   y=hist.y
+   dx=hist.dx
+   y=y/(sum(y)*dx)
+   mu=np.sum(x*y)*dx
+   sig=np.sqrt(np.sum(y*(x-mu)**2)*dx)
+
+   return mu,sig
 
 
 # Power Spectra ----------------------------
@@ -249,3 +369,51 @@ def gd_period():
 
 def gd_worm():
    pass
+
+
+# From Scipy -------------------------
+
+dist_continu = [d for d in dir(stats) if
+                isinstance(getattr(stats, d), stats.rv_continuous)]
+dist_discrete = [d for d in dir(stats) if
+                 isinstance(getattr(stats, d), stats.rv_discrete)]
+
+# The main public methods for continuous RVs are:
+#
+# rvs: Random Variates
+# pdf: Probability Density Function
+# cdf: Cumulative Distribution Function
+# sf: Survival Function (1-CDF)
+# ppf: Percent Point Function (Inverse of CDF)
+# isf: Inverse Survival Function (Inverse of SF)
+# stats: Return mean, variance, (Fisher’s) skew, or (Fisher’s) kurtosis
+# moment: non-central moments of the distribution
+#
+# https://docs.scipy.org/doc/scipy/tutorial/stats/discrete.html
+# https://docs.scipy.org/doc/scipy/tutorial/stats/continuous.html
+
+def rand_data(N,typ,par1=0,par2=1):
+# Random numbers
+#  N     how many
+#  typ   type
+#  pars  parameters
+#
+#    typ      pars
+#   norm     mu,sigma
+
+   if typ == 'norm':
+      dat=stats.norm.rvs(size=N)*par2+par1
+   if typ == 'chi2':
+      df=par1
+      if df == 0:
+         df=4
+      dat=stats.chi2.rvs(df,size=N)
+   if typ == 'binom':
+      n=par1
+      p=par2
+      if n == 0:
+         n=20
+         p=0.5
+      dat=stats.binom.rvs(n,p,size=N)
+
+   return dat
