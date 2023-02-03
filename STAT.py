@@ -1,4 +1,4 @@
-   # Copyright (C) 2023  Sergio Frasca
+   # Copyright (C) 2023  Sergio Frasca, Riccardo Felicetti
    #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
 import numpy as np
@@ -101,7 +101,7 @@ def ana_zero(indat,mode=0,eps=1.e-6):
 
 
 
-# Histograms ----------------------------
+# Histograms and Par ----------------------------
 
 def CW_histogram(x,w=[],ini=[],step=1,n=[],enl=10,typ='tri',edg=0,verb=1):
 # Convolutional weghted histogram
