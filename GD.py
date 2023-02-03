@@ -105,8 +105,7 @@ class gd:
         if isinstance(other,float) or isinstance(other,complex):
             outgd.y=outgd.y*other
         else:
-            outgd.y=outgd.y
-            other.y
+            outgd.y=outgd.y*other.y
         return outgd   
 
     def __rmul__(self,other):
