@@ -650,6 +650,22 @@ def arrstruct2dict(arstr):
     return dict
 
 
+def val_from_key(st,kk):
+# value from key for dictionary or structured array
+#    st   structured array or dictionary
+#    kk   key (string)
+
+    if isinstance(st,dict):
+        val=st[kk]
+    else:
+        dic=arrstruct2dict(st)
+        val=dic[kk]
+        val=val.squeeze()
+
+    return val
+
+
+
 # SnagTable --------------------------
 
 class snag_table:

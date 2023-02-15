@@ -79,7 +79,7 @@ class gd2:    # gd2 creation
         self.label='SnagPy gd2 created on '+time.asctime()
 
     def __add__(self,other):
-        outgd2=copy.copy(self)
+        outgd2=copy.deepcopy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
@@ -89,7 +89,7 @@ class gd2:    # gd2 creation
         return outgd2   
 
     def __radd__(self,other):
-        outgd2=copy.copy(self)
+        outgd2=copy.deepcopy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
@@ -97,7 +97,7 @@ class gd2:    # gd2 creation
         return outgd2   
 
     def __mul__(self,other):
-        outgd2=copy.copy(self)
+        outgd2=copy.deepcopy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
@@ -108,7 +108,7 @@ class gd2:    # gd2 creation
         return outgd2  
 
     def __rmul__(self,other):
-        outgd2=copy.copy(self)
+        outgd2=copy.deepcopy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
@@ -118,7 +118,7 @@ class gd2:    # gd2 creation
 
 def edit_gd2(ingd2,**gdpar): # 'new'-1  -> new object
     if 'new' in gdpar:
-        outgd2=copy.copy(ingd2)
+        outgd2=copy.deepcopy(ingd2)
     else:
         outgd2=ingd2
     if 'x' in gdpar:

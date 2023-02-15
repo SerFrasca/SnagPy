@@ -252,6 +252,31 @@ def mjd_now():
 
 
 
+def mjd_phase(t0,long=0,deg=1):
+# phases for physical periods (in deg) or beginning delay
+#   phisical periods: day, sid, locsid, week
+#  t0     time
+#  long   longitude
+#  deg    = 1  phase in deg
+
+    sidday=86164.090530833/86400  # at epoch2000
+
+    week=(t0+2)%7
+    day=t0-int(t0)
+    sid=gmst(t0)*sidday/24
+    locsid=gmst(t0,long)*sidday/24
+
+    if deg == 1:
+        week=week*360/7
+        day=day*360
+        sid=sid*360/sidday
+        locsid=locsid*360/sidday
+
+    return week,day,sid,locsid
+
+
+
+
 
 # gps time ----------------------------
 

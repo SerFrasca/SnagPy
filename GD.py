@@ -40,6 +40,9 @@ class gd:
 # Addition and multiplication are overloaded for gd objects, 
 # so you can write, e.g.,  30.5*gd1+gd2*gd3
 #
+# Note that gd1 = gd2  is just a different name for gd1, but
+#  gd1 = gd2 + 0  is a new gd
+# Any copy of a gd should be a deepcopy
 
     def __init__(self,y,**gdpar): # y ordinate or n
         if isinstance(y,int):
@@ -81,7 +84,7 @@ class gd:
         self.label='SnagPy gd created on '+time.asctime()
 
     def __add__(self,other):
-        outgd=copy.copy(self)
+        outgd=copy.deepcopy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
@@ -91,7 +94,7 @@ class gd:
         return outgd   
 
     def __radd__(self,other):
-        outgd=copy.copy(self)
+        outgd=copy.deepcopy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
@@ -99,7 +102,7 @@ class gd:
         return outgd   
 
     def __mul__(self,other):
-        outgd=copy.copy(self)
+        outgd=copy.deepcopy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
@@ -109,7 +112,7 @@ class gd:
         return outgd   
 
     def __rmul__(self,other):
-        outgd=copy.copy(self)
+        outgd=copy.deepcopy(self)
         if isinstance(other,int):
             other=float(other)
         if isinstance(other,float) or isinstance(other,complex):
@@ -123,7 +126,7 @@ def edit_gd(ingd,**gdpar):
 # in gdpar any couple varname=varvalue
 
     if 'new' in gdpar:
-        outgd=copy.copy(ingd)
+        outgd=copy.deepcopy(ingd)
     else:
         outgd=ingd
     if 'x' in gdpar:
@@ -165,14 +168,14 @@ def x_gd(ingd):
 def div_gd(gd1,gd2):
     try:
         y2=gd2.y
-        outgd=copy.copy(gd2)
+        outgd=copy.deepcopy(gd2)
         print('gd2 object')
     except:
         y2=gd2
         print('gd2 numeric')
     try:
         y1=gd1.y
-        outgd=copy.copy(gd1)
+        outgd=copy.deepcopy(gd1)
         print('gd1 object')
     except:
         y1=gd1
@@ -370,7 +373,7 @@ def modif_gd(ingd,fun,par1=1,par2=0.1,par3=0):
 # gd modification by a function fun
 # 
 # fun  ex.:'abs','real','imag','angle','log10','xlog10','loglog10'
-    outgd=copy.copy(ingd)
+    outgd=copy.deepcopy(ingd)
     y=ingd.y
     if fun == 'abs':
         y=np.abs(y)
@@ -443,7 +446,7 @@ def resamp_gd(ingd,dx,nmax=0):
 
     me=np.mean(ingd.y)
 
-    y[0:N0-1]=ingd.y.copy()-me
+    y[0:N0-1]=ingd.y.deepcopy()-me
 
     if isinstance(y,complex):
         iccompl=1
@@ -494,7 +497,10 @@ def stat_gd(ingd,nbins=20):
 # Simple statistics (parameters and histogram)
 # nbins number of bins of the output histogram (a gd)
 # producs a simple dictionary with median, mean, std, skew and kurt
-    y=ingd.y
+    if isinstance(ingd,np.ndarray):
+        y=ingd
+    else:
+        y=ingd.y
     N=len(y)
     median=np.nanmedian(y)
     mean=np.nanmean(y)

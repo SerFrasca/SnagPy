@@ -7,7 +7,7 @@ from scipy import stats
 from scipy import signal
 import scipy as sc
 import matplotlib.pyplot as plt
-import GD,BASIC
+import GD,BASIC,ASTROTIME
 
 
 # Zero management ----------------------------
@@ -19,6 +19,7 @@ def ana_zero(indat,mode=0,eps=1.e-6):
    #      2 zero intervals
    #      3 one  intervals
    # eps to the lowest meaningful value, as percentage of maximum
+   #    = 0 no enlarged 0 output
 
    if isinstance(indat,GD.gd):
       y=indat.y
@@ -43,6 +44,9 @@ def ana_zero(indat,mode=0,eps=1.e-6):
 
    if abs(y[n-1]) <= 0:
       zer[n-1]=1
+
+   if eps > 0:
+      y1=y*zer
 
    perc=sum(zer)/n
 
@@ -87,7 +91,15 @@ def ana_zero(indat,mode=0,eps=1.e-6):
       else:
          return inds
       
-   return perc,zer
+   if eps == 0:
+      return perc,zer
+   else:
+      if ty == 'gd':
+         outdat=indat+0
+         outdat.y=y1
+      else:
+         outdat=y1
+      return perc,zer,outdat
 
 
 # def zeroing(ingd,**zpar):
@@ -101,10 +113,10 @@ def ana_zero(indat,mode=0,eps=1.e-6):
 
 
 
-# Histograms and Par ----------------------------
+# Histograms and Parameters ----------------------------
 
 def CW_histogram(x,w=[],ini=[],step=1,n=[],enl=10,typ='tri',edg=0,verb=1):
-# Convolutional weghted histogram
+# Convolutional weighted histogram
 #  x     values
 #  w     wheights
 #  ini   initial value (def the minimum)
@@ -363,8 +375,101 @@ def spectrogram(ingd):
 
 # Period analysis ------------------------
 
-def gd_period():
-   pass
+def gd_period(ingd,per,nbin=48,nharm=5,ph=0,preproc=1):
+# period analysis
+#  ingd     gd or array
+#  per      period (numeric or physical (only for gds))
+#           Physical period: 'day', 'sid', 'week'
+#  nbin     number of bins in the period
+#  nharm    number of interesting harmonics
+#  ph       phase (in deg)
+#  preproc  pre-processing 0 nothing, 1 abs
+#
+# The gd sampling time must be in s, if physical periods are considered
+
+   if isinstance(ingd,np.ndarray):
+      ingd=GD.gd(ingd)
+      cc='arr'
+   else:
+      cc='gd'
+
+   y=ingd.y
+   if preproc == 1:
+      y=np.abs(y)
+   x=GD.x_gd(ingd)
+   N=ingd.n
+
+   ini=0
+   dx=360/nbin
+
+   if isinstance(per,str):
+      if cc == 'arr':
+         per=float(input('No physical period for arrays, give me a number '))
+      else:
+         cont=ingd.cont
+         try:
+            t0=BASIC.val_from_key(cont,'t0')
+            week,day,sid,locsid=ASTROTIME.mjd_phase(t0)
+            if per == 'week':
+               per=7*86400
+               dx=7/nbin
+               if ph == 0:
+                  ph=week
+            if per == 'day':
+               per=86400
+               dx=24/nbin
+               if ph == 0:
+                  ph=day
+            if per == 'sid':
+               per=0.9972695663290856*86400 # 86164.090530833/86400 as 2000/1/1
+               dx=24/nbin
+               if ph == 0:
+                  ph=sid
+            if per == 'locsid':
+               per=0.9972695663290856*86400 # 86164.090530833/86400 as 2000/1/1
+               dx=24/nbin
+               if ph == 0:
+                  ph=locsid
+         except:
+            print('*** This is not a dated gd: no t0 defined')
+            t0=0
+            if per == 'week':
+               per=7*86400
+               dx=7/nbin
+            if per == 'day':
+               per=86400
+            if per == 'sid':
+               per=0.9972695663290856*86400 # 86164.090530833/86400 as 2000/1/1
+               dx=24/nbin
+            if per == 'locsid':
+               per=0.9972695663290856*86400 # 86164.090530833/86400 as 2000/1/1
+               dx=24/nbin
+         
+   ii=np.int16(((x/per)%1)*nbin)
+   period=np.zeros(nbin)
+   iperiod=np.zeros(nbin)
+
+   for i in range(N):
+      kk=ii[i]
+      period[kk]+=y[i]
+      iperiod[kk]+=np.abs(np.sign(y[i]))
+
+   period=period/(iperiod+1)
+   meanp=np.mean(period)
+
+   harm=0
+   perclean=0
+   f=np.fft.fft(period-meanp)
+   harm=f[0:nharm+1]
+   f[nharm+1:nbin-nharm]=0
+   perclean=np.fft.ifft(f)+meanp
+   win=iperiod
+   period=GD.gd(period,dx=dx)
+   perclean=GD.gd(perclean,dx=dx)
+   win=GD.gd(win,dx=dx)
+
+   return period,meanp,harm,perclean,win
+   
 
 
 def gd_worm():
@@ -401,14 +506,16 @@ def rand_data(N,typ,par1=0,par2=1):
 #    typ      pars
 #   norm     mu,sigma
 
-   if typ == 'norm':
+   if typ == 'norm': # par1 = mean, par2 = std
       dat=stats.norm.rvs(size=N)*par2+par1
-   if typ == 'chi2':
+   if typ == 'unif': # par1 = mean, par2 = length
+      dat=(stats.uniform.rvs(size=N)+par1-0.5)*par2
+   if typ == 'chi2': # par1 = dof
       df=par1
       if df == 0:
          df=4
       dat=stats.chi2.rvs(df,size=N)
-   if typ == 'binom':
+   if typ == 'binom': # par1 = n, par2= p
       n=par1
       p=par2
       if n == 0:
