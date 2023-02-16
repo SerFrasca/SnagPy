@@ -7,7 +7,7 @@ from scipy import stats
 from scipy import signal
 import scipy as sc
 import matplotlib.pyplot as plt
-import GD,BASIC,ASTROTIME
+import GD,BASIC,ASTROTIME,GD2
 
 
 # Zero management ----------------------------
@@ -111,6 +111,23 @@ def ana_zero(indat,mode=0,eps=1.e-6):
 #       pass
 
 
+def stat_nozero(indat):
+# statistics on non-zero data
+
+   if isinstance(indat,GD.gd):
+      indat=indat.y
+   if isinstance(indat,GD2.gd2):
+      indat=indat.y
+      
+   indat=indat.flatten()
+
+   out=np.where(indat != 0)
+   out=out[0]
+
+   stat=GD.stat_gd(out,nbins=0)
+
+   return stat
+   
 
 
 # Histograms and Parameters ----------------------------
@@ -367,9 +384,31 @@ def stft(ingd):
 
 # Spectrograms ----------------------------
 
-def spectrogram(ingd):
-   pass
+def spectrogram_gd(ingd,l,zenh=2,shif=0.5,win='tuckey'):
+# Spectrogram
+#
+#  ingd    input gd or array
+#  l       base length (pieces length)
+#  zenh    zero padding enhancement fraction (>= 1)
+#  shif    shift fraction (<= 1)
+#  wind    window ('tuckey','hann','no')
 
+   if isinstance(ingd,np.ndarray):
+      dx=1
+      N=len(ingd)
+   else:
+      dx=ingd.dx
+      N=ingd.n
+      ingd=ingd.y
+
+   nfft=int(l*zenh)
+   noverl=int(shif*l)
+   ff,tt,spec=signal.spectrogram(ingd,fs=1/dx,nfft=nfft,nperseg=l,noverlap=noverl)
+   ff=ff.squeeze()
+
+   print('N,nfft,noverl,nfft,nperseg,noverl,lent,lenf',N,nfft,noverl,nfft,l,noverl,len(tt),len(ff))
+
+   return spec,tt,ff
 
 
 
@@ -383,7 +422,7 @@ def gd_period(ingd,per,nbin=48,nharm=5,ph=0,preproc=1):
 #  nbin     number of bins in the period
 #  nharm    number of interesting harmonics
 #  ph       phase (in deg)
-#  preproc  pre-processing 0 nothing, 1 abs
+#  preproc  pre-processing 0 nothing, 1 abs, 2 square
 #
 # The gd sampling time must be in s, if physical periods are considered
 
@@ -396,6 +435,9 @@ def gd_period(ingd,per,nbin=48,nharm=5,ph=0,preproc=1):
    y=ingd.y
    if preproc == 1:
       y=np.abs(y)
+   if preproc == 2:
+      y=np.abs(y)
+      y=y*y
    x=GD.x_gd(ingd)
    N=ingd.n
 
@@ -454,7 +496,7 @@ def gd_period(ingd,per,nbin=48,nharm=5,ph=0,preproc=1):
       period[kk]+=y[i]
       iperiod[kk]+=np.abs(np.sign(y[i]))
 
-   period=period/(iperiod+1)
+   period=period/(iperiod+0.1)
    meanp=np.mean(period)
 
    harm=0
@@ -471,6 +513,108 @@ def gd_period(ingd,per,nbin=48,nharm=5,ph=0,preproc=1):
    return period,meanp,harm,perclean,win
    
 
+
+def gd_tperiod(ingd,per,nbin=(20,48),nharm=5,ph=0,preproc=1):
+# period analysis with time variation
+#  ingd     gd or array
+#  per      period (numeric or physical (only for gds))
+#           Physical period: 'day', 'sid', 'week'
+#  nbin     number of bins in the oservation time [0] and in the period [1]
+#  nharm    number of interesting harmonics
+#  ph       phase (in deg)
+#  preproc  pre-processing 0 nothing, 1 abs, 2 square
+#
+# The gd sampling time must be in s, if physical periods are considered
+
+   tnbin=nbin[0]
+   pnbin=nbin[1]
+   if isinstance(ingd,np.ndarray):
+      ingd=GD.gd(ingd)
+      cc='arr'
+   else:
+      cc='gd'
+
+   y=ingd.y
+   if preproc == 1:
+      y=np.abs(y)
+   if preproc == 2:
+      y=np.abs(y)
+      y=y*y
+   x=GD.x_gd(ingd)
+   N=ingd.n
+
+   ini=0
+   dx=360/pnbin
+
+   if isinstance(per,str):
+      if cc == 'arr':
+         per=float(input('No physical period for arrays, give me a number '))
+      else:
+         cont=ingd.cont
+         try:
+            t0=BASIC.val_from_key(cont,'t0')
+            week,day,sid,locsid=ASTROTIME.mjd_phase(t0)
+            if per == 'week':
+               per=7*86400
+               dx=7/pnbin
+               if ph == 0:
+                  ph=week
+            if per == 'day':
+               per=86400
+               dx=24/pnbin
+               if ph == 0:
+                  ph=day
+            if per == 'sid':
+               per=0.9972695663290856*86400 # 86164.090530833/86400 as 2000/1/1
+               dx=24/pnbin
+               if ph == 0:
+                  ph=sid
+            if per == 'locsid':
+               per=0.9972695663290856*86400 # 86164.090530833/86400 as 2000/1/1
+               dx=24/pnbin
+               if ph == 0:
+                  ph=locsid
+         except:
+            print('*** This is not a dated gd: no t0 defined')
+            t0=0
+            if per == 'week':
+               per=7*86400
+               dx=7/pnbin
+            if per == 'day':
+               per=86400
+            if per == 'sid':
+               per=0.9972695663290856*86400 # 86164.090530833/86400 as 2000/1/1
+               dx=24/pnbin
+            if per == 'locsid':
+               per=0.9972695663290856*86400 # 86164.090530833/86400 as 2000/1/1
+               dx=24/pnbin
+         
+   ii=np.int16(((x/per)%1)*pnbin)
+   tperiod=np.zeros([tnbin,pnbin])
+   iperiod=np.zeros([tnbin,pnbin])
+
+   for i in range(N):
+      jj=int(tnbin*i/N)
+      kk=ii[i]
+      tperiod[jj,kk]+=y[i]
+      iperiod[jj,kk]+=np.abs(np.sign(y[i]))
+
+   tperiod=tperiod/(iperiod+0.1)
+   meanp=np.mean(tperiod)
+
+   harm=0
+   tperclean=0
+   # f=np.fft.fft2(tperiod-meanp)
+   # harm=f[0:nharm+1]
+   # f[nharm+1:nbin-nharm]=0
+   # tperclean=np.fft.ifft(f)+meanp
+   twin=iperiod
+   tperiod=GD.gd(tperiod,dx=dx)
+   # tperclean=GD.gd(tperclean,dx=dx)
+   twin=GD.gd(twin,dx=dx)
+
+   return tperiod,meanp,harm,tperclean,twin
+   
 
 def gd_worm():
    pass

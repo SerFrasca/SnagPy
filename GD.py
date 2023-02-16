@@ -495,7 +495,7 @@ def parallel_gd(ingd1,ingd2,**gdpar):
 
 def stat_gd(ingd,nbins=20):
 # Simple statistics (parameters and histogram)
-# nbins number of bins of the output histogram (a gd)
+# nbins number of bins of the output histogram (a gd). If = 0, no hist
 # producs a simple dictionary with median, mean, std, skew and kurt
     if isinstance(ingd,np.ndarray):
         y=ingd
@@ -510,11 +510,14 @@ def stat_gd(ingd,nbins=20):
     kurt=sum((y-mean)**4)/(N*std**4)-3
 
     stat={'mean': mean, 'median': median, 'stdev': std, 'Skewness': skew, 'kurtosis': kurt}
-    hist,bin_edge=np.histogram(y,bins=nbins)
-    dbin=bin_edge[1]-bin_edge[0]
-    Hist=gd(hist,ini=bin_edge[0]+dbin/2,dx=dbin)
+    if nbins > 0:
+        hist,bin_edge=np.histogram(y,bins=nbins)
+        dbin=bin_edge[1]-bin_edge[0]
+        Hist=gd(hist,ini=bin_edge[0]+dbin/2,dx=dbin)
 
-    return stat,Hist
+        return stat,Hist
+    else:
+        return stat
 
 
 def fft_gd(ingd,fif=1):  
