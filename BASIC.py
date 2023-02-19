@@ -164,6 +164,24 @@ def path_fil_ext(ffil):
     return path,filnam,ext
 
 
+def ind_from_inidx(xx,ini,dx,typ=2):
+# index from ini and dx
+#  xx      value
+#  ini,dx  parameters
+#  typ     1 floor, 2 round, 3 ceil
+    aa=(xx-ini)/dx
+    if typ == 2:
+        ind=np.round(aa)
+    elif typ< 2:
+        ind=np.floor(aa)
+    else:
+        ind=np.ceil(aa)
+    ind=int(ind)
+
+    return ind
+
+
+
 
 # load & save dictionary: text, csv, json and pickle ---------------
 

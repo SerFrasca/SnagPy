@@ -407,6 +407,10 @@ def spectrogram_gd(ingd,l,zenh=2,shif=0.5,win='tuckey'):
    ff=ff.squeeze()
 
    print('N,nfft,noverl,nfft,nperseg,noverl,lent,lenf',N,nfft,noverl,nfft,l,noverl,len(tt),len(ff))
+   
+   spec=GD2.gd2(spec,ini=tt[0],dx=tt[1]-tt[0],ini2=0,dx2=ff[1]-ff[0])
+   print(tt[0],tt[1]-tt[0],0,ff[1]-ff[0])
+   print(spec.dx,spec.dx2)
 
    return spec,tt,ff
 

@@ -650,6 +650,8 @@ def post_plot(tit,xlab,ylab):
     plt.xlabel(xlab)
     plt.ylabel(ylab)
 
+
+
 def c_plot_gd(typ,ingd): 
 # plot for complex array
 # typ = 0 i vs r, 1 real, 2 imag, 3 abs, 4 angle
