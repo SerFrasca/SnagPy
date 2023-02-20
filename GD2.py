@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import copy
 import time
-import SERV,BASIC
+import SERV,BASIC,GD
 
 pi=cm.pi
 deg2rad=pi/180
@@ -318,8 +318,21 @@ def im_reduce(ingd2,nr,nc,typ):
     pass
 
 
-def gd2_stat_nz(imgd2):
-    pass
+def gd2_stat_nz(ingd2):
+    if isinstance(ingd2,np.ndarray):
+        y=ingd2
+    else:
+        y=ingd2.y
+    aa=y.shape
+    ny=aa[0]*aa[1]
+    mask=np.nzero(y)
+    yy=y(mask).flatten
+    nyy=len(yy)
+    stat=GD.stat_gd(yy,nbins=100)
+    st1={'tot_el':ny,'nzero_el':nyy}
+    stat_nz=dict(st1,**stat)
+
+    return stat_nz
 
 
 # map functions -----------------------------------------------
@@ -331,7 +344,7 @@ def newfig2(siz=1):
     return fig,ax
 
 
-def grey_map(ingd2,MH=0):
+def grey_map(ingd2,MH=0,fun='none'):
 # grey map of 2-D array or gd2
     if MH == 0:
         MH=map_helper()
@@ -349,6 +362,12 @@ def grey_map(ingd2,MH=0):
         iniy=ingd2.ini2
         finy=iniy+(ingd2.m-1)*ingd2.dx2
         
+    if fun == 'abs':
+        y=abs(y)   
+    if fun == 'log':
+        y=np.log10(abs(y))  
+    if fun == 'sqrt':
+        y=np.sqrt(abs(y))
     ext=(inix,finx,iniy,finy)
     fig = plt.figure()
     plt.ion()

@@ -3,7 +3,7 @@
 # initial importing ------------------
 
 import numpy as np
-import GD,BASIC,ML_PY,SERV,STAT,SIGNAL,ASTROTIME,GD2,GWDATA,BSD,GUISNAG
+import GD,GD2,BASIC,ML_PY,SERV,STAT,SIGNAL,ASTROTIME,GD2,GWDATA,BSD,GUISNAG
 import importlib
 # importlib.reload(Module)
 
