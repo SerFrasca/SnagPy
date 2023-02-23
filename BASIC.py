@@ -1055,12 +1055,16 @@ def all_modules(pack_path,filout):
     # 'DEEPSNAG',
     # 'PERS//SF']
 
+    print(pack_path,filout)
+
     fo=open(filout,'w')
 
     for modu in mod_list:
         funcs=[]
         fo.write('\n\n__________________________________________\n')
         fo.write('\n'+'         Module '+modu+'\n')
+
+        print(pack_path+modu+'.py')
 
         f=open(pack_path+modu+'.py','r')
         nchap=0
@@ -1192,7 +1196,7 @@ def plot_colortable(colors, sort_colors=True, emptycols=0):
             Rectangle(xy=(swatch_start_x, y-9), width=swatch_width,
                       height=18, facecolor=colors[name], edgecolor='0.7')
         )
-
+ 
     return fig
 
 def base_colors():

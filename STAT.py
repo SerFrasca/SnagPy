@@ -259,7 +259,7 @@ def param_from_hist(hist):
 # Power Spectra ----------------------------
 
 def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
-sqr=0,center=1):
+   sqr=0,center=1):
 # Standard power spectrum estimation
 # npiece    number of pieces (without shift)
 # res       resoltion (minimal 1)
@@ -359,7 +359,7 @@ def gd_welch(ingd,lenfrac,res=1,shift=1,notrend=1,win='hann',singleb=1):
       noverlap=None
    nfft=int(nperseg*res/2)*2
    f,s=signal.welch(y,fs=fs,nperseg=nperseg,noverlap=noverlap,
-   nfft=nfft,window=win)
+      nfft=nfft,window=win)
    s=GD.gd(s,dx=f[1])
 
    return s
@@ -384,7 +384,7 @@ def stft(ingd):
 
 # Spectrograms ----------------------------
 
-def spectrogram_gd(ingd,l,zenh=2,shif=0.5,win='tuckey'):
+def gd_spectrogram(ingd,l,zenh=2,shif=0.5,win='tuckey'):
 # Spectrogram
 #
 #  ingd    input gd or array
