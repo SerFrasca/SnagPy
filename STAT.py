@@ -273,6 +273,7 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
 
    N=ingd.n
    dx=ingd.dx
+   dx=dx.squeeze()
    y=ingd.y
    if isinstance(y[1],complex):
       singleb=0
@@ -342,6 +343,7 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
    if sqr == 1:
       S=np.sqrt(S)
    print('N,n,sh,npie,lS',N,n,sh,npie,lS)
+   S=S.squeeze()
    S=GD.gd(S,dx=df)
 
    return S
@@ -350,6 +352,7 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
 def gd_welch(ingd,lenfrac,res=1,shift=1,notrend=1,win='hann',singleb=1):
    y=ingd.y
    dx=ingd.dx
+   dx=dx.squeeze()
    fs=1/dx
    n=ingd.n
    nperseg=int(n*lenfrac/2)*2
@@ -360,6 +363,7 @@ def gd_welch(ingd,lenfrac,res=1,shift=1,notrend=1,win='hann',singleb=1):
    nfft=int(nperseg*res/2)*2
    f,s=signal.welch(y,fs=fs,nperseg=nperseg,noverlap=noverlap,
       nfft=nfft,window=win)
+   s=s.squeeze()
    s=GD.gd(s,dx=f[1])
 
    return s
