@@ -181,6 +181,104 @@ def ind_from_inidx(xx,ini,dx,typ=2):
     return ind
 
 
+def mask_interv(m,cc=1):
+# mask (1-0 array ) intervals
+#  m    mask
+#  cc   =0 0 intervals
+#       =1 1 intervals
+
+    n=len(m)
+    if cc == 0:
+        m=(1-m)
+    dm=np.diff(m)
+    inz=np.nonzero(np.array(dm))[0][0]
+    minnz=dm[inz]
+    if minnz == 1:
+        dm=np.insert(dm,0,0)
+    else:
+        dm=np.insert(dm,0,1)
+
+    ini=np.argwhere(dm == 1)
+    fin=np.argwhere(dm == -1)
+    if len(ini) > len(fin):
+        fin=np.append(fin,n)
+
+    return ini.squeeze(),fin.squeeze()
+
+
+
+
+
+# no-data management -------------------------
+
+def findnodata(dat,typ=1,eps=1.e-6):
+# finds no data values
+#   dat    gd, gd2 or np array
+#   typ    = 1 no nan or double 0
+#          = 2 no nan
+
+    if isinstance(dat,np.ndarray) == False:
+        dat=dat.y
+    dsh=dat.shape
+    if len(dsh) == 1:
+        nr=1
+        nc=len(dat)
+    else:
+        nr=dsh[0]
+        nc=dsh[1]
+
+    dim=(nr,nc)
+    yy=dat.flatten()
+    yy=yy[~np.isnan(yy)]
+    yy=np.abs(yy)
+    mma=np.max(yy)
+    # eps1a=eps*mma/np.sqrt(nr)
+    eps1a=eps*mma
+    if mma == 0:
+        return print('*** All null values')
+    
+    Inan=[None]*nr
+    if typ == 1:
+        Ini=[None]*nr
+        Fin=[None]*nr
+
+    print('nr=',nr)
+
+    for i in range(nr):
+        if nr == 1:
+            y=dat
+        else:
+            y=dat[i]
+        
+        iii=np.argwhere(~np.isnan(y))
+        zer=np.zeros(nc)
+        yy=abs(y[iii])
+        ma=max(yy)
+        if ma < mma:
+            ma=mma
+        eps1=eps*ma
+        inan=np.argwhere(np.isnan(y))
+        zer[inan]=1
+        Inan[i]=inan
+
+        if typ == 1:
+            y[inan]=0
+        
+            for k    in range(nc-1):
+                if y[k] <= eps1 and y[k+1] <= eps1:
+                    zer[k]=1
+                    zer[k+1]=1
+
+            ini,fin=mask_interv(zer)
+            Ini[i]=ini
+            Fin[i]=fin
+
+    if typ == 1:
+        return Ini,Fin,dim,Inan
+    else:
+        return dim,Inan
+
+
 
 
 # load & save dictionary: text, csv, json and pickle ---------------
