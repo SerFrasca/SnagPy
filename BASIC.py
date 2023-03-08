@@ -279,6 +279,29 @@ def findnodata(dat,typ=1,eps=1.e-6):
         return dim,Inan
 
 
+def show_nodata(Ini,Fin,dim,dat=0):
+# Shows (and sets) nodata
+#  Ini,Fin,dim   output of findnodata
+#  dat           array or gd or gd2 to set
+    nr=dim[0]
+    nc=dim[1]
+    Nint=0
+    Noel=0
+    Nint=np.zeros(nr)
+    Noel=np.zeros(nr)
+
+    for i in range(nr):
+        Nint[i]=len(Ini[i])
+        Noel[i]=np.sum(Fin[i]-Ini[i])
+        print('row ',i,'>',Nint[i],' intervals ',Noel[i],' absent elements')
+        
+    nint=np.sum(Nint)
+    noel=np.sum(Noel)
+
+    print('Total number of intervals and absent elements',nint,noel)
+
+    return Nint,Noel
+
 
 
 # load & save dictionary: text, csv, json and pickle ---------------

@@ -508,8 +508,11 @@ def stat_gd(ingd,nbins=20):
     std=np.nanstd(y)
     skew=sum((y-mean)**3)/(N*std**3)
     kurt=sum((y-mean)**4)/(N*std**4)-3
+    mi=min(y)
+    ma=max(y)
 
-    stat={'mean': mean, 'median': median, 'stdev': std, 'Skewness': skew, 'kurtosis': kurt}
+    stat={'N': N, 'mean': mean, 'median': median, 'stdev': std, 'Skewness': skew, 
+          'kurtosis': kurt, 'min': mi, 'max': ma}
     if nbins > 0:
         hist,bin_edge=np.histogram(y,bins=nbins)
         dbin=bin_edge[1]-bin_edge[0]
