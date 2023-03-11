@@ -4,6 +4,7 @@
 import numpy as np
 import ASTROTIME,BASIC
 import os
+import h5py
 
 Pi=np.pi
 
@@ -38,6 +39,52 @@ def set_symbols(snagpy_p=0):
     return snagpy_p,gwdata_p,examples_p,exper_p,pers_p,projects_p,\
         antennas_p,cwinj_o2_p,cwinj_o3_p,cwsour_p,\
         table_ligoh_p,table_ligol_p,table_virgo_p,table_kagra_p,de440s_p
+
+
+
+# GW data --------------------------------------
+
+def explore_gw_hdf5(fil):
+# explores hdf5 frame data
+    dic=BASIC.read_hdf52dic(fil)
+    # Keys,Dics=BASIC.expl_dict(dic)
+
+    meta=dic['meta']
+    print('                meta')
+    print('Description    : ',str(meta['Description']))
+    print('DescriptionURL : ',str(meta['DescriptionURL']))
+    print('Detector       : ',str(meta['Detector']))
+    print('Duration       : ',meta['Duration'])
+    print('FrameType      : ',str(meta['FrameType']))
+    print('GPSstart       : ',meta['Description'])
+    print('Observatory    : ',str(meta['Observatory']))
+    print('StrainChannel  : ',str(meta['StrainChannel']))
+    print('Type           : ',str(meta['Type']))
+    print('UTCstart       : ',str(meta['UTCstart']))
+
+    strai=dic['strain']
+    l=list(strai.keys())
+    print('           ')
+    print('                strain')
+    for it in strai:
+        print(it,' <-> ',strai[it])
+
+    qual=dic['quality']
+
+    return meta,qual
+
+
+
+def read_gw_hdf5(fil):
+# reads hdf5 frame data
+    dic=BASIC.read_hdf52dic(fil)
+    meta=dic['meta']
+    qual=dic['quality']
+    strai=dic['strain']
+    strain=strai['Strain']
+
+    return meta,strain,qual
+
 
 
 # Doppler data --------------------------------
