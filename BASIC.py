@@ -9,6 +9,7 @@ import h5py
 import silx.io.dictdump as silx
 import sys
 import time
+import copy
 import inspect
 # import os.path
 import numpy as np
@@ -17,7 +18,7 @@ from matplotlib.patches import Rectangle
 import matplotlib.colors as mcolors
 import GD
 import GD2
-import os
+import os,importlib
 
 """
    To reimport a module:
@@ -31,7 +32,6 @@ import os
 """
 
 # Small apps ---------------------------------------
-
 
 def envir_var(var):
     # value of environment variables
@@ -54,7 +54,17 @@ def var(v):
     print(v, '\n')
 
     di = dir(v)
-    print(show_list(di))
+    show_list(di)
+
+    siz=sys.getsizeof(v)
+    print('Memory occupancy ',siz,' bytes \n')
+    print('Recursive occupancy (ESTIMATION):')
+
+    rsiz=len(pickle.dumps(v))
+    print('   ',rsiz,'bytes')
+    print('   ',rsiz/1024,'kbytes')
+    print('   ',rsiz/1024**2,'Mbytes')
+    print('   ',rsiz/1024**3,'Gbytes')
 
     # return di
 
@@ -163,6 +173,39 @@ def path_fil_ext(ffil):
     return path, filnam, ext
 
 
+def listfil(pat,indir=1,opat=0):
+# lists files in folders
+#   pat    path of the folder
+#   indir  =1 no subfolders, =0 also in subfolders
+#   opat   output path (together to files)
+
+    print('opat = ',opat)
+    res = []
+    dirs=[]
+
+    for path in os.listdir(pat):
+        if os.path.isfile(os.path.join(pat, path)):
+            if opat == 0:
+                res.append(path)
+            else:
+                ap=opat+os.sep+path
+                res.append(ap)
+        else:
+            dirs.append(path)
+
+    if indir == 0:
+        print('*** dirs',dirs)
+        for it in dirs:
+            os.chdir(it)
+            print('+++>>',it)
+            res1=listfil('.',opat=it)
+            for it1 in res1:
+                res.append(it1)
+            os.chdir('..')
+
+    return res
+
+
 def ind_from_inidx(xx, ini, dx, typ=2):
     # index from ini and dx
     #  xx      value
@@ -178,126 +221,6 @@ def ind_from_inidx(xx, ini, dx, typ=2):
     ind = int(ind)
 
     return ind
-
-
-def mask_interv(m, cc=1):
-    # mask (1-0 array ) intervals
-    #  m    mask
-    #  cc   =0 0 intervals
-    #       =1 1 intervals
-
-    n = len(m)
-    if cc == 0:
-        m = (1-m)
-    dm = np.diff(m)
-    inz = np.nonzero(np.array(dm))[0][0]
-    minnz = dm[inz]
-    if minnz == 1:
-        dm = np.insert(dm, 0, 0)
-    else:
-        dm = np.insert(dm, 0, 1)
-
-    ini = np.argwhere(dm == 1)
-    fin = np.argwhere(dm == -1)
-    if len(ini) > len(fin):
-        fin = np.append(fin, n)
-
-    return ini.squeeze(), fin.squeeze()
-
-
-# no-data management -------------------------
-
-def findnodata(dat, typ=1, eps=1.e-6):
-    # finds no data values
-    #   dat    gd, gd2 or np array
-    #   typ    = 1 no nan or double 0
-    #          = 2 no nan
-
-    if isinstance(dat, np.ndarray) == False:
-        dat = dat.y
-    dsh = dat.shape
-    if len(dsh) == 1:
-        nr = 1
-        nc = len(dat)
-    else:
-        nr = dsh[0]
-        nc = dsh[1]
-
-    dim = (nr, nc)
-    yy = dat.flatten()
-    yy = yy[~np.isnan(yy)]
-    yy = np.abs(yy)
-    mma = np.max(yy)
-    # eps1a=eps*mma/np.sqrt(nr)
-    eps1a = eps*mma
-    if mma == 0:
-        return print('*** All null values')
-
-    Inan = [None]*nr
-    if typ == 1:
-        Ini = [None]*nr
-        Fin = [None]*nr
-
-    print('nr=', nr)
-
-    for i in range(nr):
-        if nr == 1:
-            y = dat
-        else:
-            y = dat[i]
-
-        iii = np.argwhere(~np.isnan(y))
-        zer = np.zeros(nc)
-        yy = abs(y[iii])
-        ma = max(yy)
-        if ma < mma:
-            ma = mma
-        eps1 = eps*ma
-        inan = np.argwhere(np.isnan(y))
-        zer[inan] = 1
-        Inan[i] = inan
-
-        if typ == 1:
-            y[inan] = 0
-
-            for k in range(nc-1):
-                if y[k] <= eps1 and y[k+1] <= eps1:
-                    zer[k] = 1
-                    zer[k+1] = 1
-
-            ini, fin = mask_interv(zer)
-            Ini[i] = ini
-            Fin[i] = fin
-
-    if typ == 1:
-        return Ini, Fin, dim, Inan
-    else:
-        return dim, Inan
-
-
-def show_nodata(Ini, Fin, dim, dat=0):
-    # Shows (and sets) nodata
-    #  Ini,Fin,dim   output of findnodata
-    #  dat           array or gd or gd2 to set
-    nr = dim[0]
-    nc = dim[1]
-    Nint = 0
-    Noel = 0
-    Nint = np.zeros(nr)
-    Noel = np.zeros(nr)
-
-    for i in range(nr):
-        Nint[i] = len(Ini[i])
-        Noel[i] = np.sum(Fin[i]-Ini[i])
-        print('row ', i, '>', Nint[i], ' intervals ',
-              Noel[i], ' absent elements')
-
-    nint = np.sum(Nint)
-    noel = np.sum(Noel)
-
-    print('Total number of intervals and absent elements', nint, noel)
-
-    return Nint, Noel
 
 
 # load & save dictionary: text, csv, json and pickle ---------------
@@ -341,7 +264,7 @@ def dict2pkl(dic, fil):
 
 
 def pkl2dict(fil):
-    # read a dictionary from a pikle file
+    # read a dictionary from a pickle file
 
     f = open(fil, 'rb')
     dic = pickle.load(f)
@@ -454,6 +377,38 @@ def show_list(lis, sort=1):
         k += 1
         print('> ', k, ' - ', i)
     print('    ')
+
+
+def list_len(lis):
+# Checks if lis is a list of lists and gives the length of the lists
+    le=len(lis)
+    lens=np.zeros(le)
+    ii=0
+    for l in lis:
+        if isinstance(l,list):
+            lens[ii]=len(l)
+        else:
+            print('*** the element',ii,'is not a list')
+            return 0
+        ii+=1
+
+    return lens
+
+
+def array_list_len(lis):
+# Checks if lis is a list of arrays and gives the length of the arrays
+    le=len(lis)
+    lens=np.zeros(le,dtype=int)
+    ii=0
+    for l in lis:
+        if isinstance(l,np.ndarray):
+            lens[ii]=len(l)
+        else:
+            print('*** the element',ii,'is not an array')
+            return 0
+        ii+=1
+
+    return lens
 
 
 # Dictionary --------------------------
@@ -1014,13 +969,6 @@ def array_table_to_dict(at, fil=''):
     return atdic
 
 
-# Intervals -------------------------
-
-class intervals:
-    # time (or other) interval management
-    pass
-
-
 # system -------------------------
 
 def func_in_module(modul):
@@ -1138,10 +1086,13 @@ def all_modules(pack_path, filout):
     #
     # pack_path   main path of the package
     # filout      output file
+    #
+    # ex.: BASIC.all_modules('D:\\OneDrive\\SF\\_Prog\\Python\\SnagPy\\','prova.out')
 
     mod_list = ['GD',
                 'GD2',
                 'MGD',
+                'DS',
                 'BASIC',
                 'SERV',
                 'ML_PY',
@@ -1154,10 +1105,12 @@ def all_modules(pack_path, filout):
                 'BSD',
                 'GWOTH',
                 'GUISNAG',
+                'EXT_PACK',
+                'MAN_SUPER',
                 'PARGPU',
                 'WEB_SNAG',
-                'FANCY_FIG']
-    # 'DEEPSNAG',
+                'FANCY_FIG',
+                'DEEPSNAG']
     # 'PERS//SF']
 
     print(pack_path, filout)
@@ -1220,6 +1173,101 @@ def all_modules(pack_path, filout):
                 # fo.write(strin1)
 
     fo.close()
+
+    
+def list_modules(pack_path, filout):
+    # All modules synthetic analysis
+    #
+    # pack_path   main path of the package
+    # filout      output file
+    #
+    # ex.: BASIC.all_modules('D:\\OneDrive\\SF\\_Prog\\Python\\SnagPy\\','prova.out')
+
+    mod_list = ['GD',
+                'GD2',
+                'MGD',
+                'DS',
+                'BASIC',
+                'SERV',
+                'ML_PY',
+                'STAT',
+                'SIGNAL',
+                'IMAGE',
+                'ASTROTIME',
+                'GWDATA',
+                'PSS',
+                'BSD',
+                'GWOTH',
+                'GUISNAG',
+                'EXT_PACK',
+                'MAN_SUPER',
+                'PARGPU',
+                'WEB_SNAG',
+                'FANCY_FIG',
+                'DEEPSNAG']
+    # 'PERS//SF']
+
+    print(pack_path, filout)
+
+    fo = open(filout, 'w')
+
+    for modu in mod_list:
+        funcs = []
+        fo.write('\n\n__________________________________________\n')
+        fo.write('\n'+'         Module '+modu+'\n')
+
+        print(pack_path+modu+'.py')
+
+        f = open(pack_path+modu+'.py', 'r')
+        nchap = 0
+        nfun = 0
+        ncla = 0
+        lins = 0
+        npass = 0
+        chapon = 0
+        while True:
+            line = f.readline()
+            if line == '':
+                strin = list2string(funcs)
+                # fo.write('Functions: '+strin)
+                funcs = []
+                # strin1='\n {0}+{1} functions  {2} classes  {3} comment lines  {4} total lines\n'.format(nfun-npass,npass,ncla,ncom,lins)
+                # fo.write(strin1)
+                # fo.close()
+                break
+            lins += 1
+
+            if 'pass' in line and len(line.strip()) == 4:
+                npass += 1
+
+            if '---' in line and 'line' not in line:
+                if chapon == 1:
+                    strin = list2string(funcs)
+                    # fo.write('Functions: '+strin)
+                funcs = []
+                chapon = 1
+                nchap += 1
+                line = line.rstrip()
+                fo.write('\n\n'+'Section '+line[1:]+'\n')
+                line = ' '
+
+            if line[0:3] == 'def':
+                nfun += 1
+                k = line.find('(')
+                fo.write(line[4:k]+'\n')
+                # line=line.rstrip()
+                # strin1='\n{}   >fun {} row {}\n::\n'.format(line,nfun,lins)
+                # fo.write(strin1)
+            if line[0:5] == 'class':
+                ncla += 1
+                k = line.find(':')
+                fo.write(line[0:k]+'\n')
+                # line=line.rstrip()
+                # strin1='{}   >{} row {}\n::\n'.format(line,ncla,lins)
+                # fo.write(strin1)
+
+    fo.close()
+
 
 
 # Graphic ------------------------
