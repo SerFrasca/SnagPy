@@ -1,6 +1,19 @@
     # Copyright (C) 2023  Sergio Frasca
     #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
+'''
+        Module GWDATA
+Basic GW data management
+
+Sections:
+> General
+> GW data
+> Doppler data
+> CW sources
+> Antennas
+> 5-vect
+> Other
+'''
 import numpy as np
 import ASTROTIME,BASIC
 import os
@@ -11,9 +24,11 @@ Pi=np.pi
 # General -----------------------------------------
 
 def set_symbols(snagpy_p=0):
-# Symbols to folders, files and data
-#  snagpypath   the path to snagpy, as a string (es.: 'D:\\OneDrive\\SF\\_Prog\\Python\\SnagPy')
-#               if absent, taken by the environment variable SNAGPY_PATH
+    '''
+    Symbols to folders, files and data
+    snagpypath   the path to snagpy, as a string (es.: 'D:\\OneDrive\\SF\\_Prog\\Python\\SnagPy')
+                if absent, taken by the environment variable SNAGPY_PATH
+    '''
 
     sep=os.sep
 
@@ -45,7 +60,9 @@ def set_symbols(snagpy_p=0):
 # GW data --------------------------------------
 
 def explore_gw_hdf5(fil):
-# explores hdf5 frame data
+    '''
+    explores hdf5 frame data
+    '''
     dic=BASIC.read_hdf52dic(fil)
     # Keys,Dics=BASIC.expl_dict(dic)
 
@@ -76,7 +93,9 @@ def explore_gw_hdf5(fil):
 
 
 def read_gw_hdf5(fil):
-# reads hdf5 frame data
+    '''
+    reads hdf5 frame data
+    '''
     dic=BASIC.read_hdf52dic(fil)
     meta=dic['meta']
     qual=dic['quality']
@@ -90,10 +109,13 @@ def read_gw_hdf5(fil):
 # Doppler data --------------------------------
 
 def extr_doppler(tab,tin,tfi,table_par):
-# extract data from doppler tables (in hdf5 format)
-#   tab        Doppler table (ex.: table_virgo_p)
-#   tin,tfi    times (vect as [a,m,d,h,m,s])
-#   table_par  as defined in the symbols or starting.py
+    '''
+    extract data from doppler tables (in hdf5 format)
+
+     tab        Doppler table (ex.: table_virgo_p)
+     tin,tfi    times (vect as [a,m,d,h,m,s])
+     table_par  as defined in the symbols or starting.py
+    '''
 
     gtin=ASTROTIME.now(tin,form='gps')
     gtfi=ASTROTIME.now(tfi,form='gps')
@@ -111,7 +133,9 @@ def extr_doppler(tab,tin,tfi,table_par):
 # CW sources ---------------------------------------
 
 def ligo2virgo_cw_table(ligotab,capttab='',run=''):
-# creates a Virgo format cw list from a Ligo table
+    '''
+    creates a Virgo format cw list from a Ligo table
+    '''
     ligtab=BASIC.csv2list(ligotab)
     virgotab=[]
     title=[]
@@ -167,9 +191,11 @@ def ligo2virgo_cw_table(ligotab,capttab='',run=''):
 # Antennas ------------------------- 
 
 def anten(ant,anten_tab=0):
-# extract data for an antenna (a dictionary)
-#  ant         antenna name ('virgo','ligol',...)
-#  anten_tab   antenna table (def possible if the environment variable is set)
+    '''
+    extract data for an antenna (a dictionary)
+     ant         antenna name ('virgo','ligol',...)
+     anten_tab   antenna table (def possible if the environment variable is set)
+    '''
     if anten_tab == 0:
         anten_tab=BASIC.envir_var('ANT_TAB')
 
@@ -193,8 +219,10 @@ def anten(ant,anten_tab=0):
 
 
 def antennas(anten_tab=0):
-# creates dictionarys for each antenna
-#  typical call: virgo,ligol,ligoh,kagra=GWDATA.antennas()
+    '''
+    creates dictionarys for each antenna
+    typical call: virgo,ligol,ligoh,kagra=GWDATA.antennas()
+    '''
     virgo=anten('virgo')
     ligol=anten('ligol')
     ligoh=anten('ligoh')
@@ -212,11 +240,13 @@ def antennas(anten_tab=0):
 # Other ---------------------------------------
 
 def conv_jpl_data(datin,noline,nr,items):
-# converts text data (typically table_xxxx.dat) to hdf5 format
-#   datin    complete path
-#   noline   number of lenes to jump (typ. 4)
-#   nr       number of output rows   (typ. 526032)
-#   items    column to output (e.g. [0,1,3,7], typ. [1,2,3,4,5,6,7,8])
+    '''
+    converts text data (typically table_xxxx.dat) to hdf5 format
+        datin    complete path
+        noline   number of lenes to jump (typ. 4)
+        nr       number of output rows   (typ. 526032)
+        items    column to output (e.g. [0,1,3,7], typ. [1,2,3,4,5,6,7,8])
+    '''
 
     sep=os.sep
 

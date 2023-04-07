@@ -1,6 +1,18 @@
     # Copyright (C) 2023  Sergio Frasca
     #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
+'''
+      Module GD
+Class and functions for GD management
+ Sections:
+ > class gd
+ > gd - dictionary management
+ > gd display
+ > set functions
+ > modification functions
+ > plot functions
+ > calc functions
+'''
 from scipy.fft import fft, ifft
 import cmath as cm
 import matplotlib.pyplot as plt
@@ -16,34 +28,34 @@ deg2rad=pi/180
 # class gd  -----------------------------------------------
 
 class gd:  
+    '''
+            gd creation
 
-#           gd creation
-#
-# gd is the basic class-container in SnagPy.
-#
-# The attributes are:
-#
-# > y      the ordinate (basic data)
-# > n      the length
-# > ini    initial abscissa (used in type 1 gds)
-# > dx     sampling step (used in type 1 gds)
-# > x      abscissas (used in type 2 gds)
-# > typ    determine type 1 (virtual abscissa) or type 2 (real abscissa)
-# > capt   caption (a string)
-# > cont   a control variable (in the case of a bsd, a special structure)
-# > unc    ordinate uncertainty (typically not used)
-# > uncx   abscissa uncertainty (used for other)
-#
-# Any gd can be modified by edit_gd. 
-# A gd can be created giving just the number of samples, 
-# or transform a 1-dimensional array to a gd, or give the other information. 
-# Addition and multiplication are overloaded for gd objects, 
-# so you can write, e.g.,  30.5*gd1+gd2*gd3
-#
-# Note that gd1 = gd2  is just a different name for gd1, but
-#  gd1 = gd2 + 0  is a new gd
-# Any copy of a gd should be a deepcopy
+    gd is the basic class-container in SnagPy.
 
+    The attributes are:
+
+    > y      the ordinate (basic data)
+    > n      the length
+    > ini    initial abscissa (used in type 1 gds)
+    > dx     sampling step (used in type 1 gds)
+    > x      abscissas (used in type 2 gds)
+    > typ    determine type 1 (virtual abscissa) or type 2 (real abscissa)
+    > capt   caption (a string)
+    > cont   a control variable (in the case of a bsd, a special structure)
+    > unc    ordinate uncertainty (typically not used)
+    > uncx   abscissa uncertainty (used for other)
+
+    Any gd can be modified by edit_gd. 
+    A gd can be created giving just the number of samples, 
+    or transform a 1-dimensional array to a gd, or give the other information. 
+    Addition and multiplication are overloaded for gd objects, 
+    so you can write, e.g.,  30.5*gd1+gd2*gd3
+
+    Note that gd1 = gd2  is just a different name for gd1, but
+    gd1 = gd2 + 0  is a new gd
+    Any copy of a gd should be a deepcopy
+    '''
     def __init__(self,y,**gdpar): # y ordinate or n
         if isinstance(y,int):
             y=np.zeros(y)
@@ -58,7 +70,8 @@ class gd:
             self.dx=1
         if 'x' in gdpar:
             self.x=gdpar['x']
-            self.typ=2
+            if len(self.x) > 0:
+                self.typ=2
         else:
             self.x=[]
             self.typ=1
@@ -120,39 +133,43 @@ class gd:
         return outgd   
   
 
-def edit_gd(ingd,**gdpar): 
-# changes parameters of a gd or copy a gd
-# 'new'-1  -> new object
-# in gdpar any couple varname=varvalue
+    def edit_gd(ingd,**gdpar): 
+        """ 
+        changes parameters of a gd or copy a gd
+        'new'-1  -> new object
+        in gdpar any couple varname=varvalue 
+        """
 
-    if 'new' in gdpar:
-        outgd=copy.deepcopy(ingd)
-    else:
-        outgd=ingd
-    if 'x' in gdpar:
-        outgd.x=gdpar['x']
-        outgd.typ=2
-    if 'y' in gdpar:
-        outgd.y=gdpar['y']
-        outgd.n=len(outgd.y)
-    if 'ini' in gdpar:
-        outgd.ini=gdpar['ini']
-    if 'dx' in gdpar:
-        print(gdpar)
-        outgd.dx=gdpar["dx"]
-    if 'capt' in gdpar:
-        outgd.capt=gdpar['capt']
-    if 'cont' in gdpar:
-        outgd.x=gdpar['cont']
-    if 'unc' in gdpar:
-        outgd.unc=gdpar['unc']
-    if 'uncx' in gdpar:
-        outgd.uncx=gdpar['uncx']
-    return outgd
+        if 'new' in gdpar:
+            outgd=copy.deepcopy(ingd)
+        else:
+            outgd=ingd
+        if 'x' in gdpar:
+            outgd.x=gdpar['x']
+            outgd.typ=2
+        if 'y' in gdpar:
+            outgd.y=gdpar['y']
+            outgd.n=len(outgd.y)
+        if 'ini' in gdpar:
+            outgd.ini=gdpar['ini']
+        if 'dx' in gdpar:
+            print(gdpar)
+            outgd.dx=gdpar["dx"]
+        if 'capt' in gdpar:
+            outgd.capt=gdpar['capt']
+        if 'cont' in gdpar:
+            outgd.x=gdpar['cont']
+        if 'unc' in gdpar:
+            outgd.unc=gdpar['unc']
+        if 'uncx' in gdpar:
+            outgd.uncx=gdpar['uncx']
+        return outgd
 
 
 def x_gd(ingd):
-# gd abscissa (real or realized) (operates also on arrays)
+    '''
+    gd abscissa (real or realized) (operates also on arrays)
+    '''
     if not isinstance(ingd,np.ndarray):
         if ingd.typ == 1 :
             x=ingd.ini+np.arange(ingd.n)*ingd.dx
@@ -166,6 +183,9 @@ def x_gd(ingd):
 
 
 def div_gd(gd1,gd2):
+    '''
+    gd division (operates also on arrays)
+    '''
     try:
         y2=gd2.y
         outgd=copy.deepcopy(gd2)
@@ -190,7 +210,9 @@ def div_gd(gd1,gd2):
 
 
 def zero_nan_gd(ingd,v=0.):
-# substitutes NaN values with 0 or v, for gds or arrays
+    '''
+    substitutes NaN values with 0 or v, for gds or arrays
+    '''
     if isinstance(ingd,np.ndarray):
         iy=np.argwhere(np.isnan(ingd))
         iy=BASIC.deshape(iy)
@@ -243,10 +265,12 @@ def show_gd(ingd):
 # To create gds with certain simple signals or random series
 
 def set_gd(ingd,fun,par1=1,par2=0.1,par3=0):
-    # ingd a gd or an integer that is the length of the new gd
-    # fun is the function and can be:
-    #     'delt','step','ramp','cos','sin','cexp','exp','power','rect'
-    # par1,pae2,par3  are parameters for fun
+    '''
+    ingd a gd or an integer that is the length of the new gd
+    fun is the function and can be:
+        'delt','step','ramp','cos','sin','cexp','exp','power','rect'
+    par1,pae2,par3  are parameters for fun
+    '''
 
     if isinstance(ingd,int):
         ingd=gd(np.zeros(ingd))
@@ -335,12 +359,14 @@ def set_gd(ingd,fun,par1=1,par2=0.1,par3=0):
 
 
 
-def rand_gd(ingd,dist,par1=0,par2=1,par3=0): 
-# Random numbers
-# ingd  a gd or an integer that is the length of the new gd
-# dist  is the distribution ('norm','unif',...)
-# par1,par2  are the parameters of the distribution
-# par3  seed
+def rand_gd(ingd,dist,par1=0,par2=1,par3=0):
+    ''' 
+    Random numbers
+    ingd  a gd or an integer that is the length of the new gd
+    dist  is the distribution ('norm','unif',...)
+    par1,par2  are the parameters of the distribution
+    par3  seed
+    '''
 
     if isinstance(ingd,int):
         ingd=gd(np.zeros(ingd))
@@ -367,12 +393,14 @@ def rand_gd(ingd,dist,par1=0,par2=1,par3=0):
     return outgd     
 
 
-# modification function -----------------------------------------------
+# modification functions -----------------------------------------------
 
 def modif_gd(ingd,fun,par1=1,par2=0.1,par3=0):
-# gd modification by a function fun
-# 
-# fun  ex.:'abs','real','imag','angle','log10','xlog10','loglog10'
+    '''
+    gd modification by a function fun
+
+    fun  ex.:'abs','real','imag','angle','log10','xlog10','loglog10'
+    '''
     outgd=copy.deepcopy(ingd)
     y=ingd.y
     if fun == 'abs':
@@ -405,8 +433,10 @@ def modif_gd(ingd,fun,par1=1,par2=0.1,par3=0):
 
 
 def rota_gd(ingd,n):
-# circular shift of a gd ordinate
-# n is a positive or negative integer
+    '''
+    circular shift of a gd ordinate
+    n is a positive or negative integer
+    '''
 
     outgd=ingd
     outgd.capt=outgd.capt+'- rota'
@@ -423,9 +453,11 @@ def rota_gd(ingd,n):
 
 
 def resamp_gd(ingd,dx,nmax=0):
-# gd resampling with frequency domain filter
-# dx new sampling step
-# nmax if > 0, impose fft length
+    '''
+    gd resampling with frequency domain filter
+    dx new sampling step
+    nmax if > 0, impose fft length
+    '''
     N0=ingd.n
     DX0=ingd.dx
     T0=N0*DX0
@@ -494,9 +526,12 @@ def parallel_gd(ingd1,ingd2,**gdpar):
 # simple functions
 
 def stat_gd(ingd,nbins=20):
-# Simple statistics (parameters and histogram)
-# nbins number of bins of the output histogram (a gd). If = 0, no hist
-# producs a simple dictionary with median, mean, std, skew and kurt
+    '''
+    Simple statistics (parameters and histogram)
+    nbins number of bins of the output histogram (a gd). If = 0, no hist
+    producs a simple dictionary with median, mean, std, skew and kurt
+    '''
+
     if isinstance(ingd,np.ndarray):
         y=ingd
     else:
@@ -523,9 +558,11 @@ def stat_gd(ingd,nbins=20):
         return stat
 
 
-def fft_gd(ingd,fif=1):  
-# fft of the ordianate of a gd
-# fif = -1 ifft
+def fft_gd(ingd,fif=1):
+    '''  
+    fft of the ordianate of a gd
+    fif = -1 ifft
+    '''
     outgd=ingd
     y=ingd.y
     dx=1/(ingd.n*ingd.dx)
@@ -545,35 +582,39 @@ def fft_gd(ingd,fif=1):
 
 # plot functions -----------------------------------------------
 
-"""
-                Main plotting procedure
-To plot data (typically a gd, but also for arrays) the main procedure 
-consists in four steps:
-1) newfig      that can define the dimension of the window. If the 
-               parameter siz is a two element list, it defines the relative 
-               enhancement of the horizontal and vertical dimension of the
-               window, if it is just a number it applies to both h and v.
-               Example: newfig([1.33,1])
-2) plot_helper defines various aspects of the graph, e.g.:
-               mode   : normal plot, steps, scatter plot
-               scale  : linear or logatithmic scale for each axis.
-               grid   : grid lines
-               fmt    : format (color and texture)
-               linewid: line width
-               It creates a dictionary called P_H.
-3) plot_gd     general plotting function; the imput are:
-               ingd  the input gd or array
-               P_H   the output of plot_helper; if absent, the default
-4) post_plot   defines title and labels.
+def dummy_plot_procedure():
+    '''
+                    Main plotting procedure
+    To plot data (typically a gd, but also for arrays) the main procedure 
+    consists in four steps:
+    1) newfig      that can define the dimension of the window. If the 
+                parameter siz is a two element list, it defines the relative 
+                enhancement of the horizontal and vertical dimension of the
+                window, if it is just a number it applies to both h and v.
+                Example: newfig([1.33,1])
+    2) plot_helper defines various aspects of the graph, e.g.:
+                mode   : normal plot, steps, scatter plot
+                scale  : linear or logatithmic scale for each axis.
+                grid   : grid lines
+                fmt    : format (color and texture)
+                linewid: line width
+                It creates a dictionary called P_H.
+    3) plot_gd     general plotting function; the imput are:
+                ingd  the input gd or array
+                P_H   the output of plot_helper; if absent, the default
+    4) post_plot   defines title and labels.
 
-The plot can be modified by the functions xlog, ylog, xlin, ylin,
-xlim, ylim and others.
+    The plot can be modified by the functions xlog, ylog, xlin, ylin,
+    xlim, ylim and others.
 
-"""
+    '''
+
 
 def newfig(siz=1):
-# creates a new figure. siz is a two-element list 
-# containing the enhancement of the horizontal and vertical dimensions
+    '''
+    creates a new figure. siz is a two-element list 
+    containing the enhancement of the horizontal and vertical dimensions
+    '''    
     if not isinstance(siz,list):
         siz1=siz
         siz=[siz1,siz1]
@@ -587,9 +628,11 @@ def newfig(siz=1):
 
 
 def plot_gd(ingd,x=[],P_H=0):
-#  ingd   input gd or array
-#  x      changed x
-#  P_H    output of plot_helper (can be defaulted)
+    '''
+    ingd   input gd or array
+    x      changed x
+    P_H    output of plot_helper (can be defaulted)
+    '''
 
     if len(x) > 0:
         xx=x
@@ -632,13 +675,15 @@ def plot_gd(ingd,x=[],P_H=0):
 
 
 def plot_helper(mode='plot',scale='lili',grid='norm',absc='norm',fmt='b',linewid=1.):
-# auxiliary input for plot_gd
-#  mode    'plot','step','scat'
-#  scale   'lili','lilo','loli','lolo'
-#  grid    'norm','dens','no'
-#  absc    'norm','min','hour','days','week','mjd','date'
-#  fmt     
-#  linewid
+    '''
+    auxiliary input for plot_gd
+    mode    'plot','step','scat'
+    scale   'lili','lilo','loli','lolo'
+    grid    'norm','dens','no'
+    absc    'norm','min','hour','days','week','mjd','date'
+    fmt     
+    linewid
+    '''
 
     P_H={'mode':mode,'scale':scale,'grid':grid,'absc':absc,fmt:'fmt',
     'linewid':linewid,'marker':'o','marksiz':10}
@@ -648,16 +693,20 @@ def plot_helper(mode='plot',scale='lili',grid='norm',absc='norm',fmt='b',linewid
 
 
 def post_plot(tit,xlab,ylab):
-# inserts title and h and v labels
+    '''
+    inserts title and h and v labels
+    '''
     plt.title(tit)
     plt.xlabel(xlab)
     plt.ylabel(ylab)
 
 
 
-def c_plot_gd(typ,ingd): 
-# plot for complex array
-# typ = 0 i vs r, 1 real, 2 imag, 3 abs, 4 angle
+def c_plot_gd(typ,ingd):
+    ''' 
+    plot for complex array
+    typ = 0 i vs r, 1 real, 2 imag, 3 abs, 4 angle
+    '''
     if isinstance(ingd,np.ndarray):
         x=np.arange(len(ingd))
         y=ingd
@@ -728,7 +777,9 @@ def fig_limits():
 
 
 def ioff():
-# interactive off (use plt.show() to show the figure)
+    '''
+    interactive off (use plt.show() to show the figure)
+    '''
     plt.ioff()    
 
 def ion():
@@ -745,7 +796,9 @@ def holdoff():
 # calc functions -------------------------------
 
 def minmax_gd(ingd):
-# Min and max for abscissa and ordinate
+    '''
+    Min and max for abscissa and ordinate
+    '''
     x=x_gd(ingd)
     mima_x=[min(x),max(x)] 
     mima_y=[min(ingd.y),max(ingd.y)]

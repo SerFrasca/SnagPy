@@ -1,6 +1,18 @@
    # Copyright (C) 2023  Sergio Frasca, Riccardo Felicetti
    #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
+'''
+      Module STAT
+Statistical functions
+
+Sections:
+> Zero management
+> Histograms and Parameters
+> Power Spectra
+> Spectrograms
+> Period analysis
+> From Scipy
+'''
 import numpy as np
 from scipy.fft import fft, ifft
 from scipy import stats
@@ -12,14 +24,16 @@ import GD,BASIC,ASTROTIME,GD2
 
 # Zero management ----------------------------
 
-def ana_zero(indat,mode=0,eps=1.e-6):   
-   # a zero period is at least 2 samples
-   # mode 0 only percentage of zeros
-   #      1 zero function (1 for zeros, 0 elsewhere)
-   #      2 zero intervals
-   #      3 one  intervals
-   # eps to the lowest meaningful value, as percentage of maximum
-   #    = 0 no enlarged 0 output
+def ana_zero(indat,mode=0,eps=1.e-6):
+   ''' 
+   a zero period is at least 2 samples
+   mode 0 only percentage of zeros
+        1 zero function (1 for zeros, 0 elsewhere)
+        2 zero intervals
+        3 one  intervals
+   eps to the lowest meaningful value, as percentage of maximum
+      = 0 no enlarged 0 output
+   ''' 
 
    if isinstance(indat,GD.gd):
       y=indat.y
@@ -112,7 +126,9 @@ def ana_zero(indat,mode=0,eps=1.e-6):
 
 
 def stat_nozero(indat):
-# statistics on non-zero data
+   ''' 
+   statistics on non-zero data
+   ''' 
 
    if isinstance(indat,GD.gd):
       indat=indat.y
@@ -133,16 +149,18 @@ def stat_nozero(indat):
 # Histograms and Parameters ----------------------------
 
 def CW_histogram(x,w=[],ini=[],step=1,n=[],enl=10,typ='tri',edg=0,verb=1):
-# Convolutional weighted histogram
-#  x     values
-#  w     wheights
-#  ini   initial value (def the minimum)
-#  step  histogram step
-#  n     number of bin (def such to cover all the x range)
-#  enl   enlargement factor
-#  typ   'tri' triangular, 'gau' gaussian, 'rec' rectangular, if array -> personal fun
-#  edg   = 1, out values in the edge bins
-#  verb  verbosity
+   ''' 
+   Convolutional weighted histogram
+   x     values
+   w     wheights
+   ini   initial value (def the minimum)
+   step  histogram step
+   n     number of bin (def such to cover all the x range)
+   enl   enlargement factor
+   typ   'tri' triangular, 'gau' gaussian, 'rec' rectangular, if array -> personal fun
+   edg   = 1, out values in the edge bins
+   verb  verbosity
+   ''' 
    if verb > 1:
       BASIC.tic()
 
@@ -244,8 +262,10 @@ def CW_histogram(x,w=[],ini=[],step=1,n=[],enl=10,typ='tri',edg=0,verb=1):
 
 
 def param_from_hist(hist):
-# estimate population parameters from histogram
-#  hist   gd containing the histogram
+   ''' 
+   estimate population parameters from histogram
+   hist   gd containing the histogram
+   ''' 
    x=GD.x_gd(hist)
    y=hist.y
    dx=hist.dx
@@ -260,16 +280,18 @@ def param_from_hist(hist):
 
 def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
    sqr=0,center=1):
-# Standard power spectrum estimation
-# npiece    number of pieces (without shift)
-# res       resoltion (minimal 1)
-# shift     for interlaced pieces (1 no interlace, 0.5 one half shift)
-# nobias    =1 subtract bias
-# notrend   =1 subtract trend
-# window    -0 no, 1 bartlett, 2 hann (default), 3 flat top cosine
-# singleb   =1 single side band (for real data, normalized for single band)
-# sqr       =1 square root of spectrum
-# center    =1 0 frequency at center, no single side band
+   ''' 
+   Standard power spectrum estimation
+   npiece    number of pieces (without shift)
+   res       resoltion (minimal 1)
+   shift     for interlaced pieces (1 no interlace, 0.5 one half shift)
+   nobias    =1 subtract bias
+   notrend   =1 subtract trend
+   window    -0 no, 1 bartlett, 2 hann (default), 3 flat top cosine
+   singleb   =1 single side band (for real data, normalized for single band)
+   sqr       =1 square root of spectrum
+   center    =1 0 frequency at center, no single side band
+   ''' 
 
    N=ingd.n
    dx=ingd.dx
@@ -389,13 +411,15 @@ def stft(ingd):
 # Spectrograms ----------------------------
 
 def gd_spectrogram(ingd,l,zenh=2,shif=0.5,win='tuckey'):
-# Spectrogram
-#
-#  ingd    input gd or array
-#  l       base length (pieces length)
-#  zenh    zero padding enhancement fraction (>= 1)
-#  shif    shift fraction (<= 1)
-#  wind    window ('tuckey','hann','no')
+   ''' 
+   Spectrogram
+
+   ingd    input gd or array
+   l       base length (pieces length)
+   zenh    zero padding enhancement fraction (>= 1)
+   shif    shift fraction (<= 1)
+   wind    window ('tuckey','hann','no')
+   ''' 
 
    if isinstance(ingd,np.ndarray):
       dx=1
@@ -423,16 +447,18 @@ def gd_spectrogram(ingd,l,zenh=2,shif=0.5,win='tuckey'):
 # Period analysis ------------------------
 
 def gd_period(ingd,per,nbin=48,nharm=5,ph=0,preproc=1):
-# period analysis
-#  ingd     gd or array
-#  per      period (numeric or physical (only for gds))
-#           Physical period: 'day', 'sid', 'week'
-#  nbin     number of bins in the period
-#  nharm    number of interesting harmonics
-#  ph       phase (in deg)
-#  preproc  pre-processing 0 nothing, 1 abs, 2 square
-#
-# The gd sampling time must be in s, if physical periods are considered
+   ''' 
+   period analysis
+   ingd     gd or array
+   per      period (numeric or physical (only for gds))
+            Physical period: 'day', 'sid', 'week'
+   nbin     number of bins in the period
+   nharm    number of interesting harmonics
+   ph       phase (in deg)
+   preproc  pre-processing 0 nothing, 1 abs, 2 square
+
+   The gd sampling time must be in s, if physical periods are considered
+   ''' 
 
    if isinstance(ingd,np.ndarray):
       ingd=GD.gd(ingd)
@@ -523,16 +549,18 @@ def gd_period(ingd,per,nbin=48,nharm=5,ph=0,preproc=1):
 
 
 def gd_tperiod(ingd,per,nbin=(20,48),nharm=5,ph=0,preproc=1):
-# period analysis with time variation
-#  ingd     gd or array
-#  per      period (numeric or physical (only for gds))
-#           Physical period: 'day', 'sid', 'week'
-#  nbin     number of bins in the oservation time [0] and in the period [1]
-#  nharm    number of interesting harmonics
-#  ph       phase (in deg)
-#  preproc  pre-processing 0 nothing, 1 abs, 2 square
-#
-# The gd sampling time must be in s, if physical periods are considered
+   ''' 
+   period analysis with time variation
+   ingd     gd or array
+   per      period (numeric or physical (only for gds))
+            Physical period: 'day', 'sid', 'week'
+   nbin     number of bins in the oservation time [0] and in the period [1]
+   nharm    number of interesting harmonics
+   ph       phase (in deg)
+   preproc  pre-processing 0 nothing, 1 abs, 2 square
+
+   The gd sampling time must be in s, if physical periods are considered
+   ''' 
 
    tnbin=nbin[0]
    pnbin=nbin[1]
@@ -650,13 +678,15 @@ dist_discrete = [d for d in dir(stats) if
 # https://docs.scipy.org/doc/scipy/tutorial/stats/continuous.html
 
 def rand_data(N,typ,par1=0,par2=1):
-# Random numbers
-#  N     how many
-#  typ   type
-#  pars  parameters
-#
-#    typ      pars
-#   norm     mu,sigma
+   ''' 
+   Random numbers
+   N     how many
+   typ   type
+   pars  parameters
+
+      typ      pars
+   norm     mu,sigma
+   ''' 
 
    if typ == 'norm': # par1 = mean, par2 = std
       dat=stats.norm.rvs(size=N)*par2+par1

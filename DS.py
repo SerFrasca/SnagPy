@@ -1,23 +1,39 @@
     # Copyright (C) 2023  Sergio Frasca
     #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
-# Data stream server:
-#  - frame
-#  - HDF5
-#  - Simulation
+'''
+        Module DS
+As a gd is a “group of data” of determined (known and not too big) length,
+a ds (Data Stream) is used to handle sampled data (in time domain) with unknown 
+(or very big) length, of which one has at a given moment just a chunk.
+        DS operation
+The basic idea is the client-server metaphor: the client asks for chunks of data, defining at the beginning the modalities and then calling iteratively the server. 
+  There are three fundamental operations:
+•	Initial Setting
+•	ds Servicing
+•	Client Processing
 
+Data stream server:
+ - frame
+ - HDF5
+ - Simulation
+
+'''
 import numpy as np
 
 Ntot=0
 Ntot1=0
 
 class ds:
+    '''
+    baselen   typical user max length (multiple of 4)
+    dt        sampling time
+    dsconf    ds configuration:
+                start index   typical nny
+                shift         typical ceil(baselen/2) or baselen
+    '''
     def __init__(self,baselen,dt,dsconf):
-#  baselen   typical user max length (multiple of 4)
-#  dt        sampling time
-#  dsconf    ds configuration:
-#             start index   typical nny
-#             shift         typical ceil(baselen/2) or baselen
+    
         baselen4=np.ceil(baselen/4)
         if baselen4*4 > baselen:
             baselen=baselen4*4

@@ -1,6 +1,29 @@
     # Copyright (C) 2023  Riccardo Felicetti, Sergio Frasca
     #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
+'''
+        Module ASTROTIME
+Time and astronomy management
+
+Sections:
+>> TIME
+> Basic time
+> AstroPy time
+> mjd time
+> gps time
+> sidereal time
+>> ASTRO
+> Constants
+> Coordinates
+> AstroPy coordinates
+> Using Skyfield
+> Using jpl tables
+> Doppler
+> Relativistic corrections
+> Kepler equation
+> Other
+'''
+
 import numpy as np
 import astropy
 from astropy import constants as const
@@ -23,11 +46,13 @@ rad2deg=1/deg2rad
 # basic time ---------------------------
 
 def now(vt=0,typ='UTC',form='string'):
-# Time now
-#   vt      vect time, if absent, present time
-#           vt=(year, month [1-12], day [1-31], hour, min, s, 0,0,0)
-#   typ    'UTC' or 'local'
-#   form   'string', 'struct', 'mjd', 'gps', 'unix'
+    '''
+    Time now
+    vt      vect time, if absent, present time
+            vt=(year, month [1-12], day [1-31], hour, min, s, 0,0,0)
+    typ    'UTC' or 'local'
+    form   'string', 'struct', 'mjd', 'gps', 'unix'
+    '''
 
     tz=time.timezone
     if vt == 0:
@@ -71,7 +96,9 @@ def now(vt=0,typ='UTC',form='string'):
 
 
 def timestruct2v(tstr):
-# time structure to time vector
+    '''
+    time structure to time vector
+    '''
 
     v=[tstr.tm_year,tstr.tm_mon,tstr.tm_mday,tstr.tm_hour,tstr.tm_min,
     tstr.tm_sec,0,0,0]
@@ -80,10 +107,12 @@ def timestruct2v(tstr):
 
 
 def v2mjd(v):
-# vectorial to mjd time
-# v   [year,month,day,hour,min,s]
-#     if month=1, doy can be used instead of day
-#     s can be float
+    '''
+    vectorial to mjd time
+    v   [year,month,day,hour,min,s]
+        if month=1, doy can be used instead of day
+        s can be float
+    '''
 
     tz=time.timezone
     l=len(v)
@@ -105,9 +134,11 @@ def v2mjd(v):
 
 
 def leap_seconds(mjd):
-# leap seconds at mjd
-# independent list (see also astropy function)
-# we put 0 leapswconds at 1 January 1972
+    '''
+    leap seconds at mjd
+    independent list (see also astropy function)
+    we put 0 leapswconds at 1 January 1972
+    '''
 
     leaptimes=[]
 
@@ -154,20 +185,22 @@ def leap_seconds(mjd):
 # AstroPy time ------------------------
 
 def set_time(times,form=0):
-# set time values as Time objects
-#  times   array or list
-#  form    see https://docs.astropy.org/en/stable/time/index.html#time-format
-#          if absent it can be interpreted
-#
-# The output t are time object, that can be easily converted
-# example:
-#  >>> t = Time('2023-01-01')
-#  >>> t
-#  <Time object: scale='utc' format='iso' value=2023-01-01 00:00:00.000>
-#  >>> t.mjd
-#  59945.0
-#  >>> t.gps
-#  1356566418.0
+    '''
+    set time values as Time objects
+    times   array or list
+    form    see https://docs.astropy.org/en/stable/time/index.html#time-format
+            if absent it can be interpreted
+
+    The output t are time object, that can be easily converted
+    example:
+    >>> t = Time('2023-01-01')
+    >>> t
+    <Time object: scale='utc' format='iso' value=2023-01-01 00:00:00.000>
+    >>> t.mjd
+    59945.0
+    >>> t.gps
+    1356566418.0
+    '''
 
     if form == 0:
         t=Time(times)
@@ -179,13 +212,15 @@ def set_time(times,form=0):
 
 
 def t_conv(tin,fmtin,fmtout):
-# time conversion
-# tin            input time
-# fmtin, fmtout  'str', 'vec', 'mjd', 'gps'
-#  only fmtout   'obj' time object
-#                'ut1', 'tt', 'tai',tcb,tcg,tdb
-#      vec as (2000, 1, 1, 0, 0)
-#      str as '2000-01-20 00:00:00.000'
+    '''
+    time conversion
+    tin            input time
+    fmtin, fmtout  'str', 'vec', 'mjd', 'gps'
+    only fmtout   'obj' time object
+                'ut1', 'tt', 'tai',tcb,tcg,tdb
+        vec as (2000, 1, 1, 0, 0)
+        str as '2000-01-20 00:00:00.000'
+    '''
 
     if fmtin == 'vec':
         aa='datetime.datetime'+str(tin)
@@ -221,10 +256,12 @@ def t_conv(tin,fmtin,fmtout):
 
 
 def sid_time(tim,loc=0):
-# local or Greenwich (default) sidereal time
-# 
-#  tim   time object or as set_time
-#  loc   Earth locality object or [lon,lat] (in decimal deg)
+    '''
+    local or Greenwich (default) sidereal time
+
+    tim   time object or as set_time
+    loc   Earth locality object or [lon,lat] (in decimal deg)
+    '''
 
     if not isinstance(tim,Time):
         tim=Time(tim)
@@ -244,7 +281,9 @@ def sid_time(tim,loc=0):
 # mjd time ----------------------------
 
 def mjd_now():
-# Return the current GPS time as a float using Astropy.
+    '''
+    Return the current GPS time as a float using Astropy.
+    '''
 
     from astropy.time import Time
 
@@ -253,11 +292,13 @@ def mjd_now():
 
 
 def mjd_phase(t0,long=0,deg=1):
-# phases for physical periods (in deg) or beginning delay
-#   phisical periods: day, sid, locsid, week
-#  t0     time
-#  long   longitude
-#  deg    = 1  phase in deg
+    '''
+    phases for physical periods (in deg) or beginning delay
+    phisical periods: day, sid, locsid, week
+    t0     time
+    long   longitude
+    deg    = 1  phase in deg
+    '''
 
     sidday=86164.090530833/86400  # at epoch2000
 
@@ -281,7 +322,9 @@ def mjd_phase(t0,long=0,deg=1):
 # gps time ----------------------------
 
 def gps_now():
-# Return the current GPS time as a float using Astropy.
+    '''
+    Return the current GPS time as a float using Astropy.
+    '''
 
     from astropy.time import Time
 
@@ -292,12 +335,14 @@ def gps2mjd(tgps): # conversion from gps time to mjd
     pass
 
 
-# sidereal time
+# sidereal time ---------------------
 
 def gmst(t,long=0):
-# Greenwich mean sidereal time or local ST
-#  t     time object or jd or mjd
-#  long  local longitude in deg or EL object (for local ST)
+    '''
+    Greenwich mean sidereal time or local ST
+    t     time object or jd or mjd
+    long  local longitude in deg or EL object (for local ST)
+    '''
 
     if isinstance(long,EarthLocation):
         aa=long.lon
@@ -330,7 +375,9 @@ def nearest_tsid(ts,t0):
 # Constants -----------------------------
 
 def const_table(file=0):
-# file, if it is present, save the constants table in a file
+    '''
+    file, if it is present, saves the constants table in a file
+    '''
     lis0=['G', 'GM_earth', 'GM_jup', 'GM_sun', 'L_bol0', 'L_sun', 'M_earth', 'M_jup', 'M_sun',
      'N_A', 'R', 'R_earth', 'R_jup','R_sun', 'Ryd', 'a0', 'alpha', 'atm', 'au', 'b_wien', 'c', 
      'e', 'eps0', 'g0', 'h', 'hbar','k_B', 'kpc', 'm_e', 'm_n', 'm_p', 'mu0', 'muB', 
@@ -354,7 +401,9 @@ def const_table(file=0):
 
 
 def sites():
-# sites for gravitational antennas
+    '''
+    sites for gravitational antennas
+    '''
 
     virgo_s=EarthLocation.of_site('VIRGO')
     print(virgo_s.lon,virgo_s.lat,virgo_s.height)
@@ -374,20 +423,22 @@ def sites():
 # Coordinates --------------------------
 
 def astro_coord(cin, cout, ai, di):
-# ASTRO_COORD   astronomical coordinate conversion, from cin to cout
-#
-#  cin and cout can be
-#
-#    'equ'      celestial equatorial: right ascension, declination
-#    'ecl'      ecliptical: longitude, latitude
-#    'gal'      galactic longitude, latitude
-#
-#    ai,di      input coordinates  (deg)
-#    ao,do      output coordinates (deg)
-#
-#  epsilon = 23.4392911 deg is the inclination of the Earth orbit on the
-#  equatorial plane, referred to the standard equinox of year 2000
-#  (epsilon = 23.4457889 deg, for the standard equinox of year 1950).
+    '''
+    ASTRO_COORD   astronomical coordinate conversion, from cin to cout
+
+    cin and cout can be
+
+    'equ'      celestial equatorial: right ascension, declination
+    'ecl'      ecliptical: longitude, latitude
+    'gal'      galactic longitude, latitude
+
+    ai,di      input coordinates  (deg)
+    ao,do      output coordinates (deg)
+
+    epsilon = 23.4392911 deg is the inclination of the Earth orbit on the
+    equatorial plane, referred to the standard equinox of year 2000
+    (epsilon = 23.4457889 deg, for the standard equinox of year 1950).
+    '''
 
     deg2rad = np.pi/180
     rad2deg = 180/np.pi
@@ -454,11 +505,13 @@ def astro_coord(cin, cout, ai, di):
 
 
 def astro2rect(a, icrad=0):
-# ASTRO2RECT  conversion from astronomical to rectangular coordinates
-#
-#   a         astronomical coordinates [ra dec module]
-#             if a = [ra dec] is converted to [ra dec 1]
-#   icrad     0 = degrees (default), 1 = radiants
+    '''
+    ASTRO2RECT  conversion from astronomical to rectangular coordinates
+
+    a         astronomical coordinates [ra dec module]
+                if a = [ra dec] is converted to [ra dec 1]
+    icrad     0 = degrees (default), 1 = radiants
+    '''
 
     if not a[0].shape:
         a = [[a[0]], [a[1]]]
@@ -483,18 +536,20 @@ def astro2rect(a, icrad=0):
 # AstroPy coordinates ----------------------
 
 def EarLoc(lon,lat,h=0):
-# Earth location object
-#  lon,lat  angles
-#  h        height in m
-#
-# Angles can be expressed as:
-#
-# Angle('10.2345d')               String with 'd' abbreviation for degrees
-# Angle('1:2:30.43 degrees')      Sexagesimal degrees
-# Angle('1°2′3″')                 Unicode degree, arcmin and arcsec symbols
-# Angle('1°2′3″N')                Unicode degree, arcmin, arcsec symbols and direction
-# Angle('1d2m3.4s')               Degree, arcmin, arcsec
-# if it is expressed as a decimal number xxxx.xx, is equivalent to 'xxxx.xxd'
+    '''
+    Earth location object
+    lon,lat  angles
+    h        height in m
+
+    Angles can be expressed as:
+
+    Angle('10.2345d')               String with 'd' abbreviation for degrees
+    Angle('1:2:30.43 degrees')      Sexagesimal degrees
+    Angle('1°2′3″')                 Unicode degree, arcmin and arcsec symbols
+    Angle('1°2′3″N')                Unicode degree, arcmin, arcsec symbols and direction
+    Angle('1d2m3.4s')               Degree, arcmin, arcsec
+    if it is expressed as a decimal number xxxx.xx, is equivalent to 'xxxx.xxd'
+    '''
  
     if isinstance(lon,(int,float)):
         lon=str(lon)+'d'
@@ -507,30 +562,32 @@ def EarLoc(lon,lat,h=0):
 
 
 def astropy_coord(cin, cout, ai, di, lon=[], lat=[], time=[]):
-# Astronomical coordinate system change
-#  Angles are in degrees. Local tsid (in hours) and latitude is needed
-#  for conversions to and from the horizon coordinates.
-#
-#  cin and out can be
-#
-#    'hor'         Horizontal coordinate: azimuth, altitude (az,alt) 
-#                      YOU SHOULD ADD lat and lon!
-#    'equ'         celestial equatorial: right ascension, declination (ra,dec)
-#    'ecl'         ecliptical: longitude, latitude (lon,lat)
-#    'gal'         galactic longitude, latitude (l,b)
-#
-#    ai,di         input coordinates
-#    lon,lat,time  local sidereal time and latitude (only for horizontal coordinates)
-#                  various form for time see https://docs.astropy.org/en/stable/time/index.html
-#
-# Angles can be expressed as:
-#
-# Angle('10.2345d')               String with 'd' abbreviation for degrees
-# Angle('1:2:30.43 degrees')      Sexagesimal degrees
-# Angle('1°2′3″')                 Unicode degree, arcmin and arcsec symbols
-# Angle('1°2′3″N')                Unicode degree, arcmin, arcsec symbols and direction
-# Angle('1d2m3.4s')               Degree, arcmin, arcsec
-# if it is expressed as a decimal number xxxx.xx, is equivalent to 'xxxx.xxd'
+    '''
+    Astronomical coordinate system change
+    Angles are in degrees. Local tsid (in hours) and latitude is needed
+    for conversions to and from the horizon coordinates.
+
+    cin and out can be
+
+    'hor'         Horizontal coordinate: azimuth, altitude (az,alt) 
+                        YOU SHOULD ADD lat and lon!
+    'equ'         celestial equatorial: right ascension, declination (ra,dec)
+    'ecl'         ecliptical: longitude, latitude (lon,lat)
+    'gal'         galactic longitude, latitude (l,b)
+
+    ai,di         input coordinates
+    lon,lat,time  local sidereal time and latitude (only for horizontal coordinates)
+                    various form for time see https://docs.astropy.org/en/stable/time/index.html
+
+    Angles can be expressed as:
+
+    Angle('10.2345d')               String with 'd' abbreviation for degrees
+    Angle('1:2:30.43 degrees')      Sexagesimal degrees
+    Angle('1°2′3″')                 Unicode degree, arcmin and arcsec symbols
+    Angle('1°2′3″N')                Unicode degree, arcmin, arcsec symbols and direction
+    Angle('1d2m3.4s')               Degree, arcmin, arcsec
+    if it is expressed as a decimal number xxxx.xx, is equivalent to 'xxxx.xxd'
+    '''
 
     if isinstance(ai,(int,float)):
         ai=str(ai)+'d'
@@ -567,8 +624,10 @@ def astropy_coord(cin, cout, ai, di, lon=[], lat=[], time=[]):
 
 
 def ang_sep(lon1,lat1,lon2,lat2):
-# angular separation
-#   angles in deg
+    '''
+    angular separation
+    angles in deg
+    '''
 
     lon1=lon1*deg2rad
     lat1=lat1*deg2rad
@@ -583,10 +642,12 @@ def ang_sep(lon1,lat1,lon2,lat2):
 # Using Skyfield ------------------------
 
 def sf_arrtime(tini,tfin,step):
-# Skyfield time array
-#  tini    initial time tuple (a,m,d,h,m,s)
-#  fion    final time tuple
-#  step    in s
+    '''
+    Skyfield time array
+    tini    initial time tuple (a,m,d,h,m,s)
+    fion    final time tuple
+    step    in s
+    '''
 
     ts = load.timescale()
 
@@ -616,10 +677,12 @@ def sf_coord():
 
 
 def sf_earth(t,epht='de440s.bsp'):
-# position and velocity of the Earth
-#  output:   cartesian position (AU)
-#            cartesian velocity (in unit of c)
-#            Einstein effect
+    '''
+    position and velocity of the Earth
+    output:   cartesian position (AU)
+            cartesian velocity (in unit of c)
+            Einstein effect
+    '''
 
     c=299792458
     G=6.6743e-11
@@ -645,13 +708,15 @@ def sf_earth(t,epht='de440s.bsp'):
 # Using jpl tables ------------------------
 
 def ant_pos_vel(table_p,table_par,tin,tfi,au=0):
-# position and velocity of an antenna + Einstein effect
-# table_p    symbol (e.g.: table_virgo_p)
-# table_par  table parameters symbol (e.g.: table_par)
-# tin,tfi    vectorial time ini,fin (e.g. [2021,1,20,0])
-# au = 0   pos is in light seconds, vel in fraction of c
-# au = 1   pos is converted to au
-# au = 2   pos is converted to km
+    '''
+    position and velocity of an antenna + Einstein effect
+        table_p    symbol (e.g.: table_virgo_p)
+        table_par  table parameters symbol (e.g.: table_par)
+        tin,tfi    vectorial time ini,fin (e.g. [2021,1,20,0])
+        au = 0   pos is in light seconds, vel in fraction of c
+        au = 1   pos is converted to au
+        au = 2   pos is converted to km
+    '''
 
     out,tmjd=GWDATA.extr_doppler(table_p,tin,tfi,table_par)
     pos=out[:,1:4]

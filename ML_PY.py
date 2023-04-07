@@ -1,20 +1,27 @@
     # Copyright (C) 2023  Sergio Frasca, Edoardo Giancarli
     #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
-import numpy as np
-import scipy.io as sio
-import csv
-import mat73
-import GD,SERV,BASIC
-
 '''
+        Module ML_PY
+
 This module deals with operations with Matlab. 
 The most important part is the management of the mat files. 
 Some mat files could not be read because contain Matlab tables: 
 in such case the solution is saving the Matlab table 
 as a csv file (by the writetable internal function
 or table2cvs Snag function).
+
+Sections:
+> read - write v.7 format mat file
+> read - write v.7.3 format mat file
+> read - write csv 
 '''
+import numpy as np
+import scipy.io as sio
+import csv
+import mat73
+import GD,SERV,BASIC
+
 # read - write v.7 format mat file -------------
 
 def loadmat7(fil):
@@ -52,7 +59,9 @@ def gd_lm7(fil):
 
 
 def gdsavedicmat7(ingd):
-# save a gd transformed to a dictionary
+    '''
+    save a gd transformed to a dictionary
+    '''
     nam=SERV.retrieve_name(ingd)
     outdic=GD.gd2dict(ingd)
     filnam=nam+'_dic.mat'
@@ -72,7 +81,9 @@ def gdloaddicmat7(fil):
 # read - write v.7.3 format mat file ---------------------
 
 def loadmat73(fil):
-# Generic load
+    '''
+    Generic load
+    '''
     dat=mat73.loadmat(fil)
     obj=list(dat.keys())
 
@@ -80,7 +91,9 @@ def loadmat73(fil):
 
 
 def gd_lm73(fil):
-# load a file containing a gd
+    '''
+    load a file containing a gd
+    '''
     dat=mat73.loadmat(fil)
     obgd=list(dat.keys())
     obgd=obgd[0]

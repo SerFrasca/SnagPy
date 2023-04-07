@@ -1,3 +1,12 @@
+# Copyright (C) 2023  Sergio Frasca
+#  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+
+'''
+        Module MGD
+
+Multi-ordinate GD
+'''
+
 from scipy.fft import fft, ifft
 import cmath as cm
 import matplotlib.pyplot as plt
@@ -12,24 +21,25 @@ deg2rad=pi/180
 
 # class gd  -----------------------------------------------
 
-class mgd:  
+class mgd: 
+    '''
+            mgd creation
 
-#           mgd creation
-#
-# mgd is a single abscissa, multiple ordinate class-container in SnagPy.
-#
-# The attributes are:
-#
-# > y      the ordinates (nxm array)
-# > n      the length (number of rows)
-# > m      number of channels (columns)
-# > ini    initial abscissa (used in type 1 gds)
-# > dx     sampling step (used in type 1 gds)
-# > x      abscissas (used in type 2 gds)
-# > typ    determine type 1 (virtual abscissa) or type 2 (real abscissa)
-# > capt   caption (a string)
-# > cont   a control variable (in the case of a bsd, a special structure)
-#
+    mgd is a single abscissa, multiple ordinate class-container in SnagPy.
+
+    The attributes are:
+
+    > y      the ordinates (nxm array)
+    > n      the length (number of rows)
+    > m      number of channels (columns)
+    > ini    initial abscissa (used in type 1 gds)
+    > dx     sampling step (used in type 1 gds)
+    > x      abscissas (used in type 2 gds)
+    > typ    determine type 1 (virtual abscissa) or type 2 (real abscissa)
+    > capt   caption (a string)
+    > cont   a control variable (in the case of a bsd, a special structure)
+
+    '''
     def __init__(self,y,**gdpar): # y matrix or (n,m) tuple
         if isinstance(y,tuple):
             y=np.zeros(y)

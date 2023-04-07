@@ -1,6 +1,25 @@
 # Copyright (C) 2023  Sergio Frasca
 #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
+'''
+        Module BASIC
+Base functions for SnagPy
+
+Sections:
+> Small apps
+> load & save dictionary: text, csv, json and pickle
+> HDF5
+> List
+> Dictionaries
+> simple dict
+> Numpy arrays
+> Numpy structures
+> SnagTable
+> ArrayTable
+> system
+> Graphic
+'''
+
 import sys
 import csv
 import json
@@ -34,8 +53,10 @@ import os,importlib
 # Small apps ---------------------------------------
 
 def envir_var(var):
-    # value of environment variables
-    #   var    name of the environment variable (a string)
+    '''
+    value of environment variables
+      var    name of the environment variable (a string)
+    '''
     AA = dict(os.environ)
     try:
         BB = AA[var]
@@ -47,8 +68,10 @@ def envir_var(var):
 
 
 def var(v):
-    # variable analysis
-    #   v     input variable
+    '''
+    variable analysis
+      v     input variable
+    '''
     print('\n', type(v))
     print('id : ', id(v), '\n')
     print(v, '\n')
@@ -82,8 +105,10 @@ def Exec(file):   # exec(open('test_file').read())
 
 
 def isa(arg, typ=0):
-    # Type of argument.
-    # if typ is absent (or = 0) out is
+    '''
+    Type of argument.
+    if typ is absent (or = 0) out is
+    '''
     out = 'Unrecognized object'
     if isinstance(arg, int):
         out = 1
@@ -114,7 +139,9 @@ def isa(arg, typ=0):
 
 
 def byte2str(dat):
-    # converts byte object or list of b.o. to str or list of str
+    '''
+    converts byte object or list of b.o. to str or list of str
+    '''
 
     if isinstance(dat, bytes):
         dat = dat.decode("utf-8")
@@ -130,13 +157,18 @@ def byte2str(dat):
 
 
 def tic():
-    # similar to Matlab tic
+    '''
+    similar to Matlab tic
+    '''
     global ttic
     ttic = time.time()
     return ttic
 
 
 def toc(tticin=0):
+    '''
+    similar to Matlab toc
+    '''
     if tticin == 0:
         return time.time()-ttic
     else:
@@ -144,8 +176,10 @@ def toc(tticin=0):
 
 
 def num_var_odd(lin):
-    # analyze the string lin to identifies numbers or variable names
-    # 1 num, 2 var, 3 odd
+    '''
+    analyze the string lin to identifies numbers or variable names
+    1 num, 2 var, 3 odd
+    '''
     res = 0
     lin1 = lin.strip(' \n')
     try:
@@ -165,8 +199,10 @@ def num_var_odd(lin):
 
 
 def path_fil_ext(ffil):
-    # identifies in a file name with path
-    # the path, the file name without extension, the extension
+    '''
+    identifies in a file name with path
+    the path, the file name without extension, the extension
+    '''
     path, a2 = os.path.split(ffil)
     filnam, ext = os.path.splitext(a2)
 
@@ -174,10 +210,12 @@ def path_fil_ext(ffil):
 
 
 def listfil(pat,indir=1,opat=0):
-# lists files in folders
-#   pat    path of the folder
-#   indir  =1 no subfolders, =0 also in subfolders
-#   opat   output path (together to files)
+    '''
+    lists files in folders
+    pat    path of the folder
+    indir  =1 no subfolders, =0 also in subfolders
+    opat   output path (together to files)
+    '''
 
     print('opat = ',opat)
     res = []
@@ -207,10 +245,12 @@ def listfil(pat,indir=1,opat=0):
 
 
 def ind_from_inidx(xx, ini, dx, typ=2):
-    # index from ini and dx
-    #  xx      value
-    #  ini,dx  parameters
-    #  typ     1 floor, 2 round, 3 ceil
+    '''
+    index from ini and dx
+     xx      value
+     ini,dx  parameters
+     typ     1 floor, 2 round, 3 ceil
+    '''
     aa = (xx-ini)/dx
     if typ == 2:
         ind = np.round(aa)
@@ -223,11 +263,41 @@ def ind_from_inidx(xx, ini, dx, typ=2):
     return ind
 
 
+def ind_from_x(xx, x):
+    '''
+    index from x  (for type 2 gds)
+     xx      value or sorted array or list
+     x       abscissas
+    '''
+
+    lx=len(x)
+    n=len(xx)
+    ind=np.zeros(n)
+    ii=0
+    for i in range(n):
+        if xx[i] <= x[0]:
+            ind[i]=0
+            ii+=1
+        if xx[i] >= x[lx-1]:
+            ind[i]=lx-1
+    i=ii+1
+    for k in range(lx):
+        if k < lx-1:
+            dx=(x[k+1]-x[k])/2
+        if xx[i] >= x[k]-dx and xx[i] < x[k]+dx:
+            ind[i]=k
+            if i < n-1:
+                i+=1
+
+    return ind
+
 # load & save dictionary: text, csv, json and pickle ---------------
 
 def dict2text(dic, fil):
-    # write a dictionary on a text file
-    # fil  file without extension
+    '''
+    write a dictionary on a text file
+    fil  file without extension
+    '''
     fil1 = fil+'.txt'
     f = open(fil1, 'w')
     f.write(str(dic))
@@ -235,8 +305,10 @@ def dict2text(dic, fil):
 
 
 def dict2csv(dic, fil):
-    # write a dictionary on a csv file
-    # fil  file without extension
+    '''
+    write a dictionary on a csv file
+    fil  file without extension
+    '''
     fil1 = fil+'.csv'
     w = csv.writer(open(fil1, 'w', delimiter=';'))
     for key, val in dic.items():
@@ -244,9 +316,11 @@ def dict2csv(dic, fil):
 
 
 def dict2json(dic, fil):
-    # write a dictionary on a json file
-    # fil  file without extension
-    #  NOT WORKING WITH NUMPY DATA
+    '''
+    write a dictionary on a json file
+    fil  file without extension
+     NOT WORKING WITH NUMPY DATA
+    '''
     fil1 = fil+'.json'
     json1 = json.dumps(dic)
     f = open(fil1, 'w')
@@ -255,8 +329,10 @@ def dict2json(dic, fil):
 
 
 def dict2pkl(dic, fil):
-    # write a dictionary on a pikle file
-    # fil  file without extension
+    '''
+    write a dictionary on a pikle file
+    fil  file without extension
+    '''
     fil1 = fil+'.pkl'
     f = open(fil1, 'wb')
     pickle.dump(dic, f)
@@ -264,7 +340,9 @@ def dict2pkl(dic, fil):
 
 
 def pkl2dict(fil):
-    # read a dictionary from a pickle file
+    '''
+    read a dictionary from a pickle file
+    '''
 
     f = open(fil, 'rb')
     dic = pickle.load(f)
@@ -282,8 +360,10 @@ def list_baskeys_hdf5(fil):
 
 
 def write_hdf5_s(dic, fil):
-    # writes in a hdf5 file a simple dictionary
-    #  dats   simple dictionary containing the data
+    '''
+    writes in a hdf5 file a simple dictionary
+     dats   simple dictionary containing the data
+    '''
     N = len(dic)
     kk = list(dic.keys())
     vv = list(dic.values())
@@ -301,8 +381,10 @@ def write_hdf5_s(dic, fil):
 
 
 def read_hdf5_s(fil):
-    # writes in a hdf5 file a simple dictionary
-    #  dats   simple dictionary containing the data
+    '''
+    writes in a hdf5 file a simple dictionary
+     dats   simple dictionary containing the data
+    '''
     dicout = {}
     with h5py.File(fil, 'r') as f:
         lk = list(f.keys())
@@ -321,23 +403,29 @@ def read_hdf5_s(fil):
 
 
 def write_dic2hdf5(dic, fil):
-    # writes a dictionary in a hdf5 file
+    '''
+    writes a dictionary in a hdf5 file
+    '''
     silx.dicttoh5(dic, fil, h5path='/', mode='a',
                   overwrite_data=False, create_dataset_args=None)
 
 
 def read_hdf52dic(fil):
-    # reads a dictionary in a hdf5 file, transforming data in numpy data
+    '''
+    reads a dictionary in a hdf5 file, transforming data in numpy data
+    '''
     dic = silx.h5todict(fil, path='/')
 
     return dic
 
 
 def read_hdf5_part(fil, dataset, slice):
-    # partial read of HDF5 file
-    #   fil      file (with path)
-    #   dataset  dataset (string)
-    #   slice    string (ex.: '[1:20,[6,7]]')
+    '''
+    partial read of HDF5 file
+      fil      file (with path)
+      dataset  dataset (string)
+      slice    string (ex.: '[1:20,[6,7]]')
+    '''
 
     hf = h5py.File(fil, 'r')
     ds = hf.get(dataset)
@@ -348,7 +436,9 @@ def read_hdf5_part(fil, dataset, slice):
 
 
 def explore_hdf5(fil):
-# explores hdf5 frame data
+    '''
+    explores hdf5 frame data
+    '''
     dic=read_hdf52dic(fil)
     Keys,Dics=expl_dict(dic)
     show_dict_struct(Keys, Dics)
@@ -367,8 +457,10 @@ def list2string(lis):
 
 
 def show_list(lis, sort=1):
-    # shows a list
-    # sort can be put = 1 only if the elements are all numbers or all strings
+    '''
+    shows a list
+    sort can be put = 1 only if the elements are all numbers or all strings
+    '''
     print('    ')
     if sort > 0:
         lis.sort()
@@ -380,7 +472,9 @@ def show_list(lis, sort=1):
 
 
 def list_len(lis):
-# Checks if lis is a list of lists and gives the length of the lists
+    '''
+    Checks if lis is a list of lists and gives the length of the lists
+    '''
     le=len(lis)
     lens=np.zeros(le)
     ii=0
@@ -396,7 +490,9 @@ def list_len(lis):
 
 
 def array_list_len(lis):
-# Checks if lis is a list of arrays and gives the length of the arrays
+    '''
+    Checks if lis is a list of arrays and gives the length of the arrays
+    '''
     le=len(lis)
     lens=np.zeros(le,dtype=int)
     ii=0
@@ -428,12 +524,14 @@ def show_dict(dict):
 
 
 def expl_dict(dic, Keys=[], Dics=[]):
-   # def expl_dict(dic,dicname='-0',Keys=[],Dics=[]):
-    # explores dictionary structure
-    #  dic     dictionary to explore
-    #  Keys    inizialization of tne names of the variables
-    #  Val         "     "    of the values of the variables
-    #  Dics        "     "    of the names of the structures
+    '''
+    def expl_dict(dic,dicname='-0',Keys=[],Dics=[]):
+        explores dictionary structure
+        dic     dictionary to explore
+        Keys    inizialization of tne names of the variables
+        Val         "     "    of the values of the variables
+        Dics        "     "    of the names of the structures
+    '''
 
     try:
         kkeys = tuple(dic.keys())
@@ -463,7 +561,9 @@ def expl_dict(dic, Keys=[], Dics=[]):
 
 
 def show_dict_struct(Keys, Dics):
-    # displays the dictionary structure explored by expl_array
+    '''
+    displays the dictionary structure explored by expl_array
+    '''
     Rows = []
 
     for i in range(len(Keys)):
@@ -498,16 +598,20 @@ def show_dict_struct(Keys, Dics):
 
 
 def show_dict_struct_2(Keys, Dics):
-    # displays the dictionary structure explored by expl_dict
+    '''
+    displays the dictionary structure explored by expl_dict
+    '''
 
     for i in range(len(Keys)):
         print(i, Dics[i], Keys[i])
 
 
 def dict_extract_2(dic, listkeys):
-    # extracts a value from a dictionary using the list of subsequent keys
-    #   dic       the dictionary
-    #   listkeys  list of the subsequent keys in the tree
+    '''
+    extracts a value from a dictionary using the list of subsequent keys
+      dic       the dictionary
+      listkeys  list of the subsequent keys in the tree
+    '''
     aa = dic
     try:
         for key in listkeys:
@@ -519,23 +623,25 @@ def dict_extract_2(dic, listkeys):
 
 
 # simple dict ----------------------
-'''
-A simple dictionary is something that describes something like
-a simple table as:
+def dummy_simple_dictionary():
+    '''
+    A simple dictionary is something that describes something like
+    a simple table as:
 
-Antenna     =  "Virgo"
-Long        =  12.5
-Lat         =  42
-Azimut      =  30
-Altro       =  [1, 23, 4.5]
-CC          =  (11+4.2j)
+    Antenna     =  "Virgo"
+    Long        =  12.5
+    Lat         =  42
+    Azimut      =  30
+    Altro       =  [1, 23, 4.5]
+    CC          =  (11+4.2j)
 
-
-'''
+    '''
 
 
 def eq_interpr(line):
-    # line equation interpretation for simple tables
+    '''
+    line equation interpretation for simple tables
+    '''
     k = line.find('=')
     lin1 = line[0:k].strip()
     lin2 = line[k+1:-1].strip(' \n')
@@ -560,7 +666,9 @@ def eq_interpr(line):
 
 
 def simp2dict(file):
-    # puts the content of a simple table to a simple dictionary
+    '''
+    puts the content of a simple table to a simple dictionary
+    '''
     tot = '{'
     f = open(file, 'r')
     lin = f.readline()
@@ -582,9 +690,11 @@ def simp2dict(file):
 
 
 def show_simp(sdic, spac=10, file=0):
-    # shows a simple dictionary
-    #  spac is the key field length
-    #  file is the name of a desired output fil (if any, def no)
+    '''
+    shows a simple dictionary
+     spac is the key field length
+     file is the name of a desired output fil (if any, def no)
+    '''
     for key, value in sdic.items():
         print(key.ljust(spac), ' = ', value)
     if file != 0:
@@ -595,14 +705,35 @@ def show_simp(sdic, spac=10, file=0):
         sys.stdout.close()
         sys.stdout = stdout0
 
+# numpy arrays -----------------------------------
+
+def array_rowcol(arr):
+    '''
+    number of row, columns for np.arrays or gd or gd2
+    '''
+    if isinstance(arr,GD.gd):
+        arr=GD.gd.y
+    if isinstance(arr,GD2.gd2):
+        arr=GD2.gd2.y
+    dsh=arr.shape
+    if len(dsh) == 1:
+        nr = 1
+        nc = len(arr)
+    else:
+        nr = dsh[0]
+        nc = dsh[1]
+    return nr,nc
+
 
 # numpy structures -------------------------------------
 
 def expl_array(arr, Names=[], Cval=[], StName=[]):
-    # explores array structure
-    #  Names   inizialization of tne names of the variables
-    #  Cval        "     "    of the values of the variables
-    #  StName      "     "    of the names of the structures
+    '''
+    explores array structure
+     Names   inizialization of tne names of the variables
+     Cval        "     "    of the values of the variables
+     StName      "     "    of the names of the structures
+    '''
 
     names = arr.dtype.names
     try:
@@ -633,12 +764,14 @@ def expl_array(arr, Names=[], Cval=[], StName=[]):
 
 
 def expl_array_2(arr, arrname='-0', Names=[], Cval=[], StName=[]):
-    # explores array structure
-    #  arr     numpy ndarray to explore
-    #  arrname array name as string (optional)
-    #  Names   inizialization of tne names of the variables
-    #  Cval        "     "    of the values of the variables
-    #  StName      "     "    of the names of the structures
+    '''
+    explores array structure
+     arr     numpy ndarray to explore
+     arrname array name as string (optional)
+     Names   inizialization of tne names of the variables
+     Cval        "     "    of the values of the variables
+     StName      "     "    of the names of the structures
+    '''
 
     if arrname == '-0':
         arrname = 'start'
@@ -672,14 +805,18 @@ def expl_array_2(arr, arrname='-0', Names=[], Cval=[], StName=[]):
 
 
 def show_array_struct_2(Names, StName):
-    # displays the array structure explored by expl_array
+    '''
+    displays the array structure explored by expl_array
+    '''
 
     for i in range(len(Names)):
         print(i, StName[i], Names[i])
 
 
 def show_array_struct(Names, StName):
-    # displays the array structure explored by expl_array
+    '''
+    displays the array structure explored by expl_array
+    '''
     Rows = []
 
     for i in range(len(Names)):
@@ -714,11 +851,13 @@ def show_array_struct(Names, StName):
 
 
 def array_extract(kstr, var, Names, Cval, outdic=0):
-    # extracts a value from an array structure
-    #   kstr          number of structure (as in show_array_struct)
-    #   var           as it is shown by show_array_struct
-    #   Names & Cval  as produced by expl_array
-    #   outdic        -1 output dictionary
+    '''
+    extracts a value from an array structure
+      kstr          number of structure (as in show_array_struct)
+      var           as it is shown by show_array_struct
+      Names & Cval  as produced by expl_array
+      outdic        -1 output dictionary
+    '''
 
     n1 = Names[kstr]
     pos = n1.index(var)
@@ -734,7 +873,9 @@ def array_extract(kstr, var, Names, Cval, outdic=0):
 
 
 def arrstruct2dict(arstr):
-    # dictionary from a numpy array structure
+    '''
+    dictionary from a numpy array structure
+    '''
     asdtyp = arstr.dtype
     dict = {n: arstr[n][0, 0] for n in asdtyp.names}
 
@@ -742,9 +883,11 @@ def arrstruct2dict(arstr):
 
 
 def val_from_key(st, kk):
-    # value from key for dictionary or structured array
-    #    st   structured array or dictionary
-    #    kk   key (string)
+    '''
+    value from key for dictionary or structured array
+       st   structured array or dictionary
+       kk   key (string)
+    '''
 
     if isinstance(st, dict):
         val = st[kk]
@@ -759,15 +902,17 @@ def val_from_key(st, kk):
 # SnagTable --------------------------
 
 class snag_table:
-    # simple Matlab-like table management
-    #
-    #  data    full data (with titles, list of lists or tuples, all of the same length)
-    #  nr      number of rows
-    #  nc      number of colums
-    #  tup     = 1 list of tuples, = 0 list of lists
-    #  titles  first row of data
-    #  capt    caption
-    #  meta    meta data or control variable (typically a structure or dictionary)
+    '''
+    simple Matlab-like table management
+    
+     data    full data (with titles, list of lists or tuples, all of the same length)
+     nr      number of rows
+     nc      number of colums
+     tup     = 1 list of tuples, = 0 list of lists
+     titles  first row of data
+     capt    caption
+     meta    meta data or control variable (typically a structure or dictionary)
+    '''
 
     def __init__(self, data, capt='table', meta=0, tup=1):
         self.data = data
@@ -786,8 +931,10 @@ def snag_table_show(st):
 
 
 def extr_st_col(st, which):
-    #  st     snag table
-    #  which  the number of the column or the title
+    '''
+     st     snag table
+     which  the number of the column or the title
+    '''
     data = st.data
     titles = st.titles
     nr = st.nr
@@ -812,9 +959,11 @@ def extr_st_col(st, which):
 
 
 def extr_st_rows(st, which):
-    # Creates a new table with a subset of rows
-    #  st     snag table
-    #  which  a list with the selected indices (ex.: [0,19,20,101])
+    '''
+    Creates a new table with a subset of rows
+     st     snag table
+     which  a list with the selected indices (ex.: [0,19,20,101])
+    '''
 
     dataout = []
     data = st.data
@@ -830,9 +979,11 @@ def extr_st_rows(st, which):
 
 
 def extr_st_row(st, k):
-    # Creates a new table with a subset of rows
-    #  st     snag table
-    #  k      the index of the row
+    '''
+    Creates a new table with a subset of rows
+     st     snag table
+     k      the index of the row
+    '''
 
     dataout = []
     data = st.data
@@ -842,8 +993,10 @@ def extr_st_row(st, k):
 
 
 def extr_st_dict(st, which):
-    #  st     snag table
-    #  which  a 2-values list, with the numbers of the columns uses for keys and values
+    '''
+     st     snag table
+     which  a 2-values list, with the numbers of the columns uses for keys and values
+    '''
     ke = extr_st_col(st, which[0])
     va = extr_st_col(st, which[1])
 
@@ -853,8 +1006,10 @@ def extr_st_dict(st, which):
 
 
 def csv2list(fil, tup=1):
-    # reads data from csv file
-    #  tup     = 1 list of tuples, = 0 list of lists
+    '''
+    reads data from csv file
+     tup     = 1 list of tuples, = 0 list of lists
+    '''
     lis = []
     with open(fil, 'r') as file:
         reader = csv.reader(file)
@@ -869,8 +1024,10 @@ def csv2list(fil, tup=1):
 
 
 def csv2st(fil, tup=1):
-    # creates a snag_table from csv file
-    #  tup     = 1 list of tuples, = 0 list of lists
+    '''
+    creates a snag_table from csv file
+     tup     = 1 list of tuples, = 0 list of lists
+    '''
     data = csv2list(fil, tup=1)
     st = snag_table(data, tup)
 
@@ -878,8 +1035,10 @@ def csv2st(fil, tup=1):
 
 
 def st2csv(st, fil):
-    # store a snag_table in a csv file
-    # fil  file without extension
+    '''
+    store a snag_table in a csv file
+    fil  file without extension
+    '''
     data = st.data
     fil1 = fil+'.csv'
     w = csv.writer(open(fil1, 'w', newline=''), delimiter=';')
@@ -888,7 +1047,9 @@ def st2csv(st, fil):
 
 
 def decode_simp_list(lis):
-    # decodes strings in numbers in simple lists
+    '''
+    decodes strings in numbers in simple lists
+    '''
 
     out = []
 
@@ -908,14 +1069,16 @@ def decode_simp_list(lis):
 
 
 class array_table:
-    # container for huge numerical table
-    #
-    #  titles  names of the columns
-    #  data    full data (nr x nc array)
-    #  nr      number of rows
-    #  nc      number of colums
-    #  capt    caption
-    #  meta    meta data or control variable (typically a structure or dictionary)
+    '''
+    container for huge numerical table
+    
+     titles  names of the columns
+     data    full data (nr x nc array)
+     nr      number of rows
+     nc      number of colums
+     capt    caption
+     meta    meta data or control variable (typically a structure or dictionary)
+    '''
 
     def __init__(self, titles, data):
         self.titles = titles
@@ -927,11 +1090,13 @@ class array_table:
 
 
 def text2array(fil, noline, nr, items):
-    # to read a table of floats
-    #  fil     file
-    #  noline  number of lenes to jump
-    #  nr      number of output rows
-    #  items   column to output (e.g. [0,1,3,7])
+    '''
+    to read a table of floats
+     fil     file
+     noline  number of lenes to jump
+     nr      number of output rows
+     items   column to output (e.g. [0,1,3,7])
+    '''
 
     nc = len(items)
     f = open(fil, 'r')
@@ -957,8 +1122,10 @@ def text2array(fil, noline, nr, items):
 
 
 def array_table_to_dict(at, fil=''):
-    #  at    array_table
-    #  fil   output file (HDF5)
+    '''
+     at    array_table
+     fil   output file (HDF5)
+    '''
 
     atdic = {'capt': at.capt, 'titles': at.titles, 'nr': at.nr, 'nc': at.nc, 'array': at.data,
              'meta': at.meta}
@@ -972,8 +1139,10 @@ def array_table_to_dict(at, fil=''):
 # system -------------------------
 
 def func_in_module(modul):
-    # creates a list of the functions in a module
-    # the module should be imported
+    '''
+    creates a list of the functions in a module
+    the module should be imported
+    '''
     res1 = []
     for i in dir(modul):
         if type(getattr(modul, i)).__name__ == "function":
@@ -987,17 +1156,21 @@ def func_in_module(modul):
 
 
 def list_of_func(modul):
-    # creates a list of the functions in a module with addresses
-    # the module should be imported
+    '''
+    creates a list of the functions in a module with addresses
+    the module should be imported
+    '''
     list_of_functions = inspect.getmembers(modul, inspect.isfunction)
 
     return list_of_functions
 
 
 def deshape(inarr):
-    # Eliminates "shape" (and pletoric parentheses) in array
-    # reducing to simple 1-D array
-    # It is similar to squeeze
+    '''
+    Eliminates "shape" (and pletoric parentheses) in array
+    reducing to simple 1-D array
+    It is similar to squeeze
+    '''
     outarr = inarr
     aa = inarr.shape
     if len(aa) == 1:
@@ -1015,12 +1188,14 @@ def deshape(inarr):
 
 
 def ana_module(modu, filout):
-    # Modules analysis
-    #
-    # modu    path with the name of the module
-    #         (if installed, see module_name.__file__)
-    #          e.g. BASIC.ana_module(GD.__file__,'prova.out'))
-    # filout  output file
+    '''
+    Modules analysis
+    
+    modu    path with the name of the module
+            (if installed, see module_name.__file__)
+             e.g. BASIC.ana_module(GD.__file__,'prova.out'))
+    filout  output file
+    '''
 
     fo = open(filout, 'w')
     path, filnam, ext = path_fil_ext(modu)
@@ -1082,12 +1257,14 @@ def ana_module(modu, filout):
 
 
 def all_modules(pack_path, filout):
-    # All modules synthetic analysis
-    #
-    # pack_path   main path of the package
-    # filout      output file
-    #
-    # ex.: BASIC.all_modules('D:\\OneDrive\\SF\\_Prog\\Python\\SnagPy\\','prova.out')
+    '''
+    All modules synthetic analysis
+    
+    pack_path   main path of the package
+    filout      output file
+    
+    ex.: BASIC.all_modules('D:\\OneDrive\\SF\\_Prog\\Python\\SnagPy\\','prova.out')
+    '''
 
     mod_list = ['GD',
                 'GD2',
@@ -1176,12 +1353,14 @@ def all_modules(pack_path, filout):
 
     
 def list_modules(pack_path, filout):
-    # All modules synthetic analysis
-    #
-    # pack_path   main path of the package
-    # filout      output file
-    #
-    # ex.: BASIC.all_modules('D:\\OneDrive\\SF\\_Prog\\Python\\SnagPy\\','prova.out')
+    '''
+    All modules synthetic analysis
+    
+    pack_path   main path of the package
+    filout      output file
+    
+    ex.: BASIC.all_modules('D:\\OneDrive\\SF\\_Prog\\Python\\SnagPy\\','prova.out')
+    '''
 
     mod_list = ['GD',
                 'GD2',
@@ -1273,8 +1452,10 @@ def list_modules(pack_path, filout):
 # Graphic ------------------------
 
 def fig_dim():
-    # figure dimensions
-    # outputs xlim and ylim
+    '''
+    figure dimensions
+    outputs xlim and ylim
+    '''
     axes = plt.gca()
     xx = axes.get_xlim()
     yy = axes.get_ylim()
@@ -1283,7 +1464,9 @@ def fig_dim():
 
 
 def inter_grid(xx, lev=1):
-    # to define grids
+    '''
+    to define grids
+    '''
     d = xx[1]-xx[0]
     n10 = int(np.log10(d))
     d10 = 10**(n10-lev)

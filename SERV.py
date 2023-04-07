@@ -1,9 +1,19 @@
     # Copyright (C) 2023  Sergio Frasca
     #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
+'''
+        Module SERV
+Service functions
+
+Sections:
+> Service computational routines
+> Intervals 
+> no-data management
+
+'''
 import numpy as np
-import GD,BASIC
-import copy
+import GD,GD2,BASIC
+import copy,time
 
 '''
 Service computational routines ---------------------------------
@@ -158,64 +168,91 @@ def vec_ccdot(in1,in2):
     return out
 
 
-"""
- Intervals class -------------------------
+# Intervals --------------------------------
 
-          intervals creation
-
-To define intervals in a 1-D array
-
-The attributes are:
-  lar    array length
-  nar    second dimension of the array (def=1)
-  typ    1 or 2 as GDs
-  xini   initial abscissa value (def=0)
-  dx     abscissa step (def=1)
-  x      abscissa (in the case of typ=2)
-  ini    interval init
-  fin    interval end (excluded value) 
-  label  e.g. 'hole', 'data', 'good',...; def ''
-  """
+def dummy_intervals():
+    '''
+    Time (or other) interval management
+    '''
 
 class intervals():
-    # time (or other) interval management
+    """
+    Intervals class -------------------------
+
+            intervals creation
+
+    To define intervals in a 1-D array
+
+    The attributes are:
+    lar    array length
+    nar    second dimension of the array (def=1)
+    cover  total coverage (number of 1s, per row)
+    typ    1 or 2 as GDs
+    x0     initial abscissa value (def=0)
+    dx     abscissa step (def=1)
+    x      abscissa (in the case of typ=2)
+    ini    interval init
+    fin    interval end (excluded value) 
+    xini    interval abscissa init
+    xfin    interval abscissa end (excluded value) 
+    label  e.g. 'hole', 'data', 'good',...; def ''
+    """
 
     def __init__(self,lar,**gdpar): # y ordinate or n
         self.lar=lar
+        self.typ=1
         if 'nar' in gdpar:
             self.nar=gdpar['nar']
         else:
             self.nar=1
-        if 'xini' in gdpar:
-            self.xini=gdpar['xini']
+        if 'x0' in gdpar:
+            self.x0=gdpar['x0']
         else:
-            self.xini=0
+            self.x0=0
         if 'dx' in gdpar:
             self.dx=gdpar['dx']
         else:
             self.dx=1
         if 'x' in gdpar:
             self.x=np.array(gdpar['x'])
-            self.typ=2
+            if len(self.x) > 0:
+                self.typ=2
         else:
             self.x=[]
             self.typ=1
         if 'ini' in gdpar:
-            ini=np.array(gdpar['ini'])
+            ini=gdpar['ini']
             self.ini=ini
-            if ini.ndim == 2:
-                aa=ini.shape
-                self.nar=aa[1]           
+            # if ini.ndim == 2:
+            #     aa=ini.shape
+            #     self.nar=aa[1]           
         else:
             self.ini=[]
         if 'fin' in gdpar:
-            self.fin=np.array(gdpar['fin'])
+            self.fin=gdpar['fin']
         else:
             self.fin=[]
+        if 'xini' in gdpar:
+            xini=gdpar['xini']
+            self.xini=xini           
+        else:
+            self.xini=[]
+        if 'xfin' in gdpar:
+            self.xfin=gdpar['xfin']
+        else:
+            self.xfin=[]
         if 'label' in gdpar:
             self.label=gdpar['label']
         else:
             self.label=[]
+
+        self.cover=cover_calc(self)
+  
+    def set_data(self):
+        self.label='data'
+
+    def set_hole(self):
+        self.label='hole'
 
     def invert(self):
         inver=invert_interv(self)
@@ -236,12 +273,79 @@ class intervals():
         mask=interv_mask(self)
         return mask
 
+  
+def x2ind(interv,x):
+    if isinstance(ind,np.ndarray):
+        ind=BASIC.ind_from_inidx(x, interv.x0, interv.dx)
+    elif isinstance(x,list):
+        nn=len(x)
+        ind=[]
+        for i in range(nn):
+            ind0=BASIC.ind_from_inidx(x[i], interv.x0, interv.dx)
+            ind.append(ind0)
+    else:
+        print('*** Error: x is ',type(x))
+        return False
+    
+    return ind
+
+
+def ind2x(interv,ind):
+    if isinstance(ind,np.ndarray):
+        if interv.typ == 1:
+            x=interv.x0+ind*interv.dx
+        else:
+            print('not yet implemented')
+            return False
+    elif isinstance(ind,list):
+        nn=len(ind)
+        x=[[]]*nn
+        if interv.typ == 1:
+            for i in range(nn):
+                xx=interv.x0+ind[i]*interv.dx
+                x[i]=xx
+        else:
+            print('not yet implemented')
+            return False
+    else:
+        print('*** Error: ind is ',type(ind))
+        return False
+
+    return x
+
+
+def full_ind2x(interv):
+    xini=ind2x(interv,interv.ini)
+    xfin=ind2x(interv,interv.fin)
+    interv.xini=xini
+    interv.xfin=xfin
+
+    return interv
+
+
+def cover_calc(interv):
+# computes cover
+    nar=interv.nar
+    ini=interv.ini
+    fin=interv.fin
+    
+    if nar == 1:
+        cover=sum(fin-ini)
+    else:
+        cover=np.zeros(nar,dtype=int)
+        for i in range(nar):
+            cover[i]=sum(fin[i]-ini[i])
+        
+    return cover
+
 
 def mask_interv(mask, cc=1):
-    # mask (1-0 array ) intervals
-    #  m      mask
-    #  cc     =0 0 intervals
-    #         =1 1 intervals
+    '''
+    mask (1-0 array ) intervals
+    m      mask
+    cc     =0 0 intervals
+            =1 1 intervals
+    '''
 
     n = len(mask)
     if cc == 0:
@@ -286,12 +390,12 @@ def interv_mask(interv):
 
 def interv2dict(interv):
     intdic={'lar':interv.lar,'nar':interv.nar,'ini':interv.ini,'fin':interv.fin,
-           'xini':interv.xini,'dx':interv.dx,'x':interv.x}
+           'x0':interv.x0,'dx':interv.dx,'x':interv.x,'typ':interv.typ}
     return intdic
 
 
 def dict2interv(intdic):
-    interv=intervals(intdic['lar'],intdic['nar'],xini=intdic['xini'],dx=intdic['dx'],x=intdic['x'],
+    interv=intervals(intdic['lar'],nar=intdic['nar'],x0=intdic['x0'],dx=intdic['dx'],x=intdic['x'],
                      ini=intdic['ini'],fin=intdic['fin'])
     return interv
 
@@ -303,7 +407,7 @@ def x_interv(interv):
         interv=dict2interv(interv)
 
     if interv.typ == 1 :
-        x=interv.xini+np.arange(interv.lar)*interv.dx
+        x=interv.x0+np.arange(interv.lar)*interv.dx
     else:
         x=interv.x
 
@@ -311,9 +415,11 @@ def x_interv(interv):
 
     return x 
 
+
 def show_interv(interv,verb=1):
     out=check_interv(interv)
     nar=interv.nar
+    cover=interv.cover
     if nar > 1:
         verb=0
     if not out:
@@ -329,11 +435,13 @@ def show_interv(interv,verb=1):
     print('\n')
     print('lar    =',interv.lar)
     print('nar    =',nar)
-    print('xini   =',interv.xini)
+    print('cover  =',cover)
+    print('x0     =',interv.x0)
     print('dx     =',interv.dx)
     print('x      =',interv.x)
     print('typ    =',interv.typ)
     print('N.int  =',nint)
+    time.sleep(5)
     print('ini    =',interv.ini)
     print('fin    =',interv.fin)
 
@@ -446,8 +554,8 @@ def invert_interv(interv):
 
             inio=copy.copy(fin[i])
             fino=copy.copy(ini[i])
-            for j in range(nin[i]):
-                if j < nin[i]-1:
+            for j in range(nin):
+                if j < nin-1:
                     fino[j]=ini[i][j+1]
                 else:
                     fino[j]=lar
@@ -456,19 +564,26 @@ def invert_interv(interv):
                 inio=np.insert(inio,0,0)
                 fino=np.insert(fino,0,ini[i][0])
             non=len(inio)
-            if fin[nin-1] == lar:
+            if fin[i][nin-1] == lar:
                 inio=np.delete(inio,non-1)
                 fino=np.delete(fino,non-1)
 
             outint.ini[i]=inio
             outint.fin[i]=fino
 
+    if interv.label == 'data':
+        interv.label='hole'
+    if interv.label == 'hole':
+        interv.label='data'
+
     return outint
 
 
 def interv_and(*inter):
-# AND of undefined number of arguments
-#   --- only for 1-D intervals ---
+    '''
+    AND of undefined number of arguments
+    --- only for 1-D intervals ---
+    '''
 
     Nint=len(inter)
     print(Nint,'arguments')
@@ -495,8 +610,10 @@ def interv_and(*inter):
 
 
 def interv_or(*inter):
-# OR of undefined number of arguments
-#   --- only for 1-D intervals ---
+    '''
+    OR of undefined number of arguments
+        --- only for 1-D intervals ---
+    '''
 
     Nint=len(inter)
     print(Nint,'arguments')
@@ -525,8 +642,10 @@ def interv_or(*inter):
 
 
 def interv_coverage(*inter):
-# Coverage function of undefined number of arguments
-#   --- only for 1-D intervals ---
+    '''
+    Coverage function of undefined number of arguments
+    --- only for 1-D intervals ---
+    '''
 
     Nint=len(inter)
     print(Nint,'arguments')
@@ -550,22 +669,74 @@ def interv_coverage(*inter):
     return cover
 
 
-def sel_interv(ingd,inter):
-    pass
+def sel_interv(ingd,interv):
+    '''
+    select data in the intervals
+    ingd    gd, gd2 or np array
+    '''
+    lar=interv.lar
+    nar=interv.nar
+    if isinstance(ingd,GD.gd):
+        ingd=ingd.y
+    if isinstance(ingd,GD2.gd2):
+        ingd=ingd.y
+
+    y=ingd
+
+    if nar == 1:
+        nint=len(interv.ini)
+        yy=np.array([])
+        for i in range(nint):
+            yy.append(y[interv.ini[i]:interv.fin[i]])
+    else:
+        yy=[]
+        for k in range(nar):
+            nint=len(interv.ini[k])
+            yy0=np.array([])
+            for i in range(nint):
+                yy0.append(y[k][interv.ini[k][i]:interv.fin[k][i]])
+                yy.append(yy0)
+
+    return yy
+
 
     
 def win_interv(interv,win):
     pass
 
 
+def data_interval(dat, eps=1.e-6):
+    '''
+    meaningful data intervals
+    dat    gd, gd2 or np array
+    eps    relative level of no data
+    '''
+
+    Ini, Fin, dim, Inan=findnodata(dat)
+    if isinstance(dat,np.ndarray):
+        x0=0
+        dx=1
+        x=[]
+    else:
+        x0=dat.ini
+        dx=dat.dx
+        x=dat.x
+    noint=FND2interv(Ini, Fin, dim, x0, dx, x)
+    interv=invert_interv(noint)
+
+    return interv
+
 
 # no-data management -------------------------
 
 def findnodata(dat, typ=1, eps=1.e-6):
-    # finds no data values
-    #   dat    gd, gd2 or np array
-    #   typ    = 1 no nan or double 0
-    #          = 2 no nan
+    '''
+    finds no data values
+        dat    gd, gd2 or np array
+        typ    = 1 no nan or double 0
+                = 2 no nan
+        eps    relative level of no data
+    '''
 
     if isinstance(dat, np.ndarray) == False:
         dat = dat.y
@@ -619,20 +790,37 @@ def findnodata(dat, typ=1, eps=1.e-6):
                     zer[k] = 1
                     zer[k+1] = 1
 
-            interv = BASIC.mask_interv(zer)
+            interv = mask_interv(zer)
             Ini[i] = interv.ini
             Fin[i] = interv.fin
+
+            if nr == 1:
+                Ini=Ini[0]
+                Fin=Fin[0]
 
     if typ == 1:
         return Ini, Fin, dim, Inan
     else:
         return dim, Inan
+    
+
+def FND2interv(Ini, Fin, dim, x0, dx, x):
+    '''
+    From findnodata to hole interv
+    '''
+    nr,nc=dim
+    
+    interv=intervals(nc,nar=nr,ini=Ini,fin=Fin,x0=x0,dx=dx,x=x,label='hole')
+    return interv
+
 
 
 def show_nodata(Ini, Fin, dim, dat=0):
-    # Shows (and sets) nodata
-    #  Ini,Fin,dim   output of findnodata
-    #  dat           array or gd or gd2 to set
+    '''
+    Shows (and sets) nodata
+     Ini,Fin,dim   output of findnodata
+     dat           array or gd or gd2 to set
+    '''
     nr = dim[0]
     nc = dim[1]
     Nint = 0

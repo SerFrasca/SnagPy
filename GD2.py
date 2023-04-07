@@ -1,6 +1,15 @@
     # Copyright (C) 2023  Sergio Frasca
     #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
-
+'''
+        Module GD2
+Class and functions for GD2 management
+ Sections:
+ > class gd2
+ > gd2 - dictionary management
+ > gd2 display
+ > modification function
+ > map functions
+'''
 import numpy as np
 from scipy.fft import fft2, ifft2
 import cmath as cm
@@ -14,36 +23,36 @@ pi=cm.pi
 deg2rad=pi/180
 
 # class gd2  -----------------------------------------------
-"""  
-gd2 is the class-container for 2-D data in SnagPy.
-The horizontal abscissa is the principal one and can be real or virtual; it
-has a dimension n/m, the number of columns. Typically is the time.
-The secondary abscissa is the vertical one, so it is the first of the array;
-it is always virtual and has dimension m, the namber of rows. Typically it
-is the frequency.
-The attributes are:
-# > y      the 2-dim ordinate (basic data)
-# > n      total number of values
-# > m      secondary abscissa dimension
-# > ini    initial abscissa (used in type 1 gd2s)
-# > dx     sampling step (used in type 1 gd2s)
-# > ini2
-# > dx2
-# > x      abscissas (used in type 2 gds)
-# > typ    determine type 1 (virtual abscissa) or type 2 (real abscissa)
-# > capt   caption (a string)
-# > cont   a control variable (in the case of a bsd, a special structure)
-# > unc    ordinate uncertainty (typically not used)
-# > uncx   abscissa uncertainty (used for other)
-#
-
-Any gd2 can be modified by edit_gd2. 
-A gd2 can be created giving just the m and n parameters, 
-or transform a 2-dimensional array to a gd2, or give the other information. 
-Addition and multiplication are overloaded for gd2 objects.
-"""
 
 class gd2:    # gd2 creation
+    """  
+    gd2 is the class-container for 2-D data in SnagPy.
+    The horizontal abscissa is the principal one and can be real or virtual; it
+    has a dimension n/m, the number of columns. Typically is the time.
+    The secondary abscissa is the vertical one, so it is the first of the array;
+    it is always virtual and has dimension m, the namber of rows. Typically it
+    is the frequency.
+    The attributes are:
+    > y      the 2-dim ordinate (basic data)
+    > n      total number of values
+    > m      secondary abscissa dimension
+    > ini    initial abscissa (used in type 1 gd2s)
+    > dx     sampling step (used in type 1 gd2s)
+    > ini2
+    > dx2
+    > x      abscissas (used in type 2 gds)
+    > typ    determine type 1 (virtual abscissa) or type 2 (real abscissa)
+    > capt   caption (a string)
+    > cont   a control variable (in the case of a bsd, a special structure)
+    > unc    ordinate uncertainty (typically not used)
+    > uncx   abscissa uncertainty (used for other)
+    
+
+    Any gd2 can be modified by edit_gd2. 
+    A gd2 can be created giving just the m and n parameters, 
+    or transform a 2-dimensional array to a gd2, or give the other information. 
+    Addition and multiplication are overloaded for gd2 objects.
+    """
     def __init__(self,y,**gdpar): # y ordinate or n and m
         if isinstance(y,int):
             y=np.zeros(y)
@@ -58,7 +67,8 @@ class gd2:    # gd2 creation
             self.dx=1
         if 'x' in gdpar:
             self.x=gdpar['x']
-            self.typ=2
+            if len(self.x) > 0:
+                self.typ=2
         else:
             self.x=[]
             self.typ=1
@@ -149,7 +159,10 @@ def edit_gd2(ingd2,**gdpar): # 'new'-1  -> new object
 
 
 def x_gd2(ingd2):
-# gd2 main abscissa (real or realized) (operates also on arrays)
+    '''
+    gd2 main abscissa (real or realized) (operates also on arrays)
+    '''
+
     if not isinstance(ingd2,np.ndarray):
         if ingd2.typ == 1 :
             x=ingd2.ini+np.arange(ingd2.n/ingd2.m)*ingd2.dx
@@ -164,7 +177,9 @@ def x_gd2(ingd2):
 
 
 def x2_gd2(ingd2):
-# gd2 secondary abscissa (real or realized) (operates also on arrays)
+    '''
+    gd2 secondary abscissa (real or realized) (operates also on arrays)
+    '''
     if not isinstance(ingd2,np.ndarray):
         x2=ingd2.ini2+np.arange(ingd2.m)*ingd2.dx2
         x2=BASIC.deshape(x2)
@@ -179,7 +194,7 @@ def zero_nan_gd2(ingd2,v=0.):
     pass
 
 
-# gd - dictionary management ------------------------
+# gd2 - dictionary management ------------------------
 
 def dict2gd2(dicin):
     pass
@@ -210,9 +225,11 @@ def show_gd2(ingd2):
 # modification function -----------------------------------------------
 
 def modif_gd2(ingd2,fun,par1=1,par2=0.1,par3=0):
-# gd modification by a function fun
-# 
-# fun  ex.:'abs','real','imag','angle','log10','xlog10','loglog10'
+    '''
+    gd modification by a function fun
+
+    fun  ex.:'abs','real','imag','angle','log10','xlog10','loglog10'
+    '''
     outgd2=copy.deepcopy(ingd2)
     y=ingd2.y
     if fun == 'abs':
@@ -250,8 +267,10 @@ def rota_gd2(ingd2,n):
 
 
 def fft_gd2(ingd2,fif=1):  
-# fft2 of the ordinate of a gd2
-# fif = -1 ifft
+    '''
+    fft2 of the ordinate of a gd2
+    fif = -1 ifft
+    '''
     outgd2=ingd2
     y=ingd2.y
     dx=1/(ingd2.n*ingd2.dx)
@@ -270,10 +289,12 @@ def fft_gd2(ingd2,fif=1):
 
 
 def im_cut(ingd2,iout,jout):
-# image cut
-#  ingd2    input gd2 or matrix
-#  iout     range x1 out
-#  jout     range x2 out
+    '''
+    image cut
+    ingd2    input gd2 or matrix
+    iout     range x1 out
+    jout     range x2 out
+    '''
     if isinstance(ingd2,np.ndarray):
         ini1=0
         dx1=1
@@ -314,7 +335,9 @@ def im_cut(ingd2,iout,jout):
 
 
 def im_reduce(ingd2,nr,nc,typ):
-# image reduction
+    '''
+    image reduction
+    '''
     pass
 
 
@@ -400,7 +423,9 @@ def map_helper(cmap='cool',norm='linear',alpha=1,
 
 
 def post_map(tit,xlab,ylab):
-# inserts title and h and v labels
+    '''
+    inserts title and h and v labels
+    '''
     plt.title(tit)
     plt.xlabel(xlab)
     plt.ylabel(ylab)
