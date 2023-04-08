@@ -5,13 +5,13 @@
       Module GD
 Class and functions for GD management
  Sections:
- > class gd
- > gd - dictionary management
- > gd display
- > set functions
- > modification functions
- > plot functions
- > calc functions
+ > class gd 	                -> dummy_gd
+ > gd - dictionary management   -> dummy_gd_dic
+ > gd display                   -> dummy_gd_disp
+ > set functions                -> dummy_set
+ > modification functions       -> dummy_mod
+ > plot functions               -> dummy_plot
+ > calc functions               -> dummy_calc
 '''
 from scipy.fft import fft, ifft
 import cmath as cm
@@ -26,6 +26,10 @@ pi=cm.pi
 deg2rad=pi/180
 
 # class gd  -----------------------------------------------
+
+def dummy_gd():
+    '''
+    '''
 
 class gd:  
     '''
@@ -225,7 +229,11 @@ def zero_nan_gd(ingd,v=0.):
         return ingd
 
 
-# gd - dictionary management ------------------------
+# gd - dictionary management -------------------------
+
+def dummy_gd_dic():
+    '''
+    '''
 
 def dict2gd(dicin):
     y=dicin['y']
@@ -247,6 +255,10 @@ def gd2dict(ingd):
 
 # gd display -----------------------------
 
+def dummy_gd_disp():
+    '''
+    '''
+
 def show_gd(ingd):
     print('type   ',ingd.typ)
     print('n      ',ingd.n)
@@ -262,7 +274,10 @@ def show_gd(ingd):
 
 # set functions -----------------------------------------------
 
-# To create gds with certain simple signals or random series
+def dummy_set():
+    '''
+    To create gds with certain simple signals or random series
+    '''
 
 def set_gd(ingd,fun,par1=1,par2=0.1,par3=0):
     '''
@@ -394,6 +409,10 @@ def rand_gd(ingd,dist,par1=0,par2=1,par3=0):
 
 
 # modification functions -----------------------------------------------
+
+def dummy_mod():
+    '''
+    '''
 
 def modif_gd(ingd,fun,par1=1,par2=0.1,par3=0):
     '''
@@ -581,6 +600,10 @@ def fft_gd(ingd,fif=1):
 
 
 # plot functions -----------------------------------------------
+
+def dummy_plot():
+    '''
+    '''
 
 def dummy_plot_procedure():
     '''
@@ -794,6 +817,10 @@ def holdoff():
 
 
 # calc functions -------------------------------
+
+def dummy_calc():
+    '''
+    '''
 
 def minmax_gd(ingd):
     '''

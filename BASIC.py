@@ -6,18 +6,19 @@
 Base functions for SnagPy
 
 Sections:
-> Small apps
-> load & save dictionary: text, csv, json and pickle
-> HDF5
-> List
-> Dictionaries
-> simple dict
-> Numpy arrays
-> Numpy structures
-> SnagTable
-> ArrayTable
-> system
-> Graphic
+
+> Small apps                                            -> dummy_small
+> load & save dictionary: text, csv, json and pickle    -> dummy_gendic
+> HDF5                                                  -> dummy_hdf5
+> List                                                  -> dummy_list
+> Dictionaries                                          -> dummy_dict
+> simple dict                                           -> dummy_simpd
+> Numpy arrays                                          -> dummy_numarr
+> Numpy structures                                      -> dummy_numstr
+> SnagTable                                             -> dummy_sntab
+> ArrayTable                                            -> dummy_artab
+> system                                                -> dummy_sys
+> Graphic                                               -> dummy_graph
 '''
 
 import sys
@@ -35,6 +36,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import matplotlib.colors as mcolors
+#import matplotlib.colors as mcolorsNotFoundError
 import GD
 import GD2
 import os,importlib
@@ -51,6 +53,10 @@ import os,importlib
 """
 
 # Small apps ---------------------------------------
+
+def dummy_small():
+    '''
+    '''
 
 def envir_var(var):
     '''
@@ -90,6 +96,19 @@ def var(v):
     print('   ',rsiz/1024**3,'Gbytes')
 
     # return di
+
+
+def SnagH(modul,sect=0,func=0):
+    '''
+    SnagPy Help on module, section and function
+
+        modul   Module
+        sect    Module section
+        func    function
+
+    You can also use help() function
+    '''
+
 
 
 def Exec(file):   # exec(open('test_file').read())
@@ -293,6 +312,10 @@ def ind_from_x(xx, x):
 
 # load & save dictionary: text, csv, json and pickle ---------------
 
+def dummy_gendic():
+    '''
+    '''
+
 def dict2text(dic, fil):
     '''
     write a dictionary on a text file
@@ -352,6 +375,10 @@ def pkl2dict(fil):
 
 
 # HDF5 -------------------------
+
+def dummy_hdf5():
+    '''
+    '''
 
 def list_baskeys_hdf5(fil):
     f = h5py.File(fil, 'r')
@@ -448,6 +475,10 @@ def explore_hdf5(fil):
 
 # List ----------------------------
 
+def dummy_list():
+    '''
+    '''
+
 def list2string(lis):
     strin = ''
     for x in lis:
@@ -508,6 +539,10 @@ def array_list_len(lis):
 
 
 # Dictionary --------------------------
+
+def dummy_dict():
+    '''
+    '''
 
 def show_dict(dict):
     print('    ')
@@ -623,6 +658,11 @@ def dict_extract_2(dic, listkeys):
 
 
 # simple dict ----------------------
+
+def dummy_simpd():
+    '''
+    '''
+
 def dummy_simple_dictionary():
     '''
     A simple dictionary is something that describes something like
@@ -707,6 +747,10 @@ def show_simp(sdic, spac=10, file=0):
 
 # numpy arrays -----------------------------------
 
+def dummy_numarr():
+    '''
+    '''
+
 def array_rowcol(arr):
     '''
     number of row, columns for np.arrays or gd or gd2
@@ -726,6 +770,10 @@ def array_rowcol(arr):
 
 
 # numpy structures -------------------------------------
+
+def dummy_numstr():
+    '''
+    '''
 
 def expl_array(arr, Names=[], Cval=[], StName=[]):
     '''
@@ -901,6 +949,10 @@ def val_from_key(st, kk):
 
 # SnagTable --------------------------
 
+def dummy_sntab():
+    '''
+    '''
+
 class snag_table:
     '''
     simple Matlab-like table management
@@ -1067,6 +1119,9 @@ def decode_simp_list(lis):
 
 # ArrayTable --------------------------
 
+def dummy_artab():
+    '''
+    '''
 
 class array_table:
     '''
@@ -1137,6 +1192,10 @@ def array_table_to_dict(at, fil=''):
 
 
 # system -------------------------
+
+def dummy_sys():
+    '''
+    '''
 
 def func_in_module(modul):
     '''
@@ -1450,6 +1509,10 @@ def list_modules(pack_path, filout):
 
 
 # Graphic ------------------------
+
+def dummy_graph():
+    '''
+    '''
 
 def fig_dim():
     '''

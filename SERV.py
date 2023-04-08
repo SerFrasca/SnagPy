@@ -3,21 +3,25 @@
 
 '''
         Module SERV
+
 Service functions
 
 Sections:
-> Service computational routines
-> Intervals 
-> no-data management
+
+> Service computational routines    -> dummy_comp
+> Intervals                         -> dummy_inter
+> no-data management                -> dummy_nodata
 
 '''
 import numpy as np
 import GD,GD2,BASIC
 import copy,time
 
-'''
-Service computational routines ---------------------------------
-'''
+# Service computational routines ---------------------------------
+
+def dummy_comp():
+    '''
+    '''
 
 def rota(inp,n):
 # circular shift of an array or a list
@@ -170,7 +174,7 @@ def vec_ccdot(in1,in2):
 
 # Intervals --------------------------------
 
-def dummy_intervals():
+def dummy_inter():
     '''
     Time (or other) interval management
     '''
@@ -728,6 +732,10 @@ def data_interval(dat, eps=1.e-6):
 
 
 # no-data management -------------------------
+
+def dummy_nodata():
+    '''
+    '''
 
 def findnodata(dat, typ=1, eps=1.e-6):
     '''

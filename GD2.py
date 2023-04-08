@@ -2,14 +2,18 @@
     #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 '''
         Module GD2
+
 Class and functions for GD2 management
+
  Sections:
- > class gd2
- > gd2 - dictionary management
- > gd2 display
- > modification function
- > map functions
+
+ > class gd2                    -> dummy_gd2
+ > gd2 - dictionary management  -> dummy_dict
+ > gd2 display                  -> dummy_disp
+ > modification function        -> dummy_mod
+ > map functions                -> dummy_map
 '''
+
 import numpy as np
 from scipy.fft import fft2, ifft2
 import cmath as cm
@@ -23,6 +27,10 @@ pi=cm.pi
 deg2rad=pi/180
 
 # class gd2  -----------------------------------------------
+
+def dummy_gd2():
+    '''
+    '''
 
 class gd2:    # gd2 creation
     """  
@@ -196,6 +204,10 @@ def zero_nan_gd2(ingd2,v=0.):
 
 # gd2 - dictionary management ------------------------
 
+def dummy_dict():
+    '''
+    '''
+
 def dict2gd2(dicin):
     pass
 
@@ -205,6 +217,10 @@ def gd22dict(ingd):
 
 
 # gd2 display -----------------------------
+
+def dummy_disp():
+    '''
+    '''
 
 def show_gd2(ingd2):
     print('type   ',ingd2.typ)
@@ -223,6 +239,10 @@ def show_gd2(ingd2):
 
 
 # modification function -----------------------------------------------
+
+def dummy_mod():
+    '''
+    '''
 
 def modif_gd2(ingd2,fun,par1=1,par2=0.1,par3=0):
     '''
@@ -359,6 +379,10 @@ def gd2_stat_nz(ingd2):
 
 
 # map functions -----------------------------------------------
+
+def dummy_map():
+    '''
+    '''
 
 def newfig2(siz=1):
     fig = plt.figure()

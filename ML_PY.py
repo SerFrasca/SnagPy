@@ -12,9 +12,9 @@ as a csv file (by the writetable internal function
 or table2cvs Snag function).
 
 Sections:
-> read - write v.7 format mat file
-> read - write v.7.3 format mat file
-> read - write csv 
+> read - write v.7 format mat file      -> dummy_v7
+> read - write v.7.3 format mat file    -> dummy_v73
+> read - write csv                      -> dummy_csv
 '''
 import numpy as np
 import scipy.io as sio
@@ -23,6 +23,10 @@ import mat73
 import GD,SERV,BASIC
 
 # read - write v.7 format mat file -------------
+
+def dummy_v7():
+    '''
+    '''
 
 def loadmat7(fil):
 # Generic load
@@ -80,6 +84,10 @@ def gdloaddicmat7(fil):
 
 # read - write v.7.3 format mat file ---------------------
 
+def dummy_v73():
+    '''
+    '''
+
 def loadmat73(fil):
     '''
     Generic load
@@ -119,6 +127,10 @@ def gd_lm73(fil):
 
 
 # read - write csv --------------------------
+
+def dummy_csv():
+    '''
+    '''
 
 def csv_read(filn):
     with open(filn, newline='') as csvfile:

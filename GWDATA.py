@@ -6,14 +6,16 @@
 Basic GW data management
 
 Sections:
-> General
-> GW data
-> Doppler data
-> CW sources
-> Antennas
-> 5-vect
-> Other
+
+> General       -> dummy_gen
+> GW data       -> dummy_data
+> Doppler data  -> dummy_doppl
+> CW sources    -> dummy_cw
+> Antennas      -> dummy_ant
+> 5-vect        -> dummy_5vec
+> Other         -> dummy_oth
 '''
+
 import numpy as np
 import ASTROTIME,BASIC
 import os
@@ -22,6 +24,10 @@ import h5py
 Pi=np.pi
 
 # General -----------------------------------------
+
+def dummy_gen():
+    '''
+    '''
 
 def set_symbols(snagpy_p=0):
     '''
@@ -58,6 +64,10 @@ def set_symbols(snagpy_p=0):
 
 
 # GW data --------------------------------------
+
+def dummy_data():
+    '''
+    '''
 
 def explore_gw_hdf5(fil):
     '''
@@ -108,6 +118,10 @@ def read_gw_hdf5(fil):
 
 # Doppler data --------------------------------
 
+def dummy_doppl():
+    '''
+    '''
+
 def extr_doppler(tab,tin,tfi,table_par):
     '''
     extract data from doppler tables (in hdf5 format)
@@ -131,6 +145,10 @@ def extr_doppler(tab,tin,tfi,table_par):
 
 
 # CW sources ---------------------------------------
+
+def dummy_cw():
+    '''
+    '''
 
 def ligo2virgo_cw_table(ligotab,capttab='',run=''):
     '''
@@ -190,6 +208,10 @@ def ligo2virgo_cw_table(ligotab,capttab='',run=''):
 
 # Antennas ------------------------- 
 
+def dummy_ant():
+    '''
+    '''
+
 def anten(ant,anten_tab=0):
     '''
     extract data for an antenna (a dictionary)
@@ -234,10 +256,18 @@ def antennas(anten_tab=0):
 
 # 5-vect --------------------------------------
 
+def dummy_5vec():
+    '''
+    '''
+
 
 
 
 # Other ---------------------------------------
+
+def dummy_oth():
+    '''
+    '''
 
 def conv_jpl_data(datin,noline,nr,items):
     '''

@@ -6,22 +6,23 @@
 Time and astronomy management
 
 Sections:
->> TIME
-> Basic time
-> AstroPy time
-> mjd time
-> gps time
-> sidereal time
->> ASTRO
-> Constants
-> Coordinates
-> AstroPy coordinates
-> Using Skyfield
-> Using jpl tables
-> Doppler
-> Relativistic corrections
-> Kepler equation
-> Other
+
+>> TIME                     -> dummy_TIME
+> Basic time                -> dummy_bastim
+> AstroPy time              -> dummy_aptim
+> mjd time                  -> dummy_mjd
+> gps time                  -> dummy_gps
+> sidereal time             -> dummy_sid
+>> ASTRO                    -> dummy_ASTRO
+> Constants                 -> dummy_const
+> Coordinates               -> dummy_coord
+> AstroPy coordinates       -> dummy_apcoord
+> Using Skyfield            -> dummy_skyfi
+> Using jpl tables          -> dummy_jpl
+> Doppler                   -> dummy_doppl
+> Relativistic corrections  -> dummy_relat
+> Kepler equation           -> dummy_kepl
+> Other                     -> dummy_oth
 '''
 
 import numpy as np
@@ -43,7 +44,15 @@ rad2deg=1/deg2rad
 
 ### TIME ### ---------------------------
 
+def dummy_TIME():
+    '''
+    '''
+
 # basic time ---------------------------
+
+def dummy_bastim():
+    '''
+    '''
 
 def now(vt=0,typ='UTC',form='string'):
     '''
@@ -184,6 +193,10 @@ def leap_seconds(mjd):
 
 # AstroPy time ------------------------
 
+def dummy_aptim():
+    '''
+    '''
+
 def set_time(times,form=0):
     '''
     set time values as Time objects
@@ -280,6 +293,10 @@ def sid_time(tim,loc=0):
 
 # mjd time ----------------------------
 
+def dummy_mjd():
+    '''
+    '''
+
 def mjd_now():
     '''
     Return the current GPS time as a float using Astropy.
@@ -321,6 +338,10 @@ def mjd_phase(t0,long=0,deg=1):
 
 # gps time ----------------------------
 
+def dummy_gps():
+    '''
+    '''
+
 def gps_now():
     '''
     Return the current GPS time as a float using Astropy.
@@ -336,6 +357,10 @@ def gps2mjd(tgps): # conversion from gps time to mjd
 
 
 # sidereal time ---------------------
+
+def dummy_sid():
+    '''
+    '''
 
 def gmst(t,long=0):
     '''
@@ -372,7 +397,15 @@ def nearest_tsid(ts,t0):
 
 ### ASTRO ###  __________________________________________________
 
+def dummy_ASTRO():
+    '''
+    '''
+
 # Constants -----------------------------
+
+def dummy_const():
+    '''
+    '''
 
 def const_table(file=0):
     '''
@@ -421,6 +454,10 @@ def sites():
 
 
 # Coordinates --------------------------
+
+def dummy_coord():
+    '''
+    '''
 
 def astro_coord(cin, cout, ai, di):
     '''
@@ -535,6 +572,10 @@ def astro2rect(a, icrad=0):
 
 # AstroPy coordinates ----------------------
 
+def dummy_apcoord():
+    '''
+    '''
+
 def EarLoc(lon,lat,h=0):
     '''
     Earth location object
@@ -641,6 +682,10 @@ def ang_sep(lon1,lat1,lon2,lat2):
 
 # Using Skyfield ------------------------
 
+def dummy_skyfi():
+    '''
+    '''
+
 def sf_arrtime(tini,tfin,step):
     '''
     Skyfield time array
@@ -707,6 +752,10 @@ def sf_earth(t,epht='de440s.bsp'):
 
 # Using jpl tables ------------------------
 
+def dummy_jpl():
+    '''
+    '''
+
 def ant_pos_vel(table_p,table_par,tin,tfi,au=0):
     '''
     position and velocity of an antenna + Einstein effect
@@ -731,6 +780,10 @@ def ant_pos_vel(table_p,table_par,tin,tfi,au=0):
 
 
 # Doppler --------------------------------
+
+def dummy_doppl():
+    '''
+    '''
 
 def doppler(time,fr0,alpha,delta,long,lat,coord):
     pass
@@ -791,6 +844,10 @@ def reduce_doptab(doptab,tmin,tmax):
 
 # Relativistic corrections ------------------------
 
+def dummy_relat():
+    '''
+    '''
+
 def einst_effect(mjd,icplot):
     pass
 
@@ -802,6 +859,10 @@ def shapiro_delay(mjd,source):
 
 # Kepler equation --------------------------
 
+def dummy_kepl():
+    '''
+    '''
+
 def kepler_elliptic_ofek(T,Q,Ecc):
     pass
 
@@ -811,6 +872,10 @@ def base_elliptic_orbit(ecc,sma,N):
 
 
 # Other --------------------------------------
+
+def dummy_oth():
+    '''
+    '''
 
 def tide(t1,lat,long,height):
     pass

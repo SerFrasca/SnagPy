@@ -6,12 +6,12 @@
 Statistical functions
 
 Sections:
-> Zero management
-> Histograms and Parameters
-> Power Spectra
-> Spectrograms
-> Period analysis
-> From Scipy
+> Zero management             -> dummy_zero
+> Histograms and Parameters   -> dummy_hist
+> Power Spectra               -> dummy_ps
+> Spectrograms                -> dummy_spec
+> Period analysis             -> dummy_per
+> From Scipy                  -> dummy_scipy
 '''
 import numpy as np
 from scipy.fft import fft, ifft
@@ -23,6 +23,10 @@ import GD,BASIC,ASTROTIME,GD2
 
 
 # Zero management ----------------------------
+
+def dummy_zero():
+    '''
+    '''
 
 def ana_zero(indat,mode=0,eps=1.e-6):
    ''' 
@@ -147,6 +151,10 @@ def stat_nozero(indat):
 
 
 # Histograms and Parameters ----------------------------
+
+def dummy_hist():
+    '''
+    '''
 
 def CW_histogram(x,w=[],ini=[],step=1,n=[],enl=10,typ='tri',edg=0,verb=1):
    ''' 
@@ -277,6 +285,10 @@ def param_from_hist(hist):
 
 
 # Power Spectra ----------------------------
+
+def dummy_ps():
+    '''
+    '''
 
 def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
    sqr=0,center=1):
@@ -410,6 +422,10 @@ def stft(ingd):
 
 # Spectrograms ----------------------------
 
+def dummy_spec():
+    '''
+    '''
+
 def gd_spectrogram(ingd,l,zenh=2,shif=0.5,win='tuckey'):
    ''' 
    Spectrogram
@@ -445,6 +461,10 @@ def gd_spectrogram(ingd,l,zenh=2,shif=0.5,win='tuckey'):
 
 
 # Period analysis ------------------------
+
+def dummy_per():
+    '''
+    '''
 
 def gd_period(ingd,per,nbin=48,nharm=5,ph=0,preproc=1):
    ''' 
@@ -657,6 +677,10 @@ def gd_worm():
 
 
 # From Scipy -------------------------
+
+def dummy_scipy():
+    '''
+    '''
 
 dist_continu = [d for d in dir(stats) if
                 isinstance(getattr(stats, d), stats.rv_continuous)]
