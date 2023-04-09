@@ -10,9 +10,17 @@ Class and functions for GD management
  > gd display                   -> dummy_gd_disp
  > set functions                -> dummy_set
  > modification functions       -> dummy_mod
+ > simple functions             -> dummy_simp
  > plot functions               -> dummy_plot
  > calc functions               -> dummy_calc
 '''
+
+def sections():
+    sec=[
+        'gd','gd_dic','gd_disp','set','mod','plot','calc'
+    ]
+    return sec
+
 from scipy.fft import fft, ifft
 import cmath as cm
 import matplotlib.pyplot as plt
@@ -30,6 +38,11 @@ deg2rad=pi/180
 def dummy_gd():
     '''
     '''
+    clas=['gd'
+    ]
+    fun=[
+        'x_gd','div_gd','zero_nan_gd'
+    ]
 
 class gd:  
     '''
@@ -234,6 +247,13 @@ def zero_nan_gd(ingd,v=0.):
 def dummy_gd_dic():
     '''
     '''
+    clas=[
+
+    ]
+    fun=['dummy_gd_dic','dict2gd','gd2dict',
+        
+    ]
+    return clas,fun
 
 def dict2gd(dicin):
     y=dicin['y']
@@ -258,6 +278,13 @@ def gd2dict(ingd):
 def dummy_gd_disp():
     '''
     '''
+    clas=[
+
+    ]
+    fun=['show_gd', 
+        
+    ]
+    return clas,fun
 
 def show_gd(ingd):
     print('type   ',ingd.typ)
@@ -278,6 +305,13 @@ def dummy_set():
     '''
     To create gds with certain simple signals or random series
     '''
+    clas=[
+
+    ]
+    fun=['set_gd','rand_gd',
+        
+    ]
+    return clas,fun
 
 def set_gd(ingd,fun,par1=1,par2=0.1,par3=0):
     '''
@@ -413,6 +447,14 @@ def rand_gd(ingd,dist,par1=0,par2=1,par3=0):
 def dummy_mod():
     '''
     '''
+    clas=[
+
+    ]
+    fun=['modif_gd','rota_gd','resamp_gd','parallel_gd'
+        
+    ]
+    return clas,fun
+
 
 def modif_gd(ingd,fun,par1=1,par2=0.1,par3=0):
     '''
@@ -544,6 +586,18 @@ def parallel_gd(ingd1,ingd2,**gdpar):
 
 # simple functions
 
+def dummy_simp():
+    '''
+    '''
+    clas=[
+
+    ]
+    fun=['stat_gd','fft_gd'
+        
+    ]
+    return clas,fun
+
+
 def stat_gd(ingd,nbins=20):
     '''
     Simple statistics (parameters and histogram)
@@ -603,10 +657,6 @@ def fft_gd(ingd,fif=1):
 
 def dummy_plot():
     '''
-    '''
-
-def dummy_plot_procedure():
-    '''
                     Main plotting procedure
     To plot data (typically a gd, but also for arrays) the main procedure 
     consists in four steps:
@@ -631,6 +681,13 @@ def dummy_plot_procedure():
     xlim, ylim and others.
 
     '''
+    clas=[
+
+    ]
+    fun=['newfig','plot_gd','plot_helper','post_plot','c_plot_gd','close_fig'
+        
+    ]
+    return clas,fun
 
 
 def newfig(siz=1):
@@ -821,6 +878,13 @@ def holdoff():
 def dummy_calc():
     '''
     '''
+    clas=[
+
+    ]
+    fun=['minmax_gd'
+        
+    ]
+    return clas,fun
 
 def minmax_gd(ingd):
     '''

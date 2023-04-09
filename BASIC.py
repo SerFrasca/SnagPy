@@ -19,7 +19,15 @@ Sections:
 > ArrayTable                                            -> dummy_artab
 > system                                                -> dummy_sys
 > Graphic                                               -> dummy_graph
+> Documentation                                         -> dummy_doc
 '''
+
+def sections():
+    sec=[
+        'small','gendic','hdf5','list','dict','simpd','numarr',
+        'numstr','sntab','artab','sys','graph','doc'
+    ]
+    return sec
 
 import sys
 import csv
@@ -57,6 +65,13 @@ import os,importlib
 def dummy_small():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def envir_var(var):
     '''
@@ -96,19 +111,6 @@ def var(v):
     print('   ',rsiz/1024**3,'Gbytes')
 
     # return di
-
-
-def SnagH(modul,sect=0,func=0):
-    '''
-    SnagPy Help on module, section and function
-
-        modul   Module
-        sect    Module section
-        func    function
-
-    You can also use help() function
-    '''
-
 
 
 def Exec(file):   # exec(open('test_file').read())
@@ -315,6 +317,13 @@ def ind_from_x(xx, x):
 def dummy_gendic():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def dict2text(dic, fil):
     '''
@@ -379,6 +388,14 @@ def pkl2dict(fil):
 def dummy_hdf5():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
+
 
 def list_baskeys_hdf5(fil):
     f = h5py.File(fil, 'r')
@@ -478,6 +495,14 @@ def explore_hdf5(fil):
 def dummy_list():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
+
 
 def list2string(lis):
     strin = ''
@@ -543,6 +568,14 @@ def array_list_len(lis):
 def dummy_dict():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
+
 
 def show_dict(dict):
     print('    ')
@@ -661,10 +694,6 @@ def dict_extract_2(dic, listkeys):
 
 def dummy_simpd():
     '''
-    '''
-
-def dummy_simple_dictionary():
-    '''
     A simple dictionary is something that describes something like
     a simple table as:
 
@@ -676,6 +705,14 @@ def dummy_simple_dictionary():
     CC          =  (11+4.2j)
 
     '''
+
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 
 def eq_interpr(line):
@@ -750,6 +787,13 @@ def show_simp(sdic, spac=10, file=0):
 def dummy_numarr():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def array_rowcol(arr):
     '''
@@ -774,6 +818,13 @@ def array_rowcol(arr):
 def dummy_numstr():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def expl_array(arr, Names=[], Cval=[], StName=[]):
     '''
@@ -952,6 +1003,13 @@ def val_from_key(st, kk):
 def dummy_sntab():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 class snag_table:
     '''
@@ -1122,6 +1180,13 @@ def decode_simp_list(lis):
 def dummy_artab():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 class array_table:
     '''
@@ -1196,6 +1261,14 @@ def array_table_to_dict(at, fil=''):
 def dummy_sys():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
+
 
 def func_in_module(modul):
     '''
@@ -1212,16 +1285,6 @@ def func_in_module(modul):
         res.append(i.__name__)
 
     return res
-
-
-def list_of_func(modul):
-    '''
-    creates a list of the functions in a module with addresses
-    the module should be imported
-    '''
-    list_of_functions = inspect.getmembers(modul, inspect.isfunction)
-
-    return list_of_functions
 
 
 def deshape(inarr):
@@ -1513,6 +1576,14 @@ def list_modules(pack_path, filout):
 def dummy_graph():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
+
 
 def fig_dim():
     '''
@@ -1606,3 +1677,40 @@ def tab_palette():
 
 def css_colors():
     plot_colortable(mcolors.CSS4_COLORS)
+
+
+# Documentation -------------------------
+
+def dummy_doc():
+    '''
+    '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
+
+
+def SnagH(modul,sect=0,func=0):
+    '''
+    SnagPy Help on module, section and function
+
+        modul   Module
+        sect    Module section
+        func    function
+
+    You can also use help() function
+    '''
+
+
+
+def list_of_func(modul):
+    '''
+    creates a list of the functions in a module with addresses
+    the module should be imported
+    '''
+    list_of_functions = inspect.getmembers(modul, inspect.isfunction)
+
+    return list_of_functions
