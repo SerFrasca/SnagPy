@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module GWDATA</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>GWDATA</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Conedrive%5Csf%5C_prog%5Cpython%5Csnagpy%5Cgwdata.py">d:\onedrive\sf\_prog\python\snagpy\gwdata.py</a></font></td></tr></table>
+    <p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;GWDATA<br>
+Basic&nbsp;GW&nbsp;data&nbsp;management<br>
+&nbsp;<br>
+Sections:<br>
+&nbsp;<br>
+&gt;&nbsp;General&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_gen<br>
+&gt;&nbsp;GW&nbsp;data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_data<br>
+&gt;&nbsp;Doppler&nbsp;data&nbsp;&nbsp;-&gt;&nbsp;dummy_doppl<br>
+&gt;&nbsp;CW&nbsp;sources&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_cw<br>
+&gt;&nbsp;Antennas&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_ant<br>
+&gt;&nbsp;5-vect&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_5vec<br>
+&gt;&nbsp;Other&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_oth</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="ASTROTIME.html">ASTROTIME</a><br>
+<a href="BASIC.html">BASIC</a><br>
+</td><td width="25%" valign=top><a href="h5py.html">h5py</a><br>
+<a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-anten"><strong>anten</strong></a>(ant, anten_tab=0)</dt><dd><tt>extract&nbsp;data&nbsp;for&nbsp;an&nbsp;antenna&nbsp;(a&nbsp;dictionary)<br>
+&nbsp;ant&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;antenna&nbsp;name&nbsp;('virgo','ligol',...)<br>
+&nbsp;anten_tab&nbsp;&nbsp;&nbsp;antenna&nbsp;table&nbsp;(def&nbsp;possible&nbsp;if&nbsp;the&nbsp;environment&nbsp;variable&nbsp;is&nbsp;set)</tt></dd></dl>
+ <dl><dt><a name="-antennas"><strong>antennas</strong></a>(anten_tab=0)</dt><dd><tt>creates&nbsp;dictionarys&nbsp;for&nbsp;each&nbsp;antenna<br>
+typical&nbsp;call:&nbsp;virgo,ligol,ligoh,kagra=GWDATA.<a href="#-antennas">antennas</a>()</tt></dd></dl>
+ <dl><dt><a name="-conv_jpl_data"><strong>conv_jpl_data</strong></a>(datin, noline, nr, items)</dt><dd><tt>converts&nbsp;text&nbsp;data&nbsp;(typically&nbsp;table_xxxx.dat)&nbsp;to&nbsp;hdf5&nbsp;format<br>
+&nbsp;&nbsp;&nbsp;&nbsp;datin&nbsp;&nbsp;&nbsp;&nbsp;complete&nbsp;path<br>
+&nbsp;&nbsp;&nbsp;&nbsp;noline&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;lenes&nbsp;to&nbsp;jump&nbsp;(typ.&nbsp;4)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;nr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;output&nbsp;rows&nbsp;&nbsp;&nbsp;(typ.&nbsp;526032)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;items&nbsp;&nbsp;&nbsp;&nbsp;column&nbsp;to&nbsp;output&nbsp;(e.g.&nbsp;[0,1,3,7],&nbsp;typ.&nbsp;[1,2,3,4,5,6,7,8])</tt></dd></dl>
+ <dl><dt><a name="-dummy_5vec"><strong>dummy_5vec</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_ant"><strong>dummy_ant</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_cw"><strong>dummy_cw</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_data"><strong>dummy_data</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_doppl"><strong>dummy_doppl</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_gen"><strong>dummy_gen</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_oth"><strong>dummy_oth</strong></a>()</dt></dl>
+ <dl><dt><a name="-explore_gw_hdf5"><strong>explore_gw_hdf5</strong></a>(fil)</dt><dd><tt>explores&nbsp;hdf5&nbsp;frame&nbsp;data</tt></dd></dl>
+ <dl><dt><a name="-extr_doppler"><strong>extr_doppler</strong></a>(tab, tin, tfi, table_par)</dt><dd><tt>extract&nbsp;data&nbsp;from&nbsp;doppler&nbsp;tables&nbsp;(in&nbsp;hdf5&nbsp;format)<br>
+&nbsp;<br>
+&nbsp;tab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doppler&nbsp;table&nbsp;(ex.:&nbsp;table_virgo_p)<br>
+&nbsp;tin,tfi&nbsp;&nbsp;&nbsp;&nbsp;times&nbsp;(vect&nbsp;as&nbsp;[a,m,d,h,m,s])<br>
+&nbsp;table_par&nbsp;&nbsp;as&nbsp;defined&nbsp;in&nbsp;the&nbsp;symbols&nbsp;or&nbsp;starting.py</tt></dd></dl>
+ <dl><dt><a name="-ligo2virgo_cw_table"><strong>ligo2virgo_cw_table</strong></a>(ligotab, capttab='', run='')</dt><dd><tt>creates&nbsp;a&nbsp;Virgo&nbsp;format&nbsp;cw&nbsp;list&nbsp;from&nbsp;a&nbsp;Ligo&nbsp;table</tt></dd></dl>
+ <dl><dt><a name="-read_gw_hdf5"><strong>read_gw_hdf5</strong></a>(fil)</dt><dd><tt>reads&nbsp;hdf5&nbsp;frame&nbsp;data</tt></dd></dl>
+ <dl><dt><a name="-sections"><strong>sections</strong></a>()</dt></dl>
+ <dl><dt><a name="-set_symbols"><strong>set_symbols</strong></a>(snagpy_p=0)</dt><dd><tt>Symbols&nbsp;to&nbsp;folders,&nbsp;files&nbsp;and&nbsp;data<br>
+snagpypath&nbsp;&nbsp;&nbsp;the&nbsp;path&nbsp;to&nbsp;snagpy,&nbsp;as&nbsp;a&nbsp;string&nbsp;(es.:&nbsp;'D:\OneDrive\SF\_Prog\Python\SnagPy')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;absent,&nbsp;taken&nbsp;by&nbsp;the&nbsp;environment&nbsp;variable&nbsp;SNAGPY_PATH</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Pi</strong> = 3.141592653589793</td></tr></table>
+</body></html>

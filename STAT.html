@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module STAT</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>STAT</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Conedrive%5Csf%5C_prog%5Cpython%5Csnagpy%5Cstat.py">d:\onedrive\sf\_prog\python\snagpy\stat.py</a></font></td></tr></table>
+    <p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;STAT<br>
+Statistical&nbsp;functions<br>
+&nbsp;<br>
+Sections:<br>
+&gt;&nbsp;Zero&nbsp;management&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_zero<br>
+&gt;&nbsp;Histograms&nbsp;and&nbsp;Parameters&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_hist<br>
+&gt;&nbsp;Power&nbsp;Spectra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_ps<br>
+&gt;&nbsp;Spectrograms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_spec<br>
+&gt;&nbsp;Period&nbsp;analysis&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_per<br>
+&gt;&nbsp;From&nbsp;Scipy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_scipy</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="ASTROTIME.html">ASTROTIME</a><br>
+<a href="BASIC.html">BASIC</a><br>
+<a href="GD.html">GD</a><br>
+</td><td width="25%" valign=top><a href="GD2.html">GD2</a><br>
+<a href="numpy.html">numpy</a><br>
+<a href="matplotlib.pyplot.html">matplotlib.pyplot</a><br>
+</td><td width="25%" valign=top><a href="scipy.html">scipy</a><br>
+<a href="scipy.signal.html">scipy.signal</a><br>
+<a href="scipy.stats.html">scipy.stats</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-CW_histogram"><strong>CW_histogram</strong></a>(x, w=[], ini=[], step=1, n=[], enl=10, typ='tri', edg=0, verb=1)</dt><dd><tt>Convolutional&nbsp;weighted&nbsp;histogram<br>
+x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;values<br>
+w&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wheights<br>
+ini&nbsp;&nbsp;&nbsp;initial&nbsp;value&nbsp;(def&nbsp;the&nbsp;minimum)<br>
+step&nbsp;&nbsp;histogram&nbsp;step<br>
+n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;bin&nbsp;(def&nbsp;such&nbsp;to&nbsp;cover&nbsp;all&nbsp;the&nbsp;x&nbsp;range)<br>
+enl&nbsp;&nbsp;&nbsp;enlargement&nbsp;factor<br>
+typ&nbsp;&nbsp;&nbsp;'tri'&nbsp;triangular,&nbsp;'gau'&nbsp;gaussian,&nbsp;'rec'&nbsp;rectangular,&nbsp;if&nbsp;array&nbsp;-&gt;&nbsp;personal&nbsp;fun<br>
+edg&nbsp;&nbsp;&nbsp;=&nbsp;1,&nbsp;out&nbsp;values&nbsp;in&nbsp;the&nbsp;edge&nbsp;bins<br>
+verb&nbsp;&nbsp;verbosity</tt></dd></dl>
+ <dl><dt><a name="-ana_zero"><strong>ana_zero</strong></a>(indat, mode=0, eps=1e-06)</dt><dd><tt>a&nbsp;zero&nbsp;period&nbsp;is&nbsp;at&nbsp;least&nbsp;2&nbsp;samples<br>
+mode&nbsp;0&nbsp;only&nbsp;percentage&nbsp;of&nbsp;zeros<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;zero&nbsp;function&nbsp;(1&nbsp;for&nbsp;zeros,&nbsp;0&nbsp;elsewhere)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;zero&nbsp;intervals<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;one&nbsp;&nbsp;intervals<br>
+eps&nbsp;to&nbsp;the&nbsp;lowest&nbsp;meaningful&nbsp;value,&nbsp;as&nbsp;percentage&nbsp;of&nbsp;maximum<br>
+&nbsp;&nbsp;&nbsp;=&nbsp;0&nbsp;no&nbsp;enlarged&nbsp;0&nbsp;output</tt></dd></dl>
+ <dl><dt><a name="-coher"><strong>coher</strong></a>(ingd1, ingd2)</dt></dl>
+ <dl><dt><a name="-cross_pw"><strong>cross_pw</strong></a>(ingd1, ingd2)</dt></dl>
+ <dl><dt><a name="-dummy_hist"><strong>dummy_hist</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_per"><strong>dummy_per</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_ps"><strong>dummy_ps</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_scipy"><strong>dummy_scipy</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_spec"><strong>dummy_spec</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_zero"><strong>dummy_zero</strong></a>()</dt></dl>
+ <dl><dt><a name="-gd_period"><strong>gd_period</strong></a>(ingd, per, nbin=48, nharm=5, ph=0, preproc=1)</dt><dd><tt>period&nbsp;analysis<br>
+ingd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd&nbsp;or&nbsp;array<br>
+per&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;period&nbsp;(numeric&nbsp;or&nbsp;physical&nbsp;(only&nbsp;for&nbsp;gds))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Physical&nbsp;period:&nbsp;'day',&nbsp;'sid',&nbsp;'week'<br>
+nbin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;bins&nbsp;in&nbsp;the&nbsp;period<br>
+nharm&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;interesting&nbsp;harmonics<br>
+ph&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phase&nbsp;(in&nbsp;deg)<br>
+preproc&nbsp;&nbsp;pre-processing&nbsp;0&nbsp;nothing,&nbsp;1&nbsp;abs,&nbsp;2&nbsp;square<br>
+&nbsp;<br>
+The&nbsp;gd&nbsp;sampling&nbsp;time&nbsp;must&nbsp;be&nbsp;in&nbsp;s,&nbsp;if&nbsp;physical&nbsp;periods&nbsp;are&nbsp;considered</tt></dd></dl>
+ <dl><dt><a name="-gd_pows"><strong>gd_pows</strong></a>(ingd, npiece=1, res=1, shift=1, nobias=1, notrend=1, window=2, singleb=1, sqr=0, center=1)</dt><dd><tt>Standard&nbsp;power&nbsp;spectrum&nbsp;estimation<br>
+npiece&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;pieces&nbsp;(without&nbsp;shift)<br>
+res&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resoltion&nbsp;(minimal&nbsp;1)<br>
+shift&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;interlaced&nbsp;pieces&nbsp;(1&nbsp;no&nbsp;interlace,&nbsp;0.5&nbsp;one&nbsp;half&nbsp;shift)<br>
+nobias&nbsp;&nbsp;&nbsp;&nbsp;=1&nbsp;subtract&nbsp;bias<br>
+notrend&nbsp;&nbsp;&nbsp;=1&nbsp;subtract&nbsp;trend<br>
+window&nbsp;&nbsp;&nbsp;&nbsp;-0&nbsp;no,&nbsp;1&nbsp;bartlett,&nbsp;2&nbsp;hann&nbsp;(default),&nbsp;3&nbsp;flat&nbsp;top&nbsp;cosine<br>
+singleb&nbsp;&nbsp;&nbsp;=1&nbsp;single&nbsp;side&nbsp;band&nbsp;(for&nbsp;real&nbsp;data,&nbsp;normalized&nbsp;for&nbsp;single&nbsp;band)<br>
+sqr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=1&nbsp;square&nbsp;root&nbsp;of&nbsp;spectrum<br>
+center&nbsp;&nbsp;&nbsp;&nbsp;=1&nbsp;0&nbsp;frequency&nbsp;at&nbsp;center,&nbsp;no&nbsp;single&nbsp;side&nbsp;band</tt></dd></dl>
+ <dl><dt><a name="-gd_spectrogram"><strong>gd_spectrogram</strong></a>(ingd, l, zenh=2, shif=0.5, win='tuckey')</dt><dd><tt>Spectrogram<br>
+&nbsp;<br>
+ingd&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;gd&nbsp;or&nbsp;array<br>
+l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base&nbsp;length&nbsp;(pieces&nbsp;length)<br>
+zenh&nbsp;&nbsp;&nbsp;&nbsp;zero&nbsp;padding&nbsp;enhancement&nbsp;fraction&nbsp;(&gt;=&nbsp;1)<br>
+shif&nbsp;&nbsp;&nbsp;&nbsp;shift&nbsp;fraction&nbsp;(&lt;=&nbsp;1)<br>
+wind&nbsp;&nbsp;&nbsp;&nbsp;window&nbsp;('tuckey','hann','no')</tt></dd></dl>
+ <dl><dt><a name="-gd_tperiod"><strong>gd_tperiod</strong></a>(ingd, per, nbin=(20, 48), nharm=5, ph=0, preproc=1)</dt><dd><tt>period&nbsp;analysis&nbsp;with&nbsp;time&nbsp;variation<br>
+ingd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd&nbsp;or&nbsp;array<br>
+per&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;period&nbsp;(numeric&nbsp;or&nbsp;physical&nbsp;(only&nbsp;for&nbsp;gds))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Physical&nbsp;period:&nbsp;'day',&nbsp;'sid',&nbsp;'week'<br>
+nbin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;bins&nbsp;in&nbsp;the&nbsp;oservation&nbsp;time&nbsp;[0]&nbsp;and&nbsp;in&nbsp;the&nbsp;period&nbsp;[1]<br>
+nharm&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;interesting&nbsp;harmonics<br>
+ph&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phase&nbsp;(in&nbsp;deg)<br>
+preproc&nbsp;&nbsp;pre-processing&nbsp;0&nbsp;nothing,&nbsp;1&nbsp;abs,&nbsp;2&nbsp;square<br>
+&nbsp;<br>
+The&nbsp;gd&nbsp;sampling&nbsp;time&nbsp;must&nbsp;be&nbsp;in&nbsp;s,&nbsp;if&nbsp;physical&nbsp;periods&nbsp;are&nbsp;considered</tt></dd></dl>
+ <dl><dt><a name="-gd_welch"><strong>gd_welch</strong></a>(ingd, lenfrac, res=1, shift=1, notrend=1, win='hann', singleb=1)</dt></dl>
+ <dl><dt><a name="-gd_worm"><strong>gd_worm</strong></a>()</dt></dl>
+ <dl><dt><a name="-lombscargle"><strong>lombscargle</strong></a>(ingd)</dt></dl>
+ <dl><dt><a name="-param_from_hist"><strong>param_from_hist</strong></a>(hist)</dt><dd><tt>estimate&nbsp;population&nbsp;parameters&nbsp;from&nbsp;histogram<br>
+hist&nbsp;&nbsp;&nbsp;gd&nbsp;containing&nbsp;the&nbsp;histogram</tt></dd></dl>
+ <dl><dt><a name="-pulse_spectrum"><strong>pulse_spectrum</strong></a>(ingd)</dt></dl>
+ <dl><dt><a name="-rand_data"><strong>rand_data</strong></a>(N, typ, par1=0, par2=1)</dt><dd><tt>Random&nbsp;numbers<br>
+N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;how&nbsp;many<br>
+typ&nbsp;&nbsp;&nbsp;type<br>
+pars&nbsp;&nbsp;parameters<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pars<br>
+norm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mu,sigma</tt></dd></dl>
+ <dl><dt><a name="-sections"><strong>sections</strong></a>()</dt></dl>
+ <dl><dt><a name="-stat_nozero"><strong>stat_nozero</strong></a>(indat)</dt><dd><tt>statistics&nbsp;on&nbsp;non-zero&nbsp;data</tt></dd></dl>
+ <dl><dt><a name="-stft"><strong>stft</strong></a>(ingd)</dt></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>dist_continu</strong> = ['alpha', 'anglit', 'arcsine', 'argus', 'beta', 'betaprime', 'bradford', 'burr', 'burr12', 'cauchy', 'chi', 'chi2', 'cosine', 'crystalball', 'dgamma', 'dweibull', 'erlang', 'expon', 'exponnorm', 'exponpow', ...]<br>
+<strong>dist_discrete</strong> = ['bernoulli', 'betabinom', 'binom', 'boltzmann', 'dlaplace', 'geom', 'hypergeom', 'logser', 'nbinom', 'nchypergeom_fisher', 'nchypergeom_wallenius', 'nhypergeom', 'planck', 'poisson', 'randint', 'skellam', 'yulesimon', 'zipf', 'zipfian']</td></tr></table>
+</body></html>

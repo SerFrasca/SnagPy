@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module SNAGPY</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>SNAGPY</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Conedrive%5Csf%5C_prog%5Cpython%5Csnagpy%5Csnagpy.py">d:\onedrive\sf\_prog\python\snagpy\snagpy.py</a></font></td></tr></table>
+    <p><tt>Introduction<br>
+&nbsp;<br>
+SnagPy&nbsp;is&nbsp;a&nbsp;Python&nbsp;package&nbsp;for&nbsp;data&nbsp;analysis&nbsp;mainly&nbsp;in&nbsp;the&nbsp;gravitational&nbsp;signal&nbsp;field.&nbsp;<br>
+It&nbsp;is&nbsp;a&nbsp;quasi-porting&nbsp;of&nbsp;the&nbsp;Snag&nbsp;Matlab&nbsp;toolbox&nbsp;developed&nbsp;by&nbsp;the&nbsp;Virgo&nbsp;Rome&nbsp;Data&nbsp;Analysis&nbsp;group.<br>
+&nbsp;<br>
+To&nbsp;start:<br>
+&nbsp;<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Put&nbsp;the&nbsp;files&nbsp;contained&nbsp;in&nbsp;the&nbsp;zip&nbsp;where&nbsp;you&nbsp;want,&nbsp;maintaining&nbsp;the&nbsp;folder&nbsp;structure.<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set&nbsp;the&nbsp;PYTHONPATH&nbsp;in&nbsp;the&nbsp;environment&nbsp;variables&nbsp;(how&nbsp;to&nbsp;do&nbsp;this&nbsp;depends&nbsp;on&nbsp;the&nbsp;operative&nbsp;system.&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;See&nbsp;for&nbsp;example&nbsp;How&nbsp;to&nbsp;set&nbsp;python&nbsp;path&nbsp;(net-informations.com)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;Using&nbsp;PYTHONPATH&nbsp;—&nbsp;Functional&nbsp;MRI&nbsp;methods&nbsp;(bic-berkeley.github.io),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;anything&nbsp;similar&nbsp;googling&nbsp;"set&nbsp;path&nbsp;python”).<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Use&nbsp;another&nbsp;folder&nbsp;for&nbsp;your&nbsp;python&nbsp;work.<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set&nbsp;the&nbsp;environment&nbsp;variables&nbsp;SNAGPY_PATH,&nbsp;ANT_TAB,&nbsp;SOUR_TAB&nbsp;and&nbsp;HINJ_TAB&nbsp;to&nbsp;the&nbsp;relative&nbsp;files.<br>
+&nbsp;<br>
+External&nbsp;packages&nbsp;to&nbsp;install:<br>
+&nbsp;<br>
+*&nbsp;NumPy<br>
+*&nbsp;SciPy<br>
+*&nbsp;Matplotlib<br>
+*&nbsp;Astropy,&nbsp;jplephem,&nbsp;Skyfield<br>
+*&nbsp;Mat73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;reading&nbsp;mat&nbsp;v7.3&nbsp;files<br>
+*&nbsp;h5py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;supporting&nbsp;HDF5&nbsp;format<br>
+*&nbsp;silx<br>
+&nbsp;<br>
+SnagPy&nbsp;is&nbsp;composed&nbsp;by&nbsp;various&nbsp;modules,&nbsp;divided&nbsp;in&nbsp;main&nbsp;modules&nbsp;and&nbsp;secondary&nbsp;modules.<br>
+&nbsp;<br>
+The&nbsp;main&nbsp;modules&nbsp;are&nbsp;in&nbsp;the&nbsp;folder&nbsp;SnagPy,&nbsp;the&nbsp;secondary&nbsp;modules&nbsp;are&nbsp;in&nbsp;the&nbsp;folders&nbsp;<br>
+*&nbsp;Exper,&nbsp;containing&nbsp;experimental&nbsp;modules,&nbsp;<br>
+*&nbsp;Pers,&nbsp;containing&nbsp;the&nbsp;personal&nbsp;or&nbsp;personally&nbsp;modified&nbsp;modules,&nbsp;<br>
+*&nbsp;Examples,&nbsp;containing&nbsp;analysis&nbsp;examples&nbsp;using&nbsp;SnagPy.<br>
+&nbsp;<br>
+In&nbsp;this&nbsp;guide&nbsp;only&nbsp;the&nbsp;main&nbsp;modules&nbsp;are&nbsp;described,&nbsp;and&nbsp;some&nbsp;examples&nbsp;are&nbsp;reported.<br>
+&nbsp;<br>
+The&nbsp;main&nbsp;modules&nbsp;are:<br>
+&nbsp;<br>
+-&gt;&nbsp;GD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;management&nbsp;of&nbsp;the&nbsp;basic&nbsp;container&nbsp;class&nbsp;for&nbsp;1-D&nbsp;data<br>
+-&gt;&nbsp;GD2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;the&nbsp;2-D&nbsp;data&nbsp;GD<br>
+-&gt;&nbsp;DS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;stream&nbsp;management<br>
+-&gt;&nbsp;MGD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;multiple&nbsp;GD&nbsp;management<br>
+-&gt;&nbsp;BASIC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;general&nbsp;management&nbsp;routines<br>
+-&gt;&nbsp;SERV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;service&nbsp;programming&nbsp;routines<br>
+-&gt;&nbsp;ML_PY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;using&nbsp;Matlab&nbsp;objects<br>
+-&gt;&nbsp;STAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statistics<br>
+-&gt;&nbsp;SIGNAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;signal&nbsp;processing&nbsp;routines<br>
+-&gt;&nbsp;IMAGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image&nbsp;processing<br>
+-&gt;&nbsp;ASTROTIME&nbsp;&nbsp;&nbsp;&nbsp;time&nbsp;and&nbsp;astronomy&nbsp;routines<br>
+-&gt;&nbsp;GWDATA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gravitational&nbsp;wave&nbsp;data&nbsp;(sources,&nbsp;antennas,&nbsp;periods…)<br>
+-&gt;&nbsp;PSS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;periodic&nbsp;source&nbsp;search&nbsp;<br>
+-&gt;&nbsp;BSD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BSD&nbsp;analysis<br>
+-&gt;&nbsp;GWOTH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;other&nbsp;gw&nbsp;analysis<br>
+-&gt;&nbsp;GUISNAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;guis&nbsp;for&nbsp;SnagPy<br>
+-&gt;&nbsp;EXT_PACK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;module&nbsp;using&nbsp;critical&nbsp;external&nbsp;packages<br>
+-&gt;&nbsp;MAN_SUPER&nbsp;&nbsp;&nbsp;&nbsp;management&nbsp;and&nbsp;supervision<br>
+-&gt;&nbsp;PARGPU&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parallel&nbsp;and&nbsp;GPU&nbsp;computing<br>
+-&gt;&nbsp;WEB_SNAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;routines&nbsp;for&nbsp;the&nbsp;web&nbsp;and&nbsp;phone&nbsp;and&nbsp;tablets&nbsp;apps<br>
+-&gt;&nbsp;DEEPSNAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deep&nbsp;learning&nbsp;for&nbsp;SnagPy<br>
+-&gt;&nbsp;FANCY_FIG&nbsp;&nbsp;&nbsp;&nbsp;fancy&nbsp;figures&nbsp;and&nbsp;other<br>
+&nbsp;<br>
+The&nbsp;secondary&nbsp;modules&nbsp;are&nbsp;in&nbsp;the&nbsp;folders:<br>
+&nbsp;<br>
+*&nbsp;Projects&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;containing&nbsp;projects&nbsp;related&nbsp;modules<br>
+*&nbsp;Exper&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;containing&nbsp;experimental&nbsp;and&nbsp;test&nbsp;modules<br>
+*&nbsp;Pers&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;containing&nbsp;personal&nbsp;modules<br>
+&nbsp;<br>
+To&nbsp;start&nbsp;with&nbsp;all&nbsp;the&nbsp;basic&nbsp;import&nbsp;in&nbsp;the&nbsp;python&nbsp;shell,<br>
+from&nbsp;the&nbsp;SnagPy&nbsp;folder&nbsp;give&nbsp;at&nbsp;the&nbsp;command&nbsp;prompt:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;python&nbsp;-i&nbsp;starting.py<br>
+&nbsp;<br>
+Other&nbsp;documentation:<br>
+&nbsp;<br>
+&gt;&nbsp;Tutorials&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_tut<br>
+&gt;&nbsp;Programming&nbsp;Guide&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_pg<br>
+&gt;&nbsp;Documentation&nbsp;development&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_doc</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-dummy_doc"><strong>dummy_doc</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_pg"><strong>dummy_pg</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_tut"><strong>dummy_tut</strong></a>()</dt></dl>
+</td></tr></table>
+</body></html>

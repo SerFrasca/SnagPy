@@ -13,6 +13,12 @@ Sections:
 > no-data management                -> dummy_nodata
 
 '''
+
+def sections():
+    sec=[
+    ]
+    return sec
+
 import numpy as np
 import GD,GD2,BASIC
 import copy,time
@@ -22,6 +28,13 @@ import copy,time
 def dummy_comp():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def rota(inp,n):
 # circular shift of an array or a list
@@ -178,6 +191,13 @@ def dummy_inter():
     '''
     Time (or other) interval management
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 class intervals():
     """
@@ -188,18 +208,19 @@ class intervals():
     To define intervals in a 1-D array
 
     The attributes are:
-    lar    array length
-    nar    second dimension of the array (def=1)
-    cover  total coverage (number of 1s, per row)
-    typ    1 or 2 as GDs
-    x0     initial abscissa value (def=0)
-    dx     abscissa step (def=1)
-    x      abscissa (in the case of typ=2)
-    ini    interval init
-    fin    interval end (excluded value) 
-    xini    interval abscissa init
-    xfin    interval abscissa end (excluded value) 
-    label  e.g. 'hole', 'data', 'good',...; def ''
+
+    > lar    array length
+    > nar    second dimension of the array (def=1)
+    > cover  total coverage (number of 1s, per row)
+    > typ    1 or 2 as GDs
+    > x0     initial abscissa value (def=0)
+    > dx     abscissa step (def=1)
+    > x      abscissa (in the case of typ=2)
+    > ini    interval init index
+    > fin    interval end index (excluded value) 
+    > xini    interval abscissa init
+    > xfin    interval abscissa end (excluded value) 
+    > label  e.g. 'hole', 'data', 'good',...; def ''
     """
 
     def __init__(self,lar,**gdpar): # y ordinate or n
@@ -736,6 +757,14 @@ def data_interval(dat, eps=1.e-6):
 def dummy_nodata():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
+
 
 def findnodata(dat, typ=1, eps=1.e-6):
     '''
