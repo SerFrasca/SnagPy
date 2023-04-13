@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module GD</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>GD</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Conedrive%5Csf%5C_prog%5Cpython%5Csnagpy%5Cgd.py">d:\onedrive\sf\_prog\python\snagpy\gd.py</a></font></td></tr></table>
+    <p><tt>&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;GD<br>
+&nbsp;<br>
+Class&nbsp;and&nbsp;functions&nbsp;for&nbsp;GD&nbsp;management<br>
+&nbsp;<br>
+&nbsp;Sections:<br>
+&nbsp;<br>
+&nbsp;&gt;&nbsp;class&nbsp;<a href="#gd">gd</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_gd<br>
+&nbsp;&gt;&nbsp;<a href="#gd">gd</a>&nbsp;-&nbsp;dictionary&nbsp;management&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_gd_dic<br>
+&nbsp;&gt;&nbsp;<a href="#gd">gd</a>&nbsp;display&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_gd_disp<br>
+&nbsp;&gt;&nbsp;set&nbsp;functions&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_set<br>
+&nbsp;&gt;&nbsp;modification&nbsp;functions&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_mod<br>
+&nbsp;&gt;&nbsp;simple&nbsp;functions&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_simp<br>
+&nbsp;&gt;&nbsp;plot&nbsp;functions&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_plot<br>
+&nbsp;&gt;&nbsp;calc&nbsp;functions&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_calc</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="BASIC.html">BASIC</a><br>
+<a href="SERV.html">SERV</a><br>
+</td><td width="25%" valign=top><a href="cmath.html">cmath</a><br>
+<a href="copy.html">copy</a><br>
+</td><td width="25%" valign=top><a href="matplotlib.html">matplotlib</a><br>
+<a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="matplotlib.pyplot.html">matplotlib.pyplot</a><br>
+<a href="time.html">time</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="GD.html#gd">gd</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="gd">class <strong>gd</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#gd">gd</a>(y,&nbsp;**gdpar)<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#gd">gd</a>&nbsp;creation<br>
+&nbsp;<br>
+<a href="#gd">gd</a>&nbsp;is&nbsp;the&nbsp;basic&nbsp;class-container&nbsp;in&nbsp;SnagPy.<br>
+&nbsp;<br>
+The&nbsp;attributes&nbsp;are:<br>
+&nbsp;<br>
+&gt;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;ordinate&nbsp;(basic&nbsp;data)<br>
+&gt;&nbsp;n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;length<br>
+&gt;&nbsp;ini&nbsp;&nbsp;&nbsp;&nbsp;initial&nbsp;abscissa&nbsp;(used&nbsp;in&nbsp;type&nbsp;1&nbsp;gds)<br>
+&gt;&nbsp;dx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sampling&nbsp;step&nbsp;(used&nbsp;in&nbsp;type&nbsp;1&nbsp;gds)<br>
+&gt;&nbsp;x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abscissas&nbsp;(used&nbsp;in&nbsp;type&nbsp;2&nbsp;gds)<br>
+&gt;&nbsp;typ&nbsp;&nbsp;&nbsp;&nbsp;determine&nbsp;type&nbsp;1&nbsp;(virtual&nbsp;abscissa)&nbsp;or&nbsp;type&nbsp;2&nbsp;(real&nbsp;abscissa)<br>
+&gt;&nbsp;capt&nbsp;&nbsp;&nbsp;caption&nbsp;(a&nbsp;string)<br>
+&gt;&nbsp;cont&nbsp;&nbsp;&nbsp;a&nbsp;control&nbsp;variable&nbsp;(in&nbsp;the&nbsp;case&nbsp;of&nbsp;a&nbsp;bsd,&nbsp;a&nbsp;special&nbsp;structure)<br>
+&gt;&nbsp;unc&nbsp;&nbsp;&nbsp;&nbsp;ordinate&nbsp;uncertainty&nbsp;(typically&nbsp;not&nbsp;used)<br>
+&gt;&nbsp;uncx&nbsp;&nbsp;&nbsp;abscissa&nbsp;uncertainty&nbsp;(used&nbsp;for&nbsp;other)<br>
+&nbsp;<br>
+Any&nbsp;<a href="#gd">gd</a>&nbsp;can&nbsp;be&nbsp;modified&nbsp;by&nbsp;edit_gd.&nbsp;<br>
+A&nbsp;<a href="#gd">gd</a>&nbsp;can&nbsp;be&nbsp;created&nbsp;giving&nbsp;just&nbsp;the&nbsp;number&nbsp;of&nbsp;samples,&nbsp;<br>
+or&nbsp;transform&nbsp;a&nbsp;1-dimensional&nbsp;array&nbsp;to&nbsp;a&nbsp;<a href="#gd">gd</a>,&nbsp;or&nbsp;give&nbsp;the&nbsp;other&nbsp;information.&nbsp;<br>
+Addition&nbsp;and&nbsp;multiplication&nbsp;are&nbsp;overloaded&nbsp;for&nbsp;<a href="#gd">gd</a>&nbsp;objects,&nbsp;<br>
+so&nbsp;you&nbsp;can&nbsp;write,&nbsp;e.g.,&nbsp;&nbsp;30.5*gd1+gd2*gd3<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;gd1&nbsp;=&nbsp;gd2&nbsp;&nbsp;is&nbsp;just&nbsp;a&nbsp;different&nbsp;name&nbsp;for&nbsp;gd1,&nbsp;but<br>
+gd1&nbsp;=&nbsp;gd2&nbsp;+&nbsp;0&nbsp;&nbsp;is&nbsp;a&nbsp;new&nbsp;<a href="#gd">gd</a><br>
+Any&nbsp;copy&nbsp;of&nbsp;a&nbsp;<a href="#gd">gd</a>&nbsp;should&nbsp;be&nbsp;a&nbsp;deepcopy<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="gd-__add__"><strong>__add__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="gd-__init__"><strong>__init__</strong></a>(self, y, **gdpar)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="gd-__mul__"><strong>__mul__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="gd-__radd__"><strong>__radd__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="gd-__rmul__"><strong>__rmul__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="gd-edit_gd"><strong>edit_gd</strong></a>(ingd, **gdpar)</dt><dd><tt>changes&nbsp;parameters&nbsp;of&nbsp;a&nbsp;<a href="#gd">gd</a>&nbsp;or&nbsp;copy&nbsp;a&nbsp;<a href="#gd">gd</a><br>
+'new'-1&nbsp;&nbsp;-&gt;&nbsp;new&nbsp;<a href="builtins.html#object">object</a><br>
+in&nbsp;gdpar&nbsp;any&nbsp;couple&nbsp;varname=varvalue</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-c_plot_gd"><strong>c_plot_gd</strong></a>(typ, ingd)</dt><dd><tt>plot&nbsp;for&nbsp;complex&nbsp;array<br>
+typ&nbsp;=&nbsp;0&nbsp;i&nbsp;vs&nbsp;r,&nbsp;1&nbsp;real,&nbsp;2&nbsp;imag,&nbsp;3&nbsp;abs,&nbsp;4&nbsp;angle</tt></dd></dl>
+ <dl><dt><a name="-close_fig"><strong>close_fig</strong></a>()</dt></dl>
+ <dl><dt><a name="-dict2gd"><strong>dict2gd</strong></a>(dicin)</dt></dl>
+ <dl><dt><a name="-div_gd"><strong>div_gd</strong></a>(gd1, gd2)</dt><dd><tt><a href="#gd">gd</a>&nbsp;division&nbsp;(operates&nbsp;also&nbsp;on&nbsp;arrays)</tt></dd></dl>
+ <dl><dt><a name="-dummy_calc"><strong>dummy_calc</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_gd"><strong>dummy_gd</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_gd_dic"><strong>dummy_gd_dic</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_gd_disp"><strong>dummy_gd_disp</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_mod"><strong>dummy_mod</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_plot"><strong>dummy_plot</strong></a>()</dt><dd><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main&nbsp;plotting&nbsp;procedure<br>
+To&nbsp;plot&nbsp;data&nbsp;(typically&nbsp;a&nbsp;<a href="#gd">gd</a>,&nbsp;but&nbsp;also&nbsp;for&nbsp;arrays)&nbsp;the&nbsp;main&nbsp;procedure&nbsp;<br>
+consists&nbsp;in&nbsp;four&nbsp;steps:<br>
+1)&nbsp;newfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;that&nbsp;can&nbsp;define&nbsp;the&nbsp;dimension&nbsp;of&nbsp;the&nbsp;window.&nbsp;If&nbsp;the&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter&nbsp;siz&nbsp;is&nbsp;a&nbsp;two&nbsp;element&nbsp;list,&nbsp;it&nbsp;defines&nbsp;the&nbsp;relative&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enhancement&nbsp;of&nbsp;the&nbsp;horizontal&nbsp;and&nbsp;vertical&nbsp;dimension&nbsp;of&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window,&nbsp;if&nbsp;it&nbsp;is&nbsp;just&nbsp;a&nbsp;number&nbsp;it&nbsp;applies&nbsp;to&nbsp;both&nbsp;h&nbsp;and&nbsp;v.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Example:&nbsp;<a href="#-newfig">newfig</a>([1.33,1])<br>
+2)&nbsp;plot_helper&nbsp;defines&nbsp;various&nbsp;aspects&nbsp;of&nbsp;the&nbsp;graph,&nbsp;e.g.:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode&nbsp;&nbsp;&nbsp;:&nbsp;normal&nbsp;plot,&nbsp;steps,&nbsp;scatter&nbsp;plot<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scale&nbsp;&nbsp;:&nbsp;linear&nbsp;or&nbsp;logatithmic&nbsp;scale&nbsp;for&nbsp;each&nbsp;axis.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grid&nbsp;&nbsp;&nbsp;:&nbsp;grid&nbsp;lines<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fmt&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;format&nbsp;(color&nbsp;and&nbsp;texture)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linewid:&nbsp;line&nbsp;width<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It&nbsp;creates&nbsp;a&nbsp;dictionary&nbsp;called&nbsp;P_H.<br>
+3)&nbsp;plot_gd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;general&nbsp;plotting&nbsp;function;&nbsp;the&nbsp;imput&nbsp;are:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ingd&nbsp;&nbsp;the&nbsp;input&nbsp;<a href="#gd">gd</a>&nbsp;or&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P_H&nbsp;&nbsp;&nbsp;the&nbsp;output&nbsp;of&nbsp;plot_helper;&nbsp;if&nbsp;absent,&nbsp;the&nbsp;default<br>
+4)&nbsp;post_plot&nbsp;&nbsp;&nbsp;defines&nbsp;title&nbsp;and&nbsp;labels.<br>
+&nbsp;<br>
+The&nbsp;plot&nbsp;can&nbsp;be&nbsp;modified&nbsp;by&nbsp;the&nbsp;functions&nbsp;xlog,&nbsp;ylog,&nbsp;xlin,&nbsp;ylin,<br>
+xlim,&nbsp;ylim&nbsp;and&nbsp;others.</tt></dd></dl>
+ <dl><dt><a name="-dummy_set"><strong>dummy_set</strong></a>()</dt><dd><tt>To&nbsp;create&nbsp;gds&nbsp;with&nbsp;certain&nbsp;simple&nbsp;signals&nbsp;or&nbsp;random&nbsp;series</tt></dd></dl>
+ <dl><dt><a name="-dummy_simp"><strong>dummy_simp</strong></a>()</dt></dl>
+ <dl><dt><a name="-fft_gd"><strong>fft_gd</strong></a>(ingd, fif=1)</dt><dd><tt>fft&nbsp;of&nbsp;the&nbsp;ordianate&nbsp;of&nbsp;a&nbsp;<a href="#gd">gd</a><br>
+fif&nbsp;=&nbsp;-1&nbsp;ifft</tt></dd></dl>
+ <dl><dt><a name="-fig_limits"><strong>fig_limits</strong></a>()</dt></dl>
+ <dl><dt><a name="-gd2dict"><strong>gd2dict</strong></a>(ingd)</dt></dl>
+ <dl><dt><a name="-gridon"><strong>gridon</strong></a>()</dt></dl>
+ <dl><dt><a name="-holdoff"><strong>holdoff</strong></a>()</dt></dl>
+ <dl><dt><a name="-ioff"><strong>ioff</strong></a>()</dt><dd><tt>interactive&nbsp;off&nbsp;(use&nbsp;plt.show()&nbsp;to&nbsp;show&nbsp;the&nbsp;figure)</tt></dd></dl>
+ <dl><dt><a name="-ion"><strong>ion</strong></a>()</dt></dl>
+ <dl><dt><a name="-minmax_gd"><strong>minmax_gd</strong></a>(ingd)</dt><dd><tt>Min&nbsp;and&nbsp;max&nbsp;for&nbsp;abscissa&nbsp;and&nbsp;ordinate</tt></dd></dl>
+ <dl><dt><a name="-modif_gd"><strong>modif_gd</strong></a>(ingd, fun, par1=1, par2=0.1, par3=0)</dt><dd><tt><a href="#gd">gd</a>&nbsp;modification&nbsp;by&nbsp;a&nbsp;function&nbsp;fun<br>
+&nbsp;<br>
+fun&nbsp;&nbsp;ex.:'abs','real','imag','angle','log10','xlog10','loglog10'</tt></dd></dl>
+ <dl><dt><a name="-newfig"><strong>newfig</strong></a>(siz=1)</dt><dd><tt>creates&nbsp;a&nbsp;new&nbsp;figure.&nbsp;siz&nbsp;is&nbsp;a&nbsp;two-element&nbsp;list&nbsp;<br>
+containing&nbsp;the&nbsp;enhancement&nbsp;of&nbsp;the&nbsp;horizontal&nbsp;and&nbsp;vertical&nbsp;dimensions</tt></dd></dl>
+ <dl><dt><a name="-parallel_gd"><strong>parallel_gd</strong></a>(ingd1, ingd2, **gdpar)</dt></dl>
+ <dl><dt><a name="-plot_gd"><strong>plot_gd</strong></a>(ingd, x=[], P_H=0)</dt><dd><tt>ingd&nbsp;&nbsp;&nbsp;input&nbsp;<a href="#gd">gd</a>&nbsp;or&nbsp;array<br>
+x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changed&nbsp;x<br>
+P_H&nbsp;&nbsp;&nbsp;&nbsp;output&nbsp;of&nbsp;plot_helper&nbsp;(can&nbsp;be&nbsp;defaulted)</tt></dd></dl>
+ <dl><dt><a name="-plot_helper"><strong>plot_helper</strong></a>(mode='plot', scale='lili', grid='norm', absc='norm', fmt='b', linewid=1.0)</dt><dd><tt>auxiliary&nbsp;input&nbsp;for&nbsp;plot_gd<br>
+mode&nbsp;&nbsp;&nbsp;&nbsp;'plot','step','scat'<br>
+scale&nbsp;&nbsp;&nbsp;'lili','lilo','loli','lolo'<br>
+grid&nbsp;&nbsp;&nbsp;&nbsp;'norm','dens','no'<br>
+absc&nbsp;&nbsp;&nbsp;&nbsp;'norm','min','hour','days','week','mjd','date'<br>
+fmt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+linewid</tt></dd></dl>
+ <dl><dt><a name="-post_plot"><strong>post_plot</strong></a>(tit, xlab, ylab)</dt><dd><tt>inserts&nbsp;title&nbsp;and&nbsp;h&nbsp;and&nbsp;v&nbsp;labels</tt></dd></dl>
+ <dl><dt><a name="-rand_gd"><strong>rand_gd</strong></a>(ingd, dist, par1=0, par2=1, par3=0)</dt><dd><tt>Random&nbsp;numbers<br>
+ingd&nbsp;&nbsp;a&nbsp;<a href="#gd">gd</a>&nbsp;or&nbsp;an&nbsp;integer&nbsp;that&nbsp;is&nbsp;the&nbsp;length&nbsp;of&nbsp;the&nbsp;new&nbsp;<a href="#gd">gd</a><br>
+dist&nbsp;&nbsp;is&nbsp;the&nbsp;distribution&nbsp;('norm','unif',...)<br>
+par1,par2&nbsp;&nbsp;are&nbsp;the&nbsp;parameters&nbsp;of&nbsp;the&nbsp;distribution<br>
+par3&nbsp;&nbsp;seed</tt></dd></dl>
+ <dl><dt><a name="-resamp_gd"><strong>resamp_gd</strong></a>(ingd, dx, nmax=0)</dt><dd><tt><a href="#gd">gd</a>&nbsp;resampling&nbsp;with&nbsp;frequency&nbsp;domain&nbsp;filter<br>
+dx&nbsp;new&nbsp;sampling&nbsp;step<br>
+nmax&nbsp;if&nbsp;&gt;&nbsp;0,&nbsp;impose&nbsp;fft&nbsp;length</tt></dd></dl>
+ <dl><dt><a name="-rota_gd"><strong>rota_gd</strong></a>(ingd, n)</dt><dd><tt>circular&nbsp;shift&nbsp;of&nbsp;a&nbsp;<a href="#gd">gd</a>&nbsp;ordinate<br>
+n&nbsp;is&nbsp;a&nbsp;positive&nbsp;or&nbsp;negative&nbsp;integer</tt></dd></dl>
+ <dl><dt><a name="-sections"><strong>sections</strong></a>()</dt></dl>
+ <dl><dt><a name="-set_gd"><strong>set_gd</strong></a>(ingd, fun, par1=1, par2=0.1, par3=0)</dt><dd><tt>ingd&nbsp;a&nbsp;<a href="#gd">gd</a>&nbsp;or&nbsp;an&nbsp;integer&nbsp;that&nbsp;is&nbsp;the&nbsp;length&nbsp;of&nbsp;the&nbsp;new&nbsp;<a href="#gd">gd</a><br>
+fun&nbsp;is&nbsp;the&nbsp;function&nbsp;and&nbsp;can&nbsp;be:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'delt','step','ramp','cos','sin','cexp','exp','power','rect'<br>
+par1,pae2,par3&nbsp;&nbsp;are&nbsp;parameters&nbsp;for&nbsp;fun</tt></dd></dl>
+ <dl><dt><a name="-show_gd"><strong>show_gd</strong></a>(ingd)</dt></dl>
+ <dl><dt><a name="-stat_gd"><strong>stat_gd</strong></a>(ingd, nbins=20)</dt><dd><tt>Simple&nbsp;statistics&nbsp;(parameters&nbsp;and&nbsp;histogram)<br>
+nbins&nbsp;number&nbsp;of&nbsp;bins&nbsp;of&nbsp;the&nbsp;output&nbsp;histogram&nbsp;(a&nbsp;<a href="#gd">gd</a>).&nbsp;If&nbsp;=&nbsp;0,&nbsp;no&nbsp;hist<br>
+producs&nbsp;a&nbsp;simple&nbsp;dictionary&nbsp;with&nbsp;median,&nbsp;mean,&nbsp;std,&nbsp;skew&nbsp;and&nbsp;kurt</tt></dd></dl>
+ <dl><dt><a name="-x_gd"><strong>x_gd</strong></a>(ingd)</dt><dd><tt><a href="#gd">gd</a>&nbsp;abscissa&nbsp;(real&nbsp;or&nbsp;realized)&nbsp;(operates&nbsp;also&nbsp;on&nbsp;arrays)</tt></dd></dl>
+ <dl><dt><a name="-xlim"><strong>xlim</strong></a>(mi, ma)</dt></dl>
+ <dl><dt><a name="-xlin"><strong>xlin</strong></a>()</dt></dl>
+ <dl><dt><a name="-xlog"><strong>xlog</strong></a>()</dt></dl>
+ <dl><dt><a name="-ylim"><strong>ylim</strong></a>(mi, ma)</dt></dl>
+ <dl><dt><a name="-ylin"><strong>ylin</strong></a>()</dt></dl>
+ <dl><dt><a name="-ylog"><strong>ylog</strong></a>()</dt></dl>
+ <dl><dt><a name="-zero_nan_gd"><strong>zero_nan_gd</strong></a>(ingd, v=0.0)</dt><dd><tt>substitutes&nbsp;NaN&nbsp;values&nbsp;with&nbsp;0&nbsp;or&nbsp;v,&nbsp;for&nbsp;gds&nbsp;or&nbsp;arrays</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>deg2rad</strong> = 0.017453292519943295<br>
+<strong>pi</strong> = 3.141592653589793</td></tr></table>
+</body></html>

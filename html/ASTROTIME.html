@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module ASTROTIME</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ASTROTIME</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Conedrive%5Csf%5C_prog%5Cpython%5Csnagpy%5Castrotime.py">d:\onedrive\sf\_prog\python\snagpy\astrotime.py</a></font></td></tr></table>
+    <p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;ASTROTIME<br>
+Time&nbsp;and&nbsp;astronomy&nbsp;management<br>
+&nbsp;<br>
+Sections:<br>
+&nbsp;<br>
+&gt;&gt;&nbsp;TIME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_TIME<br>
+&gt;&nbsp;Basic&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_bastim<br>
+&gt;&nbsp;AstroPy&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_aptim<br>
+&gt;&nbsp;mjd&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_mjd<br>
+&gt;&nbsp;gps&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_gps<br>
+&gt;&nbsp;sidereal&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_sid<br>
+&gt;&gt;&nbsp;ASTRO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_ASTRO<br>
+&gt;&nbsp;Constants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_const<br>
+&gt;&nbsp;Coordinates&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_coord<br>
+&gt;&nbsp;AstroPy&nbsp;coordinates&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_apcoord<br>
+&gt;&nbsp;Using&nbsp;Skyfield&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_skyfi<br>
+&gt;&nbsp;Using&nbsp;jpl&nbsp;tables&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_jpl<br>
+&gt;&nbsp;Doppler&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_doppl<br>
+&gt;&nbsp;Relativistic&nbsp;corrections&nbsp;&nbsp;-&gt;&nbsp;dummy_relat<br>
+&gt;&nbsp;Kepler&nbsp;equation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_kepl<br>
+&gt;&nbsp;Other&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_oth</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="BASIC.html">BASIC</a><br>
+<a href="GD.html">GD</a><br>
+<a href="GWDATA.html">GWDATA</a><br>
+</td><td width="25%" valign=top><a href="astropy.html">astropy</a><br>
+<a href="astropy.constants.html">astropy.constants</a><br>
+<a href="copy.html">copy</a><br>
+</td><td width="25%" valign=top><a href="datetime.html">datetime</a><br>
+<a href="numpy.html">numpy</a><br>
+<a href="time.html">time</a><br>
+</td><td width="25%" valign=top><a href="astropy.units.html">astropy.units</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-EarLoc"><strong>EarLoc</strong></a>(lon, lat, h=0)</dt><dd><tt>Earth&nbsp;location&nbsp;object<br>
+lon,lat&nbsp;&nbsp;angles<br>
+h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height&nbsp;in&nbsp;m<br>
+&nbsp;<br>
+Angles&nbsp;can&nbsp;be&nbsp;expressed&nbsp;as:<br>
+&nbsp;<br>
+Angle('10.2345d')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;with&nbsp;'d'&nbsp;abbreviation&nbsp;for&nbsp;degrees<br>
+Angle('1:2:30.43&nbsp;degrees')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sexagesimal&nbsp;degrees<br>
+Angle('1°2′3″')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unicode&nbsp;degree,&nbsp;arcmin&nbsp;and&nbsp;arcsec&nbsp;symbols<br>
+Angle('1°2′3″N')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unicode&nbsp;degree,&nbsp;arcmin,&nbsp;arcsec&nbsp;symbols&nbsp;and&nbsp;direction<br>
+Angle('1d2m3.4s')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Degree,&nbsp;arcmin,&nbsp;arcsec<br>
+if&nbsp;it&nbsp;is&nbsp;expressed&nbsp;as&nbsp;a&nbsp;decimal&nbsp;number&nbsp;xxxx.xx,&nbsp;is&nbsp;equivalent&nbsp;to&nbsp;'xxxx.xxd'</tt></dd></dl>
+ <dl><dt><a name="-ang_sep"><strong>ang_sep</strong></a>(lon1, lat1, lon2, lat2)</dt><dd><tt>angular&nbsp;separation<br>
+angles&nbsp;in&nbsp;deg</tt></dd></dl>
+ <dl><dt><a name="-ant_pos_vel"><strong>ant_pos_vel</strong></a>(table_p, table_par, tin, tfi, au=0)</dt><dd><tt>position&nbsp;and&nbsp;velocity&nbsp;of&nbsp;an&nbsp;antenna&nbsp;+&nbsp;Einstein&nbsp;effect<br>
+&nbsp;&nbsp;&nbsp;&nbsp;table_p&nbsp;&nbsp;&nbsp;&nbsp;symbol&nbsp;(e.g.:&nbsp;table_virgo_p)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;table_par&nbsp;&nbsp;table&nbsp;parameters&nbsp;symbol&nbsp;(e.g.:&nbsp;table_par)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tin,tfi&nbsp;&nbsp;&nbsp;&nbsp;vectorial&nbsp;time&nbsp;ini,fin&nbsp;(e.g.&nbsp;[2021,1,20,0])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;au&nbsp;=&nbsp;0&nbsp;&nbsp;&nbsp;pos&nbsp;is&nbsp;in&nbsp;light&nbsp;seconds,&nbsp;vel&nbsp;in&nbsp;fraction&nbsp;of&nbsp;c<br>
+&nbsp;&nbsp;&nbsp;&nbsp;au&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;pos&nbsp;is&nbsp;converted&nbsp;to&nbsp;au<br>
+&nbsp;&nbsp;&nbsp;&nbsp;au&nbsp;=&nbsp;2&nbsp;&nbsp;&nbsp;pos&nbsp;is&nbsp;converted&nbsp;to&nbsp;km</tt></dd></dl>
+ <dl><dt><a name="-astro2rect"><strong>astro2rect</strong></a>(a, icrad=0)</dt><dd><tt>ASTRO2RECT&nbsp;&nbsp;conversion&nbsp;from&nbsp;astronomical&nbsp;to&nbsp;rectangular&nbsp;coordinates<br>
+&nbsp;<br>
+a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;astronomical&nbsp;coordinates&nbsp;[ra&nbsp;dec&nbsp;module]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;a&nbsp;=&nbsp;[ra&nbsp;dec]&nbsp;is&nbsp;converted&nbsp;to&nbsp;[ra&nbsp;dec&nbsp;1]<br>
+icrad&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;=&nbsp;degrees&nbsp;(default),&nbsp;1&nbsp;=&nbsp;radiants</tt></dd></dl>
+ <dl><dt><a name="-astro_coord"><strong>astro_coord</strong></a>(cin, cout, ai, di)</dt><dd><tt>ASTRO_COORD&nbsp;&nbsp;&nbsp;astronomical&nbsp;coordinate&nbsp;conversion,&nbsp;from&nbsp;cin&nbsp;to&nbsp;cout<br>
+&nbsp;<br>
+cin&nbsp;and&nbsp;cout&nbsp;can&nbsp;be<br>
+&nbsp;<br>
+'equ'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;celestial&nbsp;equatorial:&nbsp;right&nbsp;ascension,&nbsp;declination<br>
+'ecl'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ecliptical:&nbsp;longitude,&nbsp;latitude<br>
+'gal'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;galactic&nbsp;longitude,&nbsp;latitude<br>
+&nbsp;<br>
+ai,di&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;coordinates&nbsp;&nbsp;(deg)<br>
+ao,do&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output&nbsp;coordinates&nbsp;(deg)<br>
+&nbsp;<br>
+epsilon&nbsp;=&nbsp;23.4392911&nbsp;deg&nbsp;is&nbsp;the&nbsp;inclination&nbsp;of&nbsp;the&nbsp;Earth&nbsp;orbit&nbsp;on&nbsp;the<br>
+equatorial&nbsp;plane,&nbsp;referred&nbsp;to&nbsp;the&nbsp;standard&nbsp;equinox&nbsp;of&nbsp;year&nbsp;2000<br>
+(epsilon&nbsp;=&nbsp;23.4457889&nbsp;deg,&nbsp;for&nbsp;the&nbsp;standard&nbsp;equinox&nbsp;of&nbsp;year&nbsp;1950).</tt></dd></dl>
+ <dl><dt><a name="-astropy_coord"><strong>astropy_coord</strong></a>(cin, cout, ai, di, lon=[], lat=[], time=[])</dt><dd><tt>Astronomical&nbsp;coordinate&nbsp;system&nbsp;change<br>
+Angles&nbsp;are&nbsp;in&nbsp;degrees.&nbsp;Local&nbsp;tsid&nbsp;(in&nbsp;hours)&nbsp;and&nbsp;latitude&nbsp;is&nbsp;needed<br>
+for&nbsp;conversions&nbsp;to&nbsp;and&nbsp;from&nbsp;the&nbsp;horizon&nbsp;coordinates.<br>
+&nbsp;<br>
+cin&nbsp;and&nbsp;out&nbsp;can&nbsp;be<br>
+&nbsp;<br>
+'hor'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Horizontal&nbsp;coordinate:&nbsp;azimuth,&nbsp;altitude&nbsp;(az,alt)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YOU&nbsp;SHOULD&nbsp;ADD&nbsp;lat&nbsp;and&nbsp;lon!<br>
+'equ'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;celestial&nbsp;equatorial:&nbsp;right&nbsp;ascension,&nbsp;declination&nbsp;(ra,dec)<br>
+'ecl'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ecliptical:&nbsp;longitude,&nbsp;latitude&nbsp;(lon,lat)<br>
+'gal'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;galactic&nbsp;longitude,&nbsp;latitude&nbsp;(l,b)<br>
+&nbsp;<br>
+ai,di&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;coordinates<br>
+lon,lat,time&nbsp;&nbsp;local&nbsp;sidereal&nbsp;time&nbsp;and&nbsp;latitude&nbsp;(only&nbsp;for&nbsp;horizontal&nbsp;coordinates)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;various&nbsp;form&nbsp;for&nbsp;time&nbsp;see&nbsp;<a href="https://docs.astropy.org/en/stable/time/index.html">https://docs.astropy.org/en/stable/time/index.html</a><br>
+&nbsp;<br>
+Angles&nbsp;can&nbsp;be&nbsp;expressed&nbsp;as:<br>
+&nbsp;<br>
+Angle('10.2345d')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;with&nbsp;'d'&nbsp;abbreviation&nbsp;for&nbsp;degrees<br>
+Angle('1:2:30.43&nbsp;degrees')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sexagesimal&nbsp;degrees<br>
+Angle('1°2′3″')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unicode&nbsp;degree,&nbsp;arcmin&nbsp;and&nbsp;arcsec&nbsp;symbols<br>
+Angle('1°2′3″N')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unicode&nbsp;degree,&nbsp;arcmin,&nbsp;arcsec&nbsp;symbols&nbsp;and&nbsp;direction<br>
+Angle('1d2m3.4s')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Degree,&nbsp;arcmin,&nbsp;arcsec<br>
+if&nbsp;it&nbsp;is&nbsp;expressed&nbsp;as&nbsp;a&nbsp;decimal&nbsp;number&nbsp;xxxx.xx,&nbsp;is&nbsp;equivalent&nbsp;to&nbsp;'xxxx.xxd'</tt></dd></dl>
+ <dl><dt><a name="-base_elliptic_orbit"><strong>base_elliptic_orbit</strong></a>(ecc, sma, N)</dt></dl>
+ <dl><dt><a name="-const_table"><strong>const_table</strong></a>(file=0)</dt><dd><tt>file,&nbsp;if&nbsp;it&nbsp;is&nbsp;present,&nbsp;saves&nbsp;the&nbsp;constants&nbsp;table&nbsp;in&nbsp;a&nbsp;file</tt></dd></dl>
+ <dl><dt><a name="-dopp_from_gd"><strong>dopp_from_gd</strong></a>(gdin, source)</dt></dl>
+ <dl><dt><a name="-doppler"><strong>doppler</strong></a>(time, fr0, alpha, delta, long, lat, coord)</dt></dl>
+ <dl><dt><a name="-doppler2"><strong>doppler2</strong></a>(time, fr0, alpha, delta, long, lat, coord)</dt></dl>
+ <dl><dt><a name="-dummy_ASTRO"><strong>dummy_ASTRO</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_TIME"><strong>dummy_TIME</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_apcoord"><strong>dummy_apcoord</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_aptim"><strong>dummy_aptim</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_bastim"><strong>dummy_bastim</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_const"><strong>dummy_const</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_coord"><strong>dummy_coord</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_doppl"><strong>dummy_doppl</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_gps"><strong>dummy_gps</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_jpl"><strong>dummy_jpl</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_kepl"><strong>dummy_kepl</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_mjd"><strong>dummy_mjd</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_oth"><strong>dummy_oth</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_relat"><strong>dummy_relat</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_sid"><strong>dummy_sid</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_skyfi"><strong>dummy_skyfi</strong></a>()</dt></dl>
+ <dl><dt><a name="-earth_v0"><strong>earth_v0</strong></a>(time, long, lat)</dt></dl>
+ <dl><dt><a name="-earth_v1"><strong>earth_v1</strong></a>(time, long, lat)</dt></dl>
+ <dl><dt><a name="-earth_v1_norot"><strong>earth_v1_norot</strong></a>(time, coord)</dt></dl>
+ <dl><dt><a name="-earth_v2"><strong>earth_v2</strong></a>(time, long, lat)</dt></dl>
+ <dl><dt><a name="-einst_effect"><strong>einst_effect</strong></a>(mjd, icplot)</dt></dl>
+ <dl><dt><a name="-galac_disc"><strong>galac_disc</strong></a>(n)</dt></dl>
+ <dl><dt><a name="-gmst"><strong>gmst</strong></a>(t, long=0)</dt><dd><tt>Greenwich&nbsp;mean&nbsp;sidereal&nbsp;time&nbsp;or&nbsp;local&nbsp;ST<br>
+t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time&nbsp;object&nbsp;or&nbsp;jd&nbsp;or&nbsp;mjd<br>
+long&nbsp;&nbsp;local&nbsp;longitude&nbsp;in&nbsp;deg&nbsp;or&nbsp;EL&nbsp;object&nbsp;(for&nbsp;local&nbsp;ST)</tt></dd></dl>
+ <dl><dt><a name="-gps2mjd"><strong>gps2mjd</strong></a>(tgps)</dt></dl>
+ <dl><dt><a name="-gps_now"><strong>gps_now</strong></a>()</dt><dd><tt>Return&nbsp;the&nbsp;current&nbsp;GPS&nbsp;time&nbsp;as&nbsp;a&nbsp;float&nbsp;using&nbsp;Astropy.</tt></dd></dl>
+ <dl><dt><a name="-gw_doppler"><strong>gw_doppler</strong></a>(doptab, source, t)</dt></dl>
+ <dl><dt><a name="-gw_doppler1"><strong>gw_doppler1</strong></a>(v, source)</dt></dl>
+ <dl><dt><a name="-kepler_elliptic_ofek"><strong>kepler_elliptic_ofek</strong></a>(T, Q, Ecc)</dt></dl>
+ <dl><dt><a name="-leap_seconds"><strong>leap_seconds</strong></a>(mjd)</dt><dd><tt>leap&nbsp;seconds&nbsp;at&nbsp;mjd<br>
+independent&nbsp;list&nbsp;(see&nbsp;also&nbsp;astropy&nbsp;function)<br>
+we&nbsp;put&nbsp;0&nbsp;leapswconds&nbsp;at&nbsp;1&nbsp;January&nbsp;1972</tt></dd></dl>
+ <dl><dt><a name="-mjd_now"><strong>mjd_now</strong></a>()</dt><dd><tt>Return&nbsp;the&nbsp;current&nbsp;GPS&nbsp;time&nbsp;as&nbsp;a&nbsp;float&nbsp;using&nbsp;Astropy.</tt></dd></dl>
+ <dl><dt><a name="-mjd_phase"><strong>mjd_phase</strong></a>(t0, long=0, deg=1)</dt><dd><tt>phases&nbsp;for&nbsp;physical&nbsp;periods&nbsp;(in&nbsp;deg)&nbsp;or&nbsp;beginning&nbsp;delay<br>
+phisical&nbsp;periods:&nbsp;day,&nbsp;sid,&nbsp;locsid,&nbsp;week<br>
+t0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time<br>
+long&nbsp;&nbsp;&nbsp;longitude<br>
+deg&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1&nbsp;&nbsp;phase&nbsp;in&nbsp;deg</tt></dd></dl>
+ <dl><dt><a name="-nearest_tsid"><strong>nearest_tsid</strong></a>(ts, t0)</dt></dl>
+ <dl><dt><a name="-now"><strong>now</strong></a>(vt=0, typ='UTC', form='string')</dt><dd><tt>Time&nbsp;now<br>
+vt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vect&nbsp;time,&nbsp;if&nbsp;absent,&nbsp;present&nbsp;time<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vt=(year,&nbsp;month&nbsp;[1-12],&nbsp;day&nbsp;[1-31],&nbsp;hour,&nbsp;min,&nbsp;s,&nbsp;0,0,0)<br>
+typ&nbsp;&nbsp;&nbsp;&nbsp;'UTC'&nbsp;or&nbsp;'local'<br>
+form&nbsp;&nbsp;&nbsp;'string',&nbsp;'struct',&nbsp;'mjd',&nbsp;'gps',&nbsp;'unix'</tt></dd></dl>
+ <dl><dt><a name="-pos_detector"><strong>pos_detector</strong></a>(doptab, t)</dt></dl>
+ <dl><dt><a name="-pss_astra"><strong>pss_astra</strong></a>(typ)</dt></dl>
+ <dl><dt><a name="-read_doppler_table"><strong>read_doppler_table</strong></a>(file, subsamp, fileout)</dt></dl>
+ <dl><dt><a name="-reduce_doptab"><strong>reduce_doptab</strong></a>(doptab, tmin, tmax)</dt></dl>
+ <dl><dt><a name="-sections"><strong>sections</strong></a>()</dt></dl>
+ <dl><dt><a name="-set_time"><strong>set_time</strong></a>(times, form=0)</dt><dd><tt>set&nbsp;time&nbsp;values&nbsp;as&nbsp;Time&nbsp;objects<br>
+times&nbsp;&nbsp;&nbsp;array&nbsp;or&nbsp;list<br>
+form&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;<a href="https://docs.astropy.org/en/stable/time/index.html#time-format">https://docs.astropy.org/en/stable/time/index.html#time-format</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;absent&nbsp;it&nbsp;can&nbsp;be&nbsp;interpreted<br>
+&nbsp;<br>
+The&nbsp;output&nbsp;t&nbsp;are&nbsp;time&nbsp;object,&nbsp;that&nbsp;can&nbsp;be&nbsp;easily&nbsp;converted<br>
+example:<br>
+&gt;&gt;&gt;&nbsp;t&nbsp;=&nbsp;Time('2023-01-01')<br>
+&gt;&gt;&gt;&nbsp;t<br>
+&lt;Time&nbsp;object:&nbsp;scale='utc'&nbsp;format='iso'&nbsp;value=2023-01-01&nbsp;00:00:00.000&gt;<br>
+&gt;&gt;&gt;&nbsp;t.mjd<br>
+59945.0<br>
+&gt;&gt;&gt;&nbsp;t.gps<br>
+1356566418.0</tt></dd></dl>
+ <dl><dt><a name="-sf_arrtime"><strong>sf_arrtime</strong></a>(tini, tfin, step)</dt><dd><tt>Skyfield&nbsp;time&nbsp;array<br>
+tini&nbsp;&nbsp;&nbsp;&nbsp;initial&nbsp;time&nbsp;tuple&nbsp;(a,m,d,h,m,s)<br>
+fion&nbsp;&nbsp;&nbsp;&nbsp;final&nbsp;time&nbsp;tuple<br>
+step&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;s</tt></dd></dl>
+ <dl><dt><a name="-sf_coord"><strong>sf_coord</strong></a>()</dt></dl>
+ <dl><dt><a name="-sf_earth"><strong>sf_earth</strong></a>(t, epht='de440s.bsp')</dt><dd><tt>position&nbsp;and&nbsp;velocity&nbsp;of&nbsp;the&nbsp;Earth<br>
+output:&nbsp;&nbsp;&nbsp;cartesian&nbsp;position&nbsp;(AU)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cartesian&nbsp;velocity&nbsp;(in&nbsp;unit&nbsp;of&nbsp;c)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Einstein&nbsp;effect</tt></dd></dl>
+ <dl><dt><a name="-shapiro_delay"><strong>shapiro_delay</strong></a>(mjd, source)</dt></dl>
+ <dl><dt><a name="-sid_time"><strong>sid_time</strong></a>(tim, loc=0)</dt><dd><tt>local&nbsp;or&nbsp;Greenwich&nbsp;(default)&nbsp;sidereal&nbsp;time<br>
+&nbsp;<br>
+tim&nbsp;&nbsp;&nbsp;time&nbsp;object&nbsp;or&nbsp;as&nbsp;set_time<br>
+loc&nbsp;&nbsp;&nbsp;Earth&nbsp;locality&nbsp;object&nbsp;or&nbsp;[lon,lat]&nbsp;(in&nbsp;decimal&nbsp;deg)</tt></dd></dl>
+ <dl><dt><a name="-sites"><strong>sites</strong></a>()</dt><dd><tt>sites&nbsp;for&nbsp;gravitational&nbsp;antennas</tt></dd></dl>
+ <dl><dt><a name="-source_delay"><strong>source_delay</strong></a>(doptab, sour, t)</dt></dl>
+ <dl><dt><a name="-t_conv"><strong>t_conv</strong></a>(tin, fmtin, fmtout)</dt><dd><tt>time&nbsp;conversion<br>
+tin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;time<br>
+fmtin,&nbsp;fmtout&nbsp;&nbsp;'str',&nbsp;'vec',&nbsp;'mjd',&nbsp;'gps'<br>
+only&nbsp;fmtout&nbsp;&nbsp;&nbsp;'obj'&nbsp;time&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ut1',&nbsp;'tt',&nbsp;'tai',tcb,tcg,tdb<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vec&nbsp;as&nbsp;(2000,&nbsp;1,&nbsp;1,&nbsp;0,&nbsp;0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str&nbsp;as&nbsp;'2000-01-20&nbsp;00:00:00.000'</tt></dd></dl>
+ <dl><dt><a name="-t_culm"><strong>t_culm</strong></a>(long, rasc, t0)</dt></dl>
+ <dl><dt><a name="-tide"><strong>tide</strong></a>(t1, lat, long, height)</dt></dl>
+ <dl><dt><a name="-timestruct2v"><strong>timestruct2v</strong></a>(tstr)</dt><dd><tt>time&nbsp;structure&nbsp;to&nbsp;time&nbsp;vector</tt></dd></dl>
+ <dl><dt><a name="-v2mjd"><strong>v2mjd</strong></a>(v)</dt><dd><tt>vectorial&nbsp;to&nbsp;mjd&nbsp;time<br>
+v&nbsp;&nbsp;&nbsp;[year,month,day,hour,min,s]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;month=1,&nbsp;doy&nbsp;can&nbsp;be&nbsp;used&nbsp;instead&nbsp;of&nbsp;day<br>
+&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;can&nbsp;be&nbsp;float</tt></dd></dl>
+ <dl><dt><a name="-v_detector"><strong>v_detector</strong></a>(doptab, t)</dt></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Pi</strong> = 3.141592653589793<br>
+<strong>deg2rad</strong> = 0.017453292519943295<br>
+<strong>load</strong> = &lt;skyfield.iokit.Loader object&gt;<br>
+<strong>rad2deg</strong> = 57.29577951308232</td></tr></table>
+</body></html>
