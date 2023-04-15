@@ -271,6 +271,10 @@ class intervals():
         else:
             self.label=[]
 
+        if self.nar == 1:
+            self.ini=np.array(self.ini)
+            self.fin=np.array(self.fin)
+
         self.cover=cover_calc(self)
   
     def set_data(self):
@@ -366,40 +370,71 @@ def cover_calc(interv):
 
 def mask_interv(mask, cc=1):
     '''
-    mask (1-0 array ) intervals
+    mask (1-0 array) intervals
     m      mask
     cc     =0 0 intervals
             =1 1 intervals
     '''
 
-    n = len(mask)
+    nar,lar=BASIC.array_rowcol(mask)
+    n = lar
+    interv=[]
+
     if cc == 0:
         mask = (1-mask)
+
     dm = np.diff(mask)
-    inz = np.nonzero(np.array(dm))[0][0]
-    minnz = dm[inz]
-    if minnz == 1:
-        dm = np.insert(dm, 0, 0)
+    if nar == 1:
+        inz = np.nonzero(np.array(dm))[0][0]
+        minnz = dm[inz]
+        if minnz == 1:
+            dm = np.insert(dm, 0, 0)
+        else:
+            dm = np.insert(dm, 0, 1)
+
+        ini = np.argwhere(dm == 1)
+        fin = np.argwhere(dm == -1)
+        if len(ini) > len(fin):
+            fin = np.append(fin, n)
+
+        ini=ini.squeeze()
+        fin=fin.squeeze()
     else:
-        dm = np.insert(dm, 0, 1)
+        ini=[]
+        fin=[]
+        print(dm)
+        for i in range(nar):
+            dm0=dm[i]
+            inz = np.nonzero(dm0)[0][0]
+            minnz = dm0[inz]
+            if minnz == 1:
+                dm0 = np.insert(dm0, 0, 0)
+            else:
+                dm0 = np.insert(dm0, 0, 1)
 
-    ini = np.argwhere(dm == 1)
-    fin = np.argwhere(dm == -1)
-    if len(ini) > len(fin):
-        fin = np.append(fin, n)
+            ini0 = np.argwhere(dm0 == 1)
+            fin0 = np.argwhere(dm0 == -1)
+            if len(ini0) > len(fin0):
+                fin0 = np.append(fin0, n)
 
-    ini=ini.squeeze()
-    fin=fin.squeeze()
+            ini0=ini0.squeeze()
+            fin0=fin0.squeeze()
 
-    interv=intervals(n,ini=ini,fin=fin)
+            ini.append(ini0)
+            fin.append(fin0)
     
+    interv=intervals(n,ini=ini,fin=fin)
+
     return interv
 
 
 def interv_mask(interv):
     lar=interv.lar
     nar=interv.nar
-    mask=np.zeros(lar,dtype='int8')
+    if nar == 1:
+        mask=np.zeros(lar,dtype='int8')
+    else:
+        mask=np.zeros([nar,lar],dtype='int8')
     if nar == 1:
         nin=len(interv.ini)
         for i in range(nin):
@@ -408,7 +443,7 @@ def interv_mask(interv):
         for j in range(nar):
             nin=len(interv.ini[j])
             for i in range(nin):
-                mask[interv.ini[j][i]:interv.fin[j][i]]=1
+                mask[j,interv.ini[j][i]:interv.fin[j][i]]=1
     
     return mask
 
@@ -442,6 +477,9 @@ def x_interv(interv):
 
 
 def show_interv(interv,verb=1):
+    '''
+    show intervals attributes
+    '''
     out=check_interv(interv)
     nar=interv.nar
     cover=interv.cover
@@ -454,7 +492,7 @@ def show_interv(interv,verb=1):
         nint=len(interv.ini)
     else:
         nint=np.zeros(interv.nar,dtype=int)
-        for i in range(nar):
+        for i in range(interv.nar):
             nint[i]=len(interv.ini[i])
 
     print('\n')
@@ -476,6 +514,19 @@ def show_interv(interv,verb=1):
         print('   Intervals')
         for i in range(nint):
             print(i,' - ',ini[i],'<->',fin[i],' -->',fin[i]-ini[i])
+
+
+def show_interv_2(interv):
+    '''
+    show intervals - short version
+    '''
+    ini=interv.ini
+    fin=interv.fin
+    nar=interv.nar
+
+    print('   Intervals')
+    for i in range(nar):
+        print(i,' - ',ini[i],'<->',fin[i],' -->',fin[i]-ini[i])
 
 
 def check_interv(inter):
@@ -692,6 +743,23 @@ def interv_coverage(*inter):
             cover=cover+ma
 
     return cover
+
+
+def collect_interv(*inter):
+    '''
+    Collects a number of 1-D intervals to create a 2-D intervals
+    '''
+    nar=len(inter)
+    lar=inter[0].lar
+    ini=[]
+    fin=[]
+    for i in range(nar):
+        ini.append(inter[i].ini)
+        fin.append(inter[i].fin)
+
+    outinter=intervals(lar,nar=nar,ini=ini,fin=fin)
+
+    return outinter
 
 
 def sel_interv(ingd,interv):

@@ -113,10 +113,11 @@ def var(v):
     # return di
 
 
-def Exec(file):   # exec(open('test_file').read())
-    # just to see how to use exec
-    # or launch C:\Users\fam_f>python -i D:\OneDrive\SF\_Prog\Python\SnagPy\starting.py
+def Exec(file):   # exec(open('.\test_file').read())
+    # just to see how to use exec.
+    # Alternatively, launch at the command prompt python -i D:\OneDrive\SF\_Prog\Python\SnagPy\starting.py
     a = "exec(open('"
+    # b = "').read(), globals(), locals())"
     b = "').read())"
 
     exec(a+file+b)
@@ -795,14 +796,15 @@ def dummy_numarr():
     ]
     return clas,fun
 
+
 def array_rowcol(arr):
     '''
     number of row, columns for np.arrays or gd or gd2
     '''
     if isinstance(arr,GD.gd):
-        arr=GD.gd.y
+        arr=arr.y
     if isinstance(arr,GD2.gd2):
-        arr=GD2.gd2.y
+        arr=arr.y
     dsh=arr.shape
     if len(dsh) == 1:
         nr = 1
