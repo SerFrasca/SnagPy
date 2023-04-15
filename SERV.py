@@ -368,7 +368,7 @@ def cover_calc(interv):
     return cover
 
 
-def mask_interv(mask, cc=1):
+def mask2interv(mask, cc=1):
     '''
     mask (1-0 array) intervals
     m      mask
@@ -402,7 +402,6 @@ def mask_interv(mask, cc=1):
     else:
         ini=[]
         fin=[]
-        print(dm)
         for i in range(nar):
             dm0=dm[i]
             inz = np.nonzero(dm0)[0][0]
@@ -424,11 +423,12 @@ def mask_interv(mask, cc=1):
             fin.append(fin0)
     
     interv=intervals(n,ini=ini,fin=fin)
+    interv.nar=nar
 
     return interv
 
 
-def interv_mask(interv):
+def interv2mask(interv):
     lar=interv.lar
     nar=interv.nar
     if nar == 1:
