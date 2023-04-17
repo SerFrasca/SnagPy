@@ -299,7 +299,7 @@ class intervals():
         show_interv(self)
 
     def mask(self):
-        mask=interv_mask(self)
+        mask=interv2mask(self)
         return mask
 
   
@@ -680,7 +680,7 @@ def interv_and(*inter):
             ma=inter[i].mask()
             mas=mas*ma
     
-    outint=mask_interv(mas)
+    outint=mask2interv(mas)
 
     return outint
 
@@ -712,7 +712,7 @@ def interv_or(*inter):
     
         mas=np.sign(mas)
 
-    outint=mask_interv(mas)
+    outint=mask2interv(mas)
 
     return outint
 
@@ -895,7 +895,7 @@ def findnodata(dat, typ=1, eps=1.e-6):
                     zer[k] = 1
                     zer[k+1] = 1
 
-            interv = mask_interv(zer)
+            interv = mask2interv(zer)
             Ini[i] = interv.ini
             Fin[i] = interv.fin
 
