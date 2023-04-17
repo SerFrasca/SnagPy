@@ -62,18 +62,19 @@ Intervals&nbsp;class&nbsp;-------------------------<br>
 To&nbsp;define&nbsp;<a href="#intervals">intervals</a>&nbsp;in&nbsp;a&nbsp;1-D&nbsp;array<br>
 &nbsp;<br>
 The&nbsp;attributes&nbsp;are:<br>
-lar&nbsp;&nbsp;&nbsp;&nbsp;array&nbsp;length<br>
-nar&nbsp;&nbsp;&nbsp;&nbsp;second&nbsp;dimension&nbsp;of&nbsp;the&nbsp;array&nbsp;(def=1)<br>
-cover&nbsp;&nbsp;total&nbsp;coverage&nbsp;(number&nbsp;of&nbsp;1s,&nbsp;per&nbsp;row)<br>
-typ&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;or&nbsp;2&nbsp;as&nbsp;GDs<br>
-x0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;initial&nbsp;abscissa&nbsp;value&nbsp;(def=0)<br>
-dx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abscissa&nbsp;step&nbsp;(def=1)<br>
-x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abscissa&nbsp;(in&nbsp;the&nbsp;case&nbsp;of&nbsp;typ=2)<br>
-ini&nbsp;&nbsp;&nbsp;&nbsp;interval&nbsp;init<br>
-fin&nbsp;&nbsp;&nbsp;&nbsp;interval&nbsp;end&nbsp;(excluded&nbsp;value)&nbsp;<br>
-xini&nbsp;&nbsp;&nbsp;&nbsp;interval&nbsp;abscissa&nbsp;init<br>
-xfin&nbsp;&nbsp;&nbsp;&nbsp;interval&nbsp;abscissa&nbsp;end&nbsp;(excluded&nbsp;value)&nbsp;<br>
-label&nbsp;&nbsp;e.g.&nbsp;'hole',&nbsp;'data',&nbsp;'good',...;&nbsp;def&nbsp;''<br>&nbsp;</tt></td></tr>
+&nbsp;<br>
+&gt;&nbsp;lar&nbsp;&nbsp;&nbsp;&nbsp;array&nbsp;length<br>
+&gt;&nbsp;nar&nbsp;&nbsp;&nbsp;&nbsp;second&nbsp;dimension&nbsp;of&nbsp;the&nbsp;array&nbsp;(def=1)<br>
+&gt;&nbsp;cover&nbsp;&nbsp;total&nbsp;coverage&nbsp;(number&nbsp;of&nbsp;1s,&nbsp;per&nbsp;row)<br>
+&gt;&nbsp;typ&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;or&nbsp;2&nbsp;as&nbsp;GDs<br>
+&gt;&nbsp;x0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;initial&nbsp;abscissa&nbsp;value&nbsp;(def=0)<br>
+&gt;&nbsp;dx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abscissa&nbsp;step&nbsp;(def=1)<br>
+&gt;&nbsp;x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abscissa&nbsp;(in&nbsp;the&nbsp;case&nbsp;of&nbsp;typ=2)<br>
+&gt;&nbsp;ini&nbsp;&nbsp;&nbsp;&nbsp;interval&nbsp;init&nbsp;index<br>
+&gt;&nbsp;fin&nbsp;&nbsp;&nbsp;&nbsp;interval&nbsp;end&nbsp;index&nbsp;(excluded&nbsp;value)&nbsp;<br>
+&gt;&nbsp;xini&nbsp;&nbsp;&nbsp;&nbsp;interval&nbsp;abscissa&nbsp;init<br>
+&gt;&nbsp;xfin&nbsp;&nbsp;&nbsp;&nbsp;interval&nbsp;abscissa&nbsp;end&nbsp;(excluded&nbsp;value)&nbsp;<br>
+&gt;&nbsp;label&nbsp;&nbsp;e.g.&nbsp;'hole',&nbsp;'data',&nbsp;'good',...;&nbsp;def&nbsp;''<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
 <dl><dt><a name="intervals-__init__"><strong>__init__</strong></a>(self, lar, **gdpar)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
@@ -110,6 +111,7 @@ Data descriptors defined here:<br>
 <td width="100%"><dl><dt><a name="-FND2interv"><strong>FND2interv</strong></a>(Ini, Fin, dim, x0, dx, x)</dt><dd><tt>From&nbsp;findnodata&nbsp;to&nbsp;hole&nbsp;interv</tt></dd></dl>
  <dl><dt><a name="-atan3"><strong>atan3</strong></a>(inp)</dt></dl>
  <dl><dt><a name="-check_interv"><strong>check_interv</strong></a>(inter)</dt></dl>
+ <dl><dt><a name="-collect_interv"><strong>collect_interv</strong></a>(*inter)</dt><dd><tt>Collects&nbsp;a&nbsp;number&nbsp;of&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;to&nbsp;create&nbsp;a&nbsp;2-D&nbsp;<a href="#intervals">intervals</a></tt></dd></dl>
  <dl><dt><a name="-cover_calc"><strong>cover_calc</strong></a>(interv)</dt></dl>
  <dl><dt><a name="-data_interval"><strong>data_interval</strong></a>(dat, eps=1e-06)</dt><dd><tt>meaningful&nbsp;data&nbsp;<a href="#intervals">intervals</a><br>
 dat&nbsp;&nbsp;&nbsp;&nbsp;gd,&nbsp;gd2&nbsp;or&nbsp;np&nbsp;array<br>
@@ -127,16 +129,16 @@ eps&nbsp;&nbsp;&nbsp;&nbsp;relative&nbsp;level&nbsp;of&nbsp;no&nbsp;data</tt></d
  <dl><dt><a name="-ifr"><strong>ifr</strong></a>(ingd, fr)</dt></dl>
  <dl><dt><a name="-ind2x"><strong>ind2x</strong></a>(interv, ind)</dt></dl>
  <dl><dt><a name="-interv2dict"><strong>interv2dict</strong></a>(interv)</dt></dl>
+ <dl><dt><a name="-interv2mask"><strong>interv2mask</strong></a>(interv)</dt></dl>
  <dl><dt><a name="-interv_and"><strong>interv_and</strong></a>(*inter)</dt><dd><tt>AND&nbsp;of&nbsp;undefined&nbsp;number&nbsp;of&nbsp;arguments<br>
 ---&nbsp;only&nbsp;for&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;---</tt></dd></dl>
  <dl><dt><a name="-interv_coverage"><strong>interv_coverage</strong></a>(*inter)</dt><dd><tt>Coverage&nbsp;function&nbsp;of&nbsp;undefined&nbsp;number&nbsp;of&nbsp;arguments<br>
 ---&nbsp;only&nbsp;for&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;---</tt></dd></dl>
- <dl><dt><a name="-interv_mask"><strong>interv_mask</strong></a>(interv)</dt></dl>
  <dl><dt><a name="-interv_or"><strong>interv_or</strong></a>(*inter)</dt><dd><tt>OR&nbsp;of&nbsp;undefined&nbsp;number&nbsp;of&nbsp;arguments<br>
 &nbsp;&nbsp;&nbsp;&nbsp;---&nbsp;only&nbsp;for&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;---</tt></dd></dl>
  <dl><dt><a name="-invert_interv"><strong>invert_interv</strong></a>(interv)</dt></dl>
  <dl><dt><a name="-mask"><strong>mask</strong></a>(n, n1, **pars)</dt></dl>
- <dl><dt><a name="-mask_interv"><strong>mask_interv</strong></a>(mask, cc=1)</dt><dd><tt>mask&nbsp;(1-0&nbsp;array&nbsp;)&nbsp;<a href="#intervals">intervals</a><br>
+ <dl><dt><a name="-mask2interv"><strong>mask2interv</strong></a>(mask, cc=1)</dt><dd><tt>mask&nbsp;(1-0&nbsp;array)&nbsp;<a href="#intervals">intervals</a><br>
 m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mask<br>
 cc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=0&nbsp;0&nbsp;<a href="#intervals">intervals</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=1&nbsp;1&nbsp;<a href="#intervals">intervals</a></tt></dd></dl>
@@ -145,7 +147,8 @@ cc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=0&nbsp;0&nbsp;<a href="#intervals">intervals</a
  <dl><dt><a name="-sections"><strong>sections</strong></a>()</dt></dl>
  <dl><dt><a name="-sel_interv"><strong>sel_interv</strong></a>(ingd, interv)</dt><dd><tt>select&nbsp;data&nbsp;in&nbsp;the&nbsp;<a href="#intervals">intervals</a><br>
 ingd&nbsp;&nbsp;&nbsp;&nbsp;gd,&nbsp;gd2&nbsp;or&nbsp;np&nbsp;array</tt></dd></dl>
- <dl><dt><a name="-show_interv"><strong>show_interv</strong></a>(interv, verb=1)</dt></dl>
+ <dl><dt><a name="-show_interv"><strong>show_interv</strong></a>(interv, verb=1)</dt><dd><tt>show&nbsp;<a href="#intervals">intervals</a>&nbsp;attributes</tt></dd></dl>
+ <dl><dt><a name="-show_interv_2"><strong>show_interv_2</strong></a>(interv)</dt><dd><tt>show&nbsp;<a href="#intervals">intervals</a>&nbsp;-&nbsp;short&nbsp;version</tt></dd></dl>
  <dl><dt><a name="-show_nodata"><strong>show_nodata</strong></a>(Ini, Fin, dim, dat=0)</dt><dd><tt>Shows&nbsp;(and&nbsp;sets)&nbsp;nodata<br>
 &nbsp;Ini,Fin,dim&nbsp;&nbsp;&nbsp;output&nbsp;of&nbsp;findnodata<br>
 &nbsp;dat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array&nbsp;or&nbsp;gd&nbsp;or&nbsp;gd2&nbsp;to&nbsp;set</tt></dd></dl>
