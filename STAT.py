@@ -13,6 +13,12 @@ Sections:
 > Period analysis             -> dummy_per
 > From Scipy                  -> dummy_scipy
 '''
+
+def sections():
+    sec=[
+    ]
+    return sec
+
 import numpy as np
 from scipy.fft import fft, ifft
 from scipy import stats
@@ -27,6 +33,13 @@ import GD,BASIC,ASTROTIME,GD2
 def dummy_zero():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def ana_zero(indat,mode=0,eps=1.e-6):
    ''' 
@@ -147,6 +160,10 @@ def stat_nozero(indat):
    stat=GD.stat_gd(out,nbins=0)
 
    return stat
+
+
+def stat_gd_interv(gin, inter):
+   pass
    
 
 
@@ -155,6 +172,13 @@ def stat_nozero(indat):
 def dummy_hist():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def CW_histogram(x,w=[],ini=[],step=1,n=[],enl=10,typ='tri',edg=0,verb=1):
    ''' 
@@ -269,6 +293,34 @@ def CW_histogram(x,w=[],ini=[],step=1,n=[],enl=10,typ='tri',edg=0,verb=1):
    return out,dic,fun
 
 
+def loghist(dat,nbins=20,rang=None,weights=None):
+   '''
+   Histogram on log bins
+
+   dat     gd or array
+   bins    number of bins
+   range   see numpy.histogram
+   weight      "       "
+   '''
+   if not isinstance(dat,np.ndarray):
+      dat=dat.y
+
+   dat=np.log10(dat)
+
+   hist,bin_edg=np.histogram(dat,bins=nbins,range=rang,weights=weights)
+
+   bins=np.zeros(nbins)
+
+   for i in range(nbins):
+      bins[i]=(bin_edg[i]+bin_edg[i+1])/2
+
+   bins=10**bins
+   hist=GD.gd(hist,x=bins)
+
+   return hist
+
+
+
 def param_from_hist(hist):
    ''' 
    estimate population parameters from histogram
@@ -289,6 +341,13 @@ def param_from_hist(hist):
 def dummy_ps():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
    sqr=0,center=1):
@@ -305,6 +364,8 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
    center    =1 0 frequency at center, no single side band
    ''' 
 
+   if isinstance(ingd,np.ndarray):
+      ingd=GD.gd(ingd)
    N=ingd.n
    dx=ingd.dx
    dx=dx.squeeze()
@@ -383,7 +444,9 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
    return S
 
 
-def gd_welch(ingd,lenfrac,res=1,shift=1,notrend=1,win='hann',singleb=1):
+def gd_welch(ingd,lenfrac=1,res=1,shift=1,notrend=1,win='hann',singleb=1):
+   if isinstance(ingd,np.ndarray):
+      ingd=GD.gd(ingd)
    y=ingd.y
    dx=ingd.dx
    dx=dx.squeeze()
@@ -425,6 +488,13 @@ def stft(ingd):
 def dummy_spec():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def gd_spectrogram(ingd,l,zenh=2,shif=0.5,win='tuckey'):
    ''' 
@@ -465,6 +535,13 @@ def gd_spectrogram(ingd,l,zenh=2,shif=0.5,win='tuckey'):
 def dummy_per():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def gd_period(ingd,per,nbin=48,nharm=5,ph=0,preproc=1):
    ''' 
@@ -681,6 +758,13 @@ def gd_worm():
 def dummy_scipy():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 dist_continu = [d for d in dir(stats) if
                 isinstance(getattr(stats, d), stats.rv_continuous)]

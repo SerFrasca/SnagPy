@@ -3,9 +3,10 @@
 # Inizialization
 
 import numpy as np
-import GD,GD2,BASIC,ML_PY,SERV,STAT,SIGNAL,ASTROTIME,GD2,GWDATA
+import SNAGPY,GD,GD2,BASIC,ML_PY,SERV,STAT,SIGNAL,ASTROTIME,GD2,GWDATA
 import BSD,GUISNAG,GWDATA
 import importlib,h5py
+from importlib import reload
 # importlib.reload(Module)
 
 # useful services -------------
@@ -26,9 +27,9 @@ Ini,Fin,dim,Inan=SERV.findnodata(g)
 
 # intervals
 
-intervg=SERV.data_interval(g)
+intervg=SERV.data_interv(g)
 
-intervsp=SERV.data_interval(sp)
+intervsp=SERV.data_interv(sp)
 
 # spectrogram
 

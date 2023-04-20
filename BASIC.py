@@ -93,6 +93,11 @@ def var(v):
     variable analysis
       v     input variable
     '''
+    if isinstance(v,np.ndarray):
+        print('Numpy array')
+        arr(v)
+        return
+    
     print('\n', type(v))
     print('id : ', id(v), '\n')
     print(v, '\n')
@@ -111,6 +116,36 @@ def var(v):
     print('   ',rsiz/1024**3,'Gbytes')
 
     # return di
+
+
+
+def arr(v):
+    '''
+    array analysis
+      v     input variable
+    '''
+
+    print('\n', type(v))
+    print('id : ', id(v), '\n')
+    print(v, '\n')
+    print('dtype:',v.dtype)
+
+    print('shape:',v.shape)
+    print('itemsize:',v.itemsize,'bytes')
+
+    di = dir(v)
+    show_list(di)
+
+    siz=sys.getsizeof(v)
+    print('Memory occupancy ',siz,' bytes \n')
+    print('Recursive occupancy (ESTIMATION):')
+
+    rsiz=len(pickle.dumps(v))
+    print('   ',rsiz,'bytes')
+    print('   ',rsiz/1024,'kbytes')
+    print('   ',rsiz/1024**2,'Mbytes')
+    print('   ',rsiz/1024**3,'Gbytes')
+
 
 
 def Exec(file):   # exec(open('.\test_file').read())
@@ -767,12 +802,13 @@ def simp2dict(file):
     return eval(tot)
 
 
-def show_simp(sdic, spac=10, file=0):
+def show_simp(sdic, spac=10, file=0, tit=''):
     '''
     shows a simple dictionary
      spac is the key field length
      file is the name of a desired output fil (if any, def no)
     '''
+    print(tit)
     for key, value in sdic.items():
         print(key.ljust(spac), ' = ', value)
     if file != 0:

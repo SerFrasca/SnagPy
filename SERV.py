@@ -20,7 +20,7 @@ def sections():
     return sec
 
 import numpy as np
-import GD,GD2,BASIC
+import GD,GD2,BASIC,STAT
 import copy,time
 
 # Service computational routines ---------------------------------
@@ -793,31 +793,42 @@ def sel_interv(ingd,interv):
     return yy
 
 
+def interv_reduc(inter,mi,ma=0):
+    '''
+    Interval reduction, based on the length
+
+    mi   minimal interval length
+    ma   maximal interval length; ma=0 -> no limit
+    '''
+
+    lar=inter.lar
+    if ma == 0:
+        ma=lar+1
+
+    nin=len(inter.ini)
+    ini=np.zeros(nin)
+    fin=np.zeros(nin)
+    redinter=copy.deepcopy(inter)
+    ii=0
+
+    for i in range(nin):
+        w=inter.fin[i]-inter.ini[i]
+        if w >= mi and w <= ma:
+            ini[ii]=inter.ini[i]
+            fin[ii]=inter.fin[i]
+            ii+=1
+
+    redinter.ini=ini[0:ii]
+    redinter.fin=fin[0:ii]
+
+    return redinter
+
     
 def win_interv(interv,win):
-    pass
-
-
-def data_interval(dat, eps=1.e-6):
     '''
-    meaningful data intervals
-    dat    gd, gd2 or np array
-    eps    relative level of no data
+    Window creation for intervals
     '''
 
-    Ini, Fin, dim, Inan=findnodata(dat)
-    if isinstance(dat,np.ndarray):
-        x0=0
-        dx=1
-        x=[]
-    else:
-        x0=dat.ini
-        dx=dat.dx
-        x=dat.x
-    noint=FND2interv(Ini, Fin, dim, x0, dx, x)
-    interv=invert_interv(noint)
-
-    return interv
 
 
 # no-data management -------------------------
@@ -834,17 +845,19 @@ def dummy_nodata():
     return clas,fun
 
 
-def findnodata(dat, typ=1, eps=1.e-6):
+def data_interv(dat,eps=1.e-5,lenz=2,dataon=1):
     '''
-    finds no data values
-        dat    gd, gd2 or np array
-        typ    = 1 no nan or double 0
-                = 2 no nan
-        eps    relative level of no data
+    finds data intervals
+
+        dat     gd, gd2 or np array
+        eps     relative level of no data
+        lenz    min length of zero for no data
+        dataon  = 0 -> holes, = 1 -> data
     '''
 
     if isinstance(dat, np.ndarray) == False:
         dat = dat.y
+    dat=abs(dat)
     dsh = dat.shape
     if len(dsh) == 1:
         nr = 1
@@ -852,6 +865,9 @@ def findnodata(dat, typ=1, eps=1.e-6):
     else:
         nr = dsh[0]
         nc = dsh[1]
+
+    lar=nc
+    nar=nr
 
     dim = (nr, nc)
     yy = dat.flatten()
@@ -864,9 +880,8 @@ def findnodata(dat, typ=1, eps=1.e-6):
         return print('*** All null values')
 
     Inan = [None]*nr
-    if typ == 1:
-        Ini = [None]*nr
-        Fin = [None]*nr
+    Ini = [None]*nr
+    Fin = [None]*nr
 
     print('nr=', nr)
 
@@ -876,8 +891,8 @@ def findnodata(dat, typ=1, eps=1.e-6):
         else:
             y = dat[i]
 
-        iii = np.argwhere(~np.isnan(y))
         zer = np.zeros(nc)
+        iii = np.argwhere(~np.isnan(y))
         yy = abs(y[iii])
         ma = max(yy)
         if ma < mma:
@@ -887,38 +902,39 @@ def findnodata(dat, typ=1, eps=1.e-6):
         zer[inan] = 1
         Inan[i] = inan
 
-        if typ == 1:
-            y[inan] = 0
+        y[inan] = 0
 
-            for k in range(nc-1):
-                if y[k] <= eps1 and y[k+1] <= eps1:
-                    zer[k] = 1
-                    zer[k+1] = 1
+        for k in range(nc-lenz+1):
+            hol=1
+            if y[k] <= eps1:
+                for iz in range(lenz-1):
+                    if y[k+1+iz] > eps1:
+                        hol=hol*0
+                if hol == 1:
+                    for iz in range(lenz):
+                        zer[k+iz] = 1
 
-            interv = mask2interv(zer)
-            Ini[i] = interv.ini
-            Fin[i] = interv.fin
+        print(len(zer),sum(zer))
+        interv = mask2interv(zer)
+        Ini[i] = interv.ini
+        Fin[i] = interv.fin
 
-            if nr == 1:
-                Ini=Ini[0]
-                Fin=Fin[0]
+    if nr == 1:
+        Ini=Ini[0]
+        Fin=Fin[0]
+        Inan=Inan[0]
 
-    if typ == 1:
-        return Ini, Fin, dim, Inan
-    else:
-        return dim, Inan
-    
+    interv=intervals(nc,nar=nr,ini=Ini,fin=Fin)
+    interv.label='hole'
 
-def FND2interv(Ini, Fin, dim, x0, dx, x):
-    '''
-    From findnodata to hole interv
-    '''
-    nr,nc=dim
-    
-    interv=intervals(nc,nar=nr,ini=Ini,fin=Fin,x0=x0,dx=dx,x=x,label='hole')
+    if dataon == 1:
+        interv=invert_interv(interv)
+        interv.label='data'
+
+    interv.Inan=Inan
+
     return interv
-
-
+    
 
 def show_nodata(Ini, Fin, dim, dat=0):
     '''
@@ -946,3 +962,42 @@ def show_nodata(Ini, Fin, dim, dat=0):
 
     return Nint, Noel
 
+
+def stat_interv(inter,low=150):
+    '''
+    statistical analysis of an intervals object
+    '''
+    lar=inter.lar
+    nar=inter.nar
+    ini=inter.ini
+    fin=inter.fin
+    w=fin-ini
+    hist=STAT.loghist(w,nbins=100)
+
+    inter1=invert_interv(inter)
+    ini1=inter1.ini
+    fin1=inter1.fin
+    w1=fin1-ini1
+    hist1=STAT.loghist(w1,nbins=100)
+    
+    GD.newfig()
+    P_H=GD.plot_helper(scale='lolo',mode='step')
+    GD.plot_gd(hist,P_H=P_H)
+    GD.plot_gd(hist1,P_H=P_H)
+    GD.post_plot('Data and Hole interval length','len','')
+    
+    rich=copy.deepcopy(hist)
+    rich.y=rich.y*rich.x
+    rich1=copy.deepcopy(hist1)
+    rich1.y=rich1.y*rich1.x
+    GD.newfig()
+    P_H=GD.plot_helper(scale='lolo',mode='step')
+    GD.plot_gd(rich,P_H=P_H)
+    GD.plot_gd(rich1,P_H=P_H)
+    GD.post_plot('Data and Hole interval richness','len','')
+
+    stat,Hist=GD.stat_gd(w,100)
+    BASIC.show_simp(stat)
+    
+    stat,Hist=GD.stat_gd(w1,100)
+    BASIC.show_simp(stat)

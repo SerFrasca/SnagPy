@@ -2,9 +2,12 @@
     #  under GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
 '''
-      Module GD
+ .           Module GD
+
 Class and functions for GD management
+
  Sections:
+
  > class gd 	                -> dummy_gd
  > gd - dictionary management   -> dummy_gd_dic
  > gd display                   -> dummy_gd_disp
@@ -80,11 +83,11 @@ class gd:
         if 'ini' in gdpar:
             self.ini=gdpar['ini']
         else:
-            self.ini=0
+            self.ini=0.
         if 'dx' in gdpar:
             self.dx=gdpar['dx']
         else:
-            self.dx=1
+            self.dx=np.ndarray(1)
         if 'x' in gdpar:
             self.x=gdpar['x']
             if len(self.x) > 0:
@@ -411,10 +414,11 @@ def set_gd(ingd,fun,par1=1,par2=0.1,par3=0):
 def rand_gd(ingd,dist,par1=0,par2=1,par3=0):
     ''' 
     Random numbers
-    ingd  a gd or an integer that is the length of the new gd
-    dist  is the distribution ('norm','unif',...)
+
+    ingd       a gd or an integer that is the length of the new gd
+    dist       is the distribution ('norm','unif',...)
     par1,par2  are the parameters of the distribution
-    par3  seed
+    par3       seed
     '''
 
     if isinstance(ingd,int):
