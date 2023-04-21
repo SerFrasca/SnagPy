@@ -6,6 +6,8 @@ import numpy as np
 import SERV,GD
 import STAT,SIGNAL
 
+lfilt=1000
+
 q1 = 0.0001
 q0 = q1*2
 
@@ -29,16 +31,5 @@ for i in range(N):
     mask[i] = stat
 
 inter = SERV.mask2interv(mask)
-mask1=1-mask
 
-sp = STAT.gd_pows(mask)
-
-GD.newfig()
-GD.plot_gd(sp)
-
-w=np.exp(-1/10)
-a=[1,-w]
-b=1
-fask=SIGNAL.FiltFilt(mask,a,b)
-fsp = STAT.gd_pows(fask)
-
+win=SERV.win_interv(inter,5000)
