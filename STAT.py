@@ -353,6 +353,7 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
    sqr=0,center=1):
    ''' 
    Standard power spectrum estimation
+
    npiece    number of pieces (without shift)
    res       resoltion (minimal 1)
    shift     for interlaced pieces (1 no interlace, 0.5 one half shift)
@@ -368,8 +369,8 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
       ingd=GD.gd(ingd)
    N=ingd.n
    dx=ingd.dx
-   dx=dx.squeeze()
    y=ingd.y
+   print('dx',dx)
    if isinstance(y[1],complex):
       singleb=0
 
@@ -439,6 +440,7 @@ def gd_pows(ingd,npiece=1,res=1,shift=1,nobias=1,notrend=1,window=2,singleb=1,
       S=np.sqrt(S)
    print('N,n,sh,npie,lS',N,n,sh,npie,lS)
    S=S.squeeze()
+   print('df',df)
    S=GD.gd(S,dx=df)
 
    return S

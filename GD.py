@@ -87,7 +87,9 @@ class gd:
         if 'dx' in gdpar:
             self.dx=gdpar['dx']
         else:
-            self.dx=np.ndarray(1)
+            dx=1.
+            self.dx=dx
+            # self.dx=dx.squeeze()
         if 'x' in gdpar:
             self.x=gdpar['x']
             if len(self.x) > 0:

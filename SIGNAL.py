@@ -103,13 +103,14 @@ def dummy_filt():
 def Filter(ingd,a,b,zi):  # not to be confused with "filter" function
     pass
 
-def FiltFilt(ingd,a,b):
+def FiltFilt(ingd,a,b,norm=1):
     '''
     Apply a digital filter forward and backward to a signal
 
-    ingd   gd or 1-D array
-    a      denominator coefficient vector of the filter (AR or IIR coefficients)
-    b      denominator coefficient vector of the filter (MA or FIR coefficients)
+    ingd    gd or 1-D array
+    a       denominator coefficient vector of the filter (AR or IIR coefficients)
+    b       denominator coefficient vector of the filter (MA or FIR coefficients)
+    norm    normalization type (0 -> no, 1 -> max DC)
     '''
     
     if isinstance(ingd,np.ndarray):
@@ -120,6 +121,10 @@ def FiltFilt(ingd,a,b):
         y=ingd.y
 
     out=sip.filtfilt(b,a,y)
+    if norm == 1:
+        outdc=sip.filtfilt(b,a,np.ones(100000))
+        oo=max(outdc)
+        out=out/oo
 
     if icgd == 1:
         icgd=copy.deepcopy(icgd)

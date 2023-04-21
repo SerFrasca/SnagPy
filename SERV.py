@@ -20,7 +20,7 @@ def sections():
     return sec
 
 import numpy as np
-import GD,GD2,BASIC,STAT
+import GD,GD2,BASIC,STAT,SIGNAL
 import copy,time
 
 # Service computational routines ---------------------------------
@@ -824,10 +824,41 @@ def interv_reduc(inter,mi,ma=0):
     return redinter
 
     
-def win_interv(interv,win):
+def win_interv(inter,lwin,verb=1):
     '''
-    Window creation for intervals
+    Spectral window creation for intervalled data
+
+    inter   intervals object
+    lwin    window length parameter
     '''
+
+    mask=interv2mask(inter)
+    
+    w=np.exp(-1/lwin)
+    a=[1,-w]
+    b=1
+    win=SIGNAL.FiltFilt(mask,a,b)
+    win=win*mask
+    smask=np.sum(mask)
+    swin=np.sum(win)
+    print('smask/swin =',smask/swin)
+    win=win*np.sqrt(smask/swin)
+
+    if verb == 1:
+        GD.newfig()
+        GD.plot_gd(mask)
+        GD.plot_gd(win)
+        GD.post_plot('Windows','','')
+
+        sp=STAT.gd_pows(mask)
+        fsp=STAT.gd_pows(win)
+        
+        GD.newfig()
+        GD.plot_gd(sp)
+        GD.plot_gd(fsp)
+        GD.post_plot('Windows spectra','','')
+
+    return win
 
 
 

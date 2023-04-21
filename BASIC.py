@@ -88,22 +88,20 @@ def envir_var(var):
     return BB
 
 
-def var(v):
+def var(v,typ=0):
     '''
     variable analysis
       v     input variable
+      typ   =1 methods, =2 attributes, =3 methods and attributes
     '''
     if isinstance(v,np.ndarray):
         print('Numpy array')
-        arr(v)
+        arr(v,typ=typ)
         return
     
     print('\n', type(v))
     print('id : ', id(v), '\n')
     print(v, '\n')
-
-    di = dir(v)
-    show_list(di)
 
     siz=sys.getsizeof(v)
     print('Memory occupancy ',siz,' bytes \n')
@@ -115,14 +113,32 @@ def var(v):
     print('   ',rsiz/1024**2,'Mbytes')
     print('   ',rsiz/1024**3,'Gbytes')
 
-    # return di
+    if typ > 0:
+        di = dir(v)
+
+        if typ == 1 or typ == 3:
+            i=0
+            print('\n   Methods\n')
+            for it in di:
+                if hasattr(v, it) and callable(getattr(v, it)):
+                    i+=1
+                    print(i,it)
+
+        if typ == 2 or typ == 3:
+            i=0
+            print('\n   Attributes\n')
+            for it in di:
+                if hasattr(v, it) and not callable(getattr(v, it)):
+                    i+=1
+                    print(i,it)
 
 
 
-def arr(v):
+def arr(v,typ=0):
     '''
     array analysis
       v     input variable
+      typ   =1 methods, =2 attributes, =3 methods and attributes
     '''
 
     print('\n', type(v))
@@ -133,9 +149,6 @@ def arr(v):
     print('shape:',v.shape)
     print('itemsize:',v.itemsize,'bytes')
 
-    di = dir(v)
-    show_list(di)
-
     siz=sys.getsizeof(v)
     print('Memory occupancy ',siz,' bytes \n')
     print('Recursive occupancy (ESTIMATION):')
@@ -145,6 +158,26 @@ def arr(v):
     print('   ',rsiz/1024,'kbytes')
     print('   ',rsiz/1024**2,'Mbytes')
     print('   ',rsiz/1024**3,'Gbytes')
+
+    if typ > 0:
+        di = dir(v)
+
+        if typ == 1 or typ == 3:
+            i=0
+            print('\n   Methods\n')
+            for it in di:
+                if hasattr(v, it) and callable(getattr(v, it)):
+                    i+=1
+                    print(i,it)
+
+        if typ == 2 or typ == 3:
+            i=0
+            print('\n   Attributes\n')
+            for it in di:
+                if hasattr(v, it) and not callable(getattr(v, it)):
+                    i+=1
+                    print(i,it)
+
 
 
 
