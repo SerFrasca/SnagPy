@@ -93,6 +93,53 @@ def atan3(inp):
     return a
 
 
+def taper(l,typ):
+    '''
+    Tapering function
+
+    l       length
+    typ     type (1: linear, 2: cosine)
+    '''
+
+    tap=(np.arange(l)+1)*(l-1)/l**2
+
+    if typ == 2:
+        tap=tap*np.pi
+        tap=(1-(np.cos(tap)+1)/2)
+
+    return tap
+
+
+def double_taper(arrin,l,typ):
+    '''
+    Application of tapering on both sides of an array
+
+    arrin   array
+    l       tapering length
+    typ     tapering type
+    '''
+
+    arrin=np.double(arrin)
+    n=len(arrin)
+    if n < 2*l:
+        l=round(n/2)
+        print('new len =',l)
+
+    tap=taper(l,typ)
+    # GD.newfig()
+    # GD.plot_gd(tap)
+    out=arrin
+
+    for i in range(l):
+        out[i]=arrin[i]*tap[i]
+        
+    for i in range(l):
+        ii=n-1-i
+        out[ii]=out[ii]*tap[i]
+
+    return out
+
+
 def mask(n,n1,**pars): 
 # Mask function (e.g. for frequency filters)
 #  n=length, n1 cut or list cuts, 
@@ -371,8 +418,8 @@ def cover_calc(interv):
 def mask2interv(mask, cc=1):
     '''
     mask (1-0 array) intervals
-    m      mask
-    cc     =0 0 intervals
+    m       mask
+    cc      =0 0 intervals
             =1 1 intervals
     '''
 
@@ -429,6 +476,12 @@ def mask2interv(mask, cc=1):
 
 
 def interv2mask(interv):
+    '''
+    mask from intervals object
+
+    ATTENTION ! mask is one-byte array. Convert to double if needed (newmask=np.double(mask))
+    '''
+
     lar=interv.lar
     nar=interv.nar
     if nar == 1:
@@ -818,45 +871,79 @@ def interv_reduc(inter,mi,ma=0):
             fin[ii]=inter.fin[i]
             ii+=1
 
-    redinter.ini=ini[0:ii]
-    redinter.fin=fin[0:ii]
+    redinter.ini=np.intc(ini[0:ii])
+    redinter.fin=np.intc(fin[0:ii])
 
     return redinter
 
     
-def win_interv(inter,lwin,verb=1):
+def win_interv(inter,lwin,typ,verb=1):
     '''
     Spectral window creation for intervalled data
 
     inter   intervals object
     lwin    window length parameter
+    typ     window type 1: linear, 2: cosine, 3: filtered, 4: filtered normalized
+    verb    verbosity (def 1)
     '''
-
+    nin0=len(inter.ini)
+    inter=interv_reduc(inter,lwin)
+    nin=len(inter.ini)
+    print('Reduction from',nin0,'to',nin,'intervals')
     mask=interv2mask(inter)
+    mask=np.double(mask)
+    win=copy.copy(mask)
     
-    w=np.exp(-1/lwin)
-    a=[1,-w]
-    b=1
-    win=SIGNAL.FiltFilt(mask,a,b)
-    win=win*mask
+    if typ == 1:
+        styp='type 1: linear'
+        for i in range(nin):
+            arr=win[inter.ini[i]:inter.fin[i]]
+            oo=double_taper(arr,lwin,1)
+            win[inter.ini[i]:inter.fin[i]]=oo
+    if typ == 2: 
+        styp='type 2: cosine'
+        for i in range(nin):
+            arr=win[inter.ini[i]:inter.fin[i]]
+            arr=double_taper(arr,lwin,2)
+            win[inter.ini[i]:inter.fin[i]]=arr
+    if typ == 3 or typ == 4: 
+        styp='type 3: filtered'
+        w=np.exp(-1/lwin)
+        a=[1,-w]
+        b=1
+        win=SIGNAL.FiltFilt(mask,a,b)
+        win=win*mask
+    if typ == 4:
+        styp='type 4: filtered normalized'
+        for i in range(nin):
+            arr=win[inter.ini[i]:inter.fin[i]]
+            mi=min(arr)
+            ma=max(arr)
+            arr=(arr-mi)/(ma-mi)
+            win[inter.ini[i]:inter.fin[i]]=arr
     smask=np.sum(mask)
     swin=np.sum(win)
     print('smask/swin =',smask/swin)
     win=win*np.sqrt(smask/swin)
 
-    if verb == 1:
+    if verb >= 1:
         GD.newfig()
         GD.plot_gd(mask)
         GD.plot_gd(win)
-        GD.post_plot('Windows','','')
+        GD.post_plot('Windows '+styp,'','')
 
-        sp=STAT.gd_pows(mask)
-        fsp=STAT.gd_pows(win)
+        sma=np.abs(np.fft.fft(mask-np.mean(mask)))
+        nrot=int(len(sma)/2)
+        sma=rota(sma,nrot)
+        swi=np.abs(np.fft.fft(win-np.mean(win)))
+        swi=rota(swi,nrot)
         
         GD.newfig()
-        GD.plot_gd(sp)
-        GD.plot_gd(fsp)
-        GD.post_plot('Windows spectra','','')
+        x=np.arange(len(sma))-nrot
+        GD.plot_gd(sma,x=x)
+        GD.plot_gd(swi,x=x)
+        GD.ylog()
+        GD.post_plot('Windows spectra '+styp,'','')
 
     return win
 

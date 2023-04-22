@@ -5,7 +5,7 @@
 import numpy as np
 import SNAGPY,GD,GD2,BASIC,ML_PY,SERV,STAT,SIGNAL,ASTROTIME,GD2,GWDATA
 import BSD,GUISNAG,GWDATA
-import importlib
+import importlib,copy
 # importlib.reload(Module)
 from importlib import reload
 
