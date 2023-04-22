@@ -9,7 +9,17 @@
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>SIGNAL</strong></big></big></font></td
 ><td align=right valign=bottom
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Conedrive%5Csf%5C_prog%5Cpython%5Csnagpy%5Csignal.py">d:\onedrive\sf\_prog\python\snagpy\signal.py</a></font></td></tr></table>
-    <p></p>
+    <p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;SIGNAL<br>
+&nbsp;<br>
+Signal&nbsp;analysis<br>
+&nbsp;<br>
+Sections:<br>
+&nbsp;<br>
+&gt;&nbsp;Signals&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_sig<br>
+&gt;&nbsp;Operations&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_oper<br>
+&gt;&nbsp;Filters&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_filt<br>
+&gt;&nbsp;Particular&nbsp;transform&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_transf<br>
+&gt;&nbsp;Processes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_proc</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -17,25 +27,38 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="scipy.interpolate.html">scipy.interpolate</a><br>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="copy.html">copy</a><br>
+</td><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="scipy.interpolate.html">scipy.interpolate</a><br>
 </td><td width="25%" valign=top><a href="scipy.signal.html">scipy.signal</a><br>
-</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+</td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#eeaa77">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-Filter"><strong>Filter</strong></a>(ingd, a, b, zi)</dt></dl>
+<td width="100%"><dl><dt><a name="-FiltFilt"><strong>FiltFilt</strong></a>(ingd, a, b, norm=1)</dt><dd><tt>Apply&nbsp;a&nbsp;digital&nbsp;filter&nbsp;forward&nbsp;and&nbsp;backward&nbsp;to&nbsp;a&nbsp;signal<br>
+&nbsp;<br>
+ingd&nbsp;&nbsp;&nbsp;&nbsp;gd&nbsp;or&nbsp;1-D&nbsp;array<br>
+a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;denominator&nbsp;coefficient&nbsp;vector&nbsp;of&nbsp;the&nbsp;filter&nbsp;(AR&nbsp;or&nbsp;IIR&nbsp;coefficients)<br>
+b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;denominator&nbsp;coefficient&nbsp;vector&nbsp;of&nbsp;the&nbsp;filter&nbsp;(MA&nbsp;or&nbsp;FIR&nbsp;coefficients)<br>
+norm&nbsp;&nbsp;&nbsp;&nbsp;normalization&nbsp;type&nbsp;(0&nbsp;-&gt;&nbsp;no,&nbsp;1&nbsp;-&gt;&nbsp;max&nbsp;DC)</tt></dd></dl>
+ <dl><dt><a name="-Filter"><strong>Filter</strong></a>(ingd, a, b, zi)</dt></dl>
  <dl><dt><a name="-bode"><strong>bode</strong></a>()</dt></dl>
  <dl><dt><a name="-chirp"><strong>chirp</strong></a>()</dt></dl>
  <dl><dt><a name="-convol"><strong>convol</strong></a>()</dt></dl>
  <dl><dt><a name="-correl"><strong>correl</strong></a>()</dt></dl>
  <dl><dt><a name="-cubicspline"><strong>cubicspline</strong></a>()</dt></dl>
  <dl><dt><a name="-detrend"><strong>detrend</strong></a>(ingd)</dt></dl>
- <dl><dt><a name="-filtfilt"><strong>filtfilt</strong></a>(ingd, a, b)</dt></dl>
+ <dl><dt><a name="-dummy_filt"><strong>dummy_filt</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_oper"><strong>dummy_oper</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_proc"><strong>dummy_proc</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_sig"><strong>dummy_sig</strong></a>()</dt></dl>
+ <dl><dt><a name="-dummy_transf"><strong>dummy_transf</strong></a>()</dt></dl>
  <dl><dt><a name="-gausspulse"><strong>gausspulse</strong></a>()</dt></dl>
  <dl><dt><a name="-hilbert"><strong>hilbert</strong></a>(ingd)</dt></dl>
+ <dl><dt><a name="-hough"><strong>hough</strong></a>(ingd)</dt></dl>
  <dl><dt><a name="-normal_proc"><strong>normal_proc</strong></a>()</dt></dl>
  <dl><dt><a name="-poisson_proc"><strong>poisson_proc</strong></a>()</dt></dl>
  <dl><dt><a name="-radon"><strong>radon</strong></a>(ingd)</dt></dl>

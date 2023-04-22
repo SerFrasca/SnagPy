@@ -28,10 +28,12 @@ Sections:<br>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="BASIC.html">BASIC</a><br>
 <a href="GD.html">GD</a><br>
 </td><td width="25%" valign=top><a href="GD2.html">GD2</a><br>
+<a href="SIGNAL.html">SIGNAL</a><br>
+</td><td width="25%" valign=top><a href="STAT.html">STAT</a><br>
 <a href="copy.html">copy</a><br>
 </td><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
 <a href="time.html">time</a><br>
-</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+</td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -108,39 +110,47 @@ Data descriptors defined here:<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-FND2interv"><strong>FND2interv</strong></a>(Ini, Fin, dim, x0, dx, x)</dt><dd><tt>From&nbsp;findnodata&nbsp;to&nbsp;hole&nbsp;interv</tt></dd></dl>
- <dl><dt><a name="-atan3"><strong>atan3</strong></a>(inp)</dt></dl>
+<td width="100%"><dl><dt><a name="-atan3"><strong>atan3</strong></a>(inp)</dt></dl>
  <dl><dt><a name="-check_interv"><strong>check_interv</strong></a>(inter)</dt></dl>
  <dl><dt><a name="-collect_interv"><strong>collect_interv</strong></a>(*inter)</dt><dd><tt>Collects&nbsp;a&nbsp;number&nbsp;of&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;to&nbsp;create&nbsp;a&nbsp;2-D&nbsp;<a href="#intervals">intervals</a></tt></dd></dl>
  <dl><dt><a name="-cover_calc"><strong>cover_calc</strong></a>(interv)</dt></dl>
- <dl><dt><a name="-data_interval"><strong>data_interval</strong></a>(dat, eps=1e-06)</dt><dd><tt>meaningful&nbsp;data&nbsp;<a href="#intervals">intervals</a><br>
-dat&nbsp;&nbsp;&nbsp;&nbsp;gd,&nbsp;gd2&nbsp;or&nbsp;np&nbsp;array<br>
-eps&nbsp;&nbsp;&nbsp;&nbsp;relative&nbsp;level&nbsp;of&nbsp;no&nbsp;data</tt></dd></dl>
+ <dl><dt><a name="-data_interv"><strong>data_interv</strong></a>(dat, eps=1e-05, lenz=2, dataon=1)</dt><dd><tt>finds&nbsp;data&nbsp;<a href="#intervals">intervals</a><br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd,&nbsp;gd2&nbsp;or&nbsp;np&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;eps&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;relative&nbsp;level&nbsp;of&nbsp;no&nbsp;data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lenz&nbsp;&nbsp;&nbsp;&nbsp;min&nbsp;length&nbsp;of&nbsp;zero&nbsp;for&nbsp;no&nbsp;data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dataon&nbsp;&nbsp;=&nbsp;0&nbsp;-&gt;&nbsp;holes,&nbsp;=&nbsp;1&nbsp;-&gt;&nbsp;data</tt></dd></dl>
  <dl><dt><a name="-dict2interv"><strong>dict2interv</strong></a>(intdic)</dt></dl>
+ <dl><dt><a name="-double_taper"><strong>double_taper</strong></a>(arrin, l, typ)</dt><dd><tt>Application&nbsp;of&nbsp;tapering&nbsp;on&nbsp;both&nbsp;sides&nbsp;of&nbsp;an&nbsp;array<br>
+&nbsp;<br>
+arrin&nbsp;&nbsp;&nbsp;array<br>
+l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tapering&nbsp;length<br>
+typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tapering&nbsp;type</tt></dd></dl>
  <dl><dt><a name="-dummy_comp"><strong>dummy_comp</strong></a>()</dt></dl>
  <dl><dt><a name="-dummy_inter"><strong>dummy_inter</strong></a>()</dt><dd><tt>Time&nbsp;(or&nbsp;other)&nbsp;interval&nbsp;management</tt></dd></dl>
  <dl><dt><a name="-dummy_nodata"><strong>dummy_nodata</strong></a>()</dt></dl>
- <dl><dt><a name="-findnodata"><strong>findnodata</strong></a>(dat, typ=1, eps=1e-06)</dt><dd><tt>finds&nbsp;no&nbsp;data&nbsp;values<br>
-&nbsp;&nbsp;&nbsp;&nbsp;dat&nbsp;&nbsp;&nbsp;&nbsp;gd,&nbsp;gd2&nbsp;or&nbsp;np&nbsp;array<br>
-&nbsp;&nbsp;&nbsp;&nbsp;typ&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1&nbsp;no&nbsp;nan&nbsp;or&nbsp;double&nbsp;0<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2&nbsp;no&nbsp;nan<br>
-&nbsp;&nbsp;&nbsp;&nbsp;eps&nbsp;&nbsp;&nbsp;&nbsp;relative&nbsp;level&nbsp;of&nbsp;no&nbsp;data</tt></dd></dl>
  <dl><dt><a name="-full_ind2x"><strong>full_ind2x</strong></a>(interv)</dt></dl>
  <dl><dt><a name="-ifr"><strong>ifr</strong></a>(ingd, fr)</dt></dl>
  <dl><dt><a name="-ind2x"><strong>ind2x</strong></a>(interv, ind)</dt></dl>
  <dl><dt><a name="-interv2dict"><strong>interv2dict</strong></a>(interv)</dt></dl>
- <dl><dt><a name="-interv2mask"><strong>interv2mask</strong></a>(interv)</dt></dl>
+ <dl><dt><a name="-interv2mask"><strong>interv2mask</strong></a>(interv)</dt><dd><tt>mask&nbsp;from&nbsp;<a href="#intervals">intervals</a>&nbsp;<a href="builtins.html#object">object</a><br>
+&nbsp;<br>
+ATTENTION&nbsp;!&nbsp;mask&nbsp;is&nbsp;one-byte&nbsp;array.&nbsp;Convert&nbsp;to&nbsp;double&nbsp;if&nbsp;needed&nbsp;(newmask=np.double(mask))</tt></dd></dl>
  <dl><dt><a name="-interv_and"><strong>interv_and</strong></a>(*inter)</dt><dd><tt>AND&nbsp;of&nbsp;undefined&nbsp;number&nbsp;of&nbsp;arguments<br>
 ---&nbsp;only&nbsp;for&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;---</tt></dd></dl>
  <dl><dt><a name="-interv_coverage"><strong>interv_coverage</strong></a>(*inter)</dt><dd><tt>Coverage&nbsp;function&nbsp;of&nbsp;undefined&nbsp;number&nbsp;of&nbsp;arguments<br>
 ---&nbsp;only&nbsp;for&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;---</tt></dd></dl>
  <dl><dt><a name="-interv_or"><strong>interv_or</strong></a>(*inter)</dt><dd><tt>OR&nbsp;of&nbsp;undefined&nbsp;number&nbsp;of&nbsp;arguments<br>
 &nbsp;&nbsp;&nbsp;&nbsp;---&nbsp;only&nbsp;for&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;---</tt></dd></dl>
+ <dl><dt><a name="-interv_reduc"><strong>interv_reduc</strong></a>(inter, mi, ma=0)</dt><dd><tt>Interval&nbsp;reduction,&nbsp;based&nbsp;on&nbsp;the&nbsp;length<br>
+&nbsp;<br>
+mi&nbsp;&nbsp;&nbsp;minimal&nbsp;interval&nbsp;length<br>
+ma&nbsp;&nbsp;&nbsp;maximal&nbsp;interval&nbsp;length;&nbsp;ma=0&nbsp;-&gt;&nbsp;no&nbsp;limit</tt></dd></dl>
  <dl><dt><a name="-invert_interv"><strong>invert_interv</strong></a>(interv)</dt></dl>
  <dl><dt><a name="-mask"><strong>mask</strong></a>(n, n1, **pars)</dt></dl>
  <dl><dt><a name="-mask2interv"><strong>mask2interv</strong></a>(mask, cc=1)</dt><dd><tt>mask&nbsp;(1-0&nbsp;array)&nbsp;<a href="#intervals">intervals</a><br>
-m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mask<br>
-cc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=0&nbsp;0&nbsp;<a href="#intervals">intervals</a><br>
+m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mask<br>
+cc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=0&nbsp;0&nbsp;<a href="#intervals">intervals</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=1&nbsp;1&nbsp;<a href="#intervals">intervals</a></tt></dd></dl>
  <dl><dt><a name="-range_shift"><strong>range_shift</strong></a>(ini, fin, shift, lseg)</dt></dl>
  <dl><dt><a name="-rota"><strong>rota</strong></a>(inp, n)</dt></dl>
@@ -152,9 +162,19 @@ ingd&nbsp;&nbsp;&nbsp;&nbsp;gd,&nbsp;gd2&nbsp;or&nbsp;np&nbsp;array</tt></dd></d
  <dl><dt><a name="-show_nodata"><strong>show_nodata</strong></a>(Ini, Fin, dim, dat=0)</dt><dd><tt>Shows&nbsp;(and&nbsp;sets)&nbsp;nodata<br>
 &nbsp;Ini,Fin,dim&nbsp;&nbsp;&nbsp;output&nbsp;of&nbsp;findnodata<br>
 &nbsp;dat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array&nbsp;or&nbsp;gd&nbsp;or&nbsp;gd2&nbsp;to&nbsp;set</tt></dd></dl>
+ <dl><dt><a name="-stat_interv"><strong>stat_interv</strong></a>(inter, low=150)</dt><dd><tt>statistical&nbsp;analysis&nbsp;of&nbsp;an&nbsp;<a href="#intervals">intervals</a>&nbsp;<a href="builtins.html#object">object</a></tt></dd></dl>
+ <dl><dt><a name="-taper"><strong>taper</strong></a>(l, typ)</dt><dd><tt>Tapering&nbsp;function<br>
+&nbsp;<br>
+l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length<br>
+typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;(1:&nbsp;linear,&nbsp;2:&nbsp;cosine)</tt></dd></dl>
  <dl><dt><a name="-thresh"><strong>thresh</strong></a>(inp, t1, t2)</dt></dl>
  <dl><dt><a name="-vec_ccdot"><strong>vec_ccdot</strong></a>(in1, in2)</dt></dl>
- <dl><dt><a name="-win_interv"><strong>win_interv</strong></a>(interv, win)</dt></dl>
+ <dl><dt><a name="-win_interv"><strong>win_interv</strong></a>(inter, lwin, typ, verb=1)</dt><dd><tt>Spectral&nbsp;window&nbsp;creation&nbsp;for&nbsp;intervalled&nbsp;data<br>
+&nbsp;<br>
+inter&nbsp;&nbsp;&nbsp;<a href="#intervals">intervals</a>&nbsp;<a href="builtins.html#object">object</a><br>
+lwin&nbsp;&nbsp;&nbsp;&nbsp;window&nbsp;length&nbsp;parameter<br>
+typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window&nbsp;type&nbsp;1:&nbsp;linear,&nbsp;2:&nbsp;cosine,&nbsp;3:&nbsp;filtered,&nbsp;4:&nbsp;filtered&nbsp;normalized<br>
+verb&nbsp;&nbsp;&nbsp;&nbsp;verbosity&nbsp;(def&nbsp;1)</tt></dd></dl>
  <dl><dt><a name="-x2ind"><strong>x2ind</strong></a>(interv, x)</dt></dl>
  <dl><dt><a name="-x_interv"><strong>x_interv</strong></a>(interv)</dt></dl>
 </td></tr></table>

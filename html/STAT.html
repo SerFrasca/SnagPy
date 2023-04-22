@@ -78,6 +78,7 @@ preproc&nbsp;&nbsp;pre-processing&nbsp;0&nbsp;nothing,&nbsp;1&nbsp;abs,&nbsp;2&n
 &nbsp;<br>
 The&nbsp;gd&nbsp;sampling&nbsp;time&nbsp;must&nbsp;be&nbsp;in&nbsp;s,&nbsp;if&nbsp;physical&nbsp;periods&nbsp;are&nbsp;considered</tt></dd></dl>
  <dl><dt><a name="-gd_pows"><strong>gd_pows</strong></a>(ingd, npiece=1, res=1, shift=1, nobias=1, notrend=1, window=2, singleb=1, sqr=0, center=1)</dt><dd><tt>Standard&nbsp;power&nbsp;spectrum&nbsp;estimation<br>
+&nbsp;<br>
 npiece&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;pieces&nbsp;(without&nbsp;shift)<br>
 res&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resoltion&nbsp;(minimal&nbsp;1)<br>
 shift&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;interlaced&nbsp;pieces&nbsp;(1&nbsp;no&nbsp;interlace,&nbsp;0.5&nbsp;one&nbsp;half&nbsp;shift)<br>
@@ -104,8 +105,14 @@ ph&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phase&nbsp;(in&nbsp;deg)<br>
 preproc&nbsp;&nbsp;pre-processing&nbsp;0&nbsp;nothing,&nbsp;1&nbsp;abs,&nbsp;2&nbsp;square<br>
 &nbsp;<br>
 The&nbsp;gd&nbsp;sampling&nbsp;time&nbsp;must&nbsp;be&nbsp;in&nbsp;s,&nbsp;if&nbsp;physical&nbsp;periods&nbsp;are&nbsp;considered</tt></dd></dl>
- <dl><dt><a name="-gd_welch"><strong>gd_welch</strong></a>(ingd, lenfrac, res=1, shift=1, notrend=1, win='hann', singleb=1)</dt></dl>
+ <dl><dt><a name="-gd_welch"><strong>gd_welch</strong></a>(ingd, lenfrac=1, res=1, shift=1, notrend=1, win='hann', singleb=1)</dt></dl>
  <dl><dt><a name="-gd_worm"><strong>gd_worm</strong></a>()</dt></dl>
+ <dl><dt><a name="-loghist"><strong>loghist</strong></a>(dat, nbins=20, rang=None, weights=None)</dt><dd><tt>Histogram&nbsp;on&nbsp;log&nbsp;bins<br>
+&nbsp;<br>
+dat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd&nbsp;or&nbsp;array<br>
+bins&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;bins<br>
+range&nbsp;&nbsp;&nbsp;see&nbsp;numpy.histogram<br>
+weight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"</tt></dd></dl>
  <dl><dt><a name="-lombscargle"><strong>lombscargle</strong></a>(ingd)</dt></dl>
  <dl><dt><a name="-param_from_hist"><strong>param_from_hist</strong></a>(hist)</dt><dd><tt>estimate&nbsp;population&nbsp;parameters&nbsp;from&nbsp;histogram<br>
 hist&nbsp;&nbsp;&nbsp;gd&nbsp;containing&nbsp;the&nbsp;histogram</tt></dd></dl>
@@ -118,6 +125,7 @@ pars&nbsp;&nbsp;parameters<br>
 &nbsp;&nbsp;&nbsp;typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pars<br>
 norm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mu,sigma</tt></dd></dl>
  <dl><dt><a name="-sections"><strong>sections</strong></a>()</dt></dl>
+ <dl><dt><a name="-stat_gd_interv"><strong>stat_gd_interv</strong></a>(gin, inter)</dt></dl>
  <dl><dt><a name="-stat_nozero"><strong>stat_nozero</strong></a>(indat)</dt><dd><tt>statistics&nbsp;on&nbsp;non-zero&nbsp;data</tt></dd></dl>
  <dl><dt><a name="-stft"><strong>stft</strong></a>(ingd)</dt></dl>
 </td></tr></table><p>

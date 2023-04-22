@@ -152,6 +152,9 @@ modu&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;with&nbsp;the&nbsp;name&nbsp;of&nbsp;the&n
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;installed,&nbsp;see&nbsp;module_name.__file__)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.g.&nbsp;BASIC.<a href="#-ana_module">ana_module</a>(GD.__file__,'prova.out'))<br>
 filout&nbsp;&nbsp;output&nbsp;file</tt></dd></dl>
+ <dl><dt><a name="-arr"><strong>arr</strong></a>(v, typ=0)</dt><dd><tt>array&nbsp;analysis<br>
+&nbsp;&nbsp;v&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;variable<br>
+&nbsp;&nbsp;typ&nbsp;&nbsp;&nbsp;=1&nbsp;methods,&nbsp;=2&nbsp;attributes,&nbsp;=3&nbsp;methods&nbsp;and&nbsp;attributes</tt></dd></dl>
  <dl><dt><a name="-array_extract"><strong>array_extract</strong></a>(kstr, var, Names, Cval, outdic=0)</dt><dd><tt>extracts&nbsp;a&nbsp;value&nbsp;from&nbsp;an&nbsp;array&nbsp;structure<br>
 &nbsp;&nbsp;kstr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;structure&nbsp;(as&nbsp;in&nbsp;show_array_struct)<br>
 &nbsp;&nbsp;var&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as&nbsp;it&nbsp;is&nbsp;shown&nbsp;by&nbsp;show_array_struct<br>
@@ -286,7 +289,7 @@ the&nbsp;path,&nbsp;the&nbsp;file&nbsp;name&nbsp;without&nbsp;extension,&nbsp;th
  <dl><dt><a name="-show_dict_struct_2"><strong>show_dict_struct_2</strong></a>(Keys, Dics)</dt><dd><tt>displays&nbsp;the&nbsp;dictionary&nbsp;structure&nbsp;explored&nbsp;by&nbsp;expl_dict</tt></dd></dl>
  <dl><dt><a name="-show_list"><strong>show_list</strong></a>(lis, sort=1)</dt><dd><tt>shows&nbsp;a&nbsp;list<br>
 sort&nbsp;can&nbsp;be&nbsp;put&nbsp;=&nbsp;1&nbsp;only&nbsp;if&nbsp;the&nbsp;elements&nbsp;are&nbsp;all&nbsp;numbers&nbsp;or&nbsp;all&nbsp;strings</tt></dd></dl>
- <dl><dt><a name="-show_simp"><strong>show_simp</strong></a>(sdic, spac=10, file=0)</dt><dd><tt>shows&nbsp;a&nbsp;simple&nbsp;dictionary<br>
+ <dl><dt><a name="-show_simp"><strong>show_simp</strong></a>(sdic, spac=10, file=0, tit='')</dt><dd><tt>shows&nbsp;a&nbsp;simple&nbsp;dictionary<br>
 &nbsp;spac&nbsp;is&nbsp;the&nbsp;key&nbsp;field&nbsp;length<br>
 &nbsp;file&nbsp;is&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;desired&nbsp;output&nbsp;fil&nbsp;(if&nbsp;any,&nbsp;def&nbsp;no)</tt></dd></dl>
  <dl><dt><a name="-simp2dict"><strong>simp2dict</strong></a>(file)</dt><dd><tt>puts&nbsp;the&nbsp;content&nbsp;of&nbsp;a&nbsp;simple&nbsp;table&nbsp;to&nbsp;a&nbsp;simple&nbsp;dictionary</tt></dd></dl>
@@ -304,8 +307,9 @@ fil&nbsp;&nbsp;file&nbsp;without&nbsp;extension</tt></dd></dl>
  <dl><dt><a name="-val_from_key"><strong>val_from_key</strong></a>(st, kk)</dt><dd><tt>value&nbsp;from&nbsp;key&nbsp;for&nbsp;dictionary&nbsp;or&nbsp;structured&nbsp;array<br>
 &nbsp;&nbsp;&nbsp;st&nbsp;&nbsp;&nbsp;structured&nbsp;array&nbsp;or&nbsp;dictionary<br>
 &nbsp;&nbsp;&nbsp;kk&nbsp;&nbsp;&nbsp;key&nbsp;(string)</tt></dd></dl>
- <dl><dt><a name="-var"><strong>var</strong></a>(v)</dt><dd><tt>variable&nbsp;analysis<br>
-&nbsp;&nbsp;v&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;variable</tt></dd></dl>
+ <dl><dt><a name="-var"><strong>var</strong></a>(v, typ=0)</dt><dd><tt>variable&nbsp;analysis<br>
+&nbsp;&nbsp;v&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;variable<br>
+&nbsp;&nbsp;typ&nbsp;&nbsp;&nbsp;=1&nbsp;methods,&nbsp;=2&nbsp;attributes,&nbsp;=3&nbsp;methods&nbsp;and&nbsp;attributes</tt></dd></dl>
  <dl><dt><a name="-write_dic2hdf5"><strong>write_dic2hdf5</strong></a>(dic, fil)</dt><dd><tt>writes&nbsp;a&nbsp;dictionary&nbsp;in&nbsp;a&nbsp;hdf5&nbsp;file</tt></dd></dl>
  <dl><dt><a name="-write_hdf5_s"><strong>write_hdf5_s</strong></a>(dic, fil)</dt><dd><tt>writes&nbsp;in&nbsp;a&nbsp;hdf5&nbsp;file&nbsp;a&nbsp;simple&nbsp;dictionary<br>
 &nbsp;dats&nbsp;&nbsp;&nbsp;simple&nbsp;dictionary&nbsp;containing&nbsp;the&nbsp;data</tt></dd></dl>
@@ -316,5 +320,5 @@ fil&nbsp;&nbsp;file&nbsp;without&nbsp;extension</tt></dd></dl>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>ttic</strong> = 1681742388.848671</td></tr></table>
+<td width="100%"><strong>ttic</strong> = 1682179446.5300124</td></tr></table>
 </body></html>
