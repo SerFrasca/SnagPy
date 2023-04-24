@@ -686,11 +686,18 @@ def dummy_plot():
     The plot can be modified by the functions xlog, ylog, xlin, ylin,
     xlim, ylim and others.
 
+    ----------------------------------------------------------------
+
+    A different procedure, more synthetic is using simply the GD function "plot".
+    Among the arguments you can define the title, the x and y labels, the log or lin, 
+    the mode, the color, if the plot is in a new or in the old figure and other.
+    Also a label can be attached and can be used in the legend with GD.legend(...).
+
     '''
     clas=[
 
     ]
-    fun=['newfig','plot_gd','plot_helper','post_plot','c_plot_gd','close_fig'
+    fun=['newfig','plot_gd','plot_helper','post_plot','c_plot_gd','plot','legend','close_fig'
         
     ]
     return clas,fun
@@ -818,6 +825,112 @@ def c_plot_gd(typ,ingd):
         plt.plot(x,y)
  #   plt.show() 
     plt.grid()
+
+
+def plot(ingd,**plotpar):
+    '''
+    ingd   input gd or array
+    x      changed x
+
+    keywords:
+        more=1          no newfig
+        mode='step'
+        mode='scatter'
+        xlog=1
+        ylog=1
+        loglog=1
+        plmodif         plot modifier (es.: 'r+', 
+                        see https://matplotlib.org/2.1.1/api/_as_gen/matplotlib.pyplot.plot.html)
+        x=array         abscissa modification
+        fmt='r','b',... (for step)
+
+        title='Something'  put a title
+        xlab='Something'   put a xlabel
+        ylab='Something'   put a ylabel
+
+        label='Something'  sets a label to the line
+    '''
+
+    if 'more' not in plotpar:
+        print('New Fig')
+        newfig()
+    else:
+        print('No New Fig')
+
+    mode='plot'
+    if 'mode' in plotpar:
+        mode=plotpar['mode']
+        
+    if 'plmodif' in plotpar:
+        plmodif=plotpar['plmodif']
+    else:
+        plmodif=''
+        
+    if 'fmt' in plotpar:
+        fmt=plotpar['fmt']
+    else:
+        fmt=''
+
+    plt.xscale('linear')
+    plt.yscale('linear')
+    if 'xlog' in plotpar:
+        plt.xscale('log')
+    if 'ylog' in plotpar:
+        plt.yscale('log')
+    if 'loglog' in plotpar:
+        plt.xscale('log')
+        plt.yscale('log')
+
+    if 'x' in plotpar:
+        xx=plotpar['x']
+        chx=1
+    else:
+        chx=0
+
+    if isinstance(ingd,np.ndarray):
+        x=np.arange(len(ingd))
+        y=ingd
+    else:
+        x=x_gd(ingd)
+        y=ingd.y
+
+    if chx == 1:
+        x=xx
+
+    if 'label' in plotpar:
+        lab=plotpar['label']
+    else:
+        lab=''
+
+    if mode == 'plot':      
+        plt.plot(x,y,plmodif,label=lab)
+    elif mode == 'step': 
+        plt.step(x,y,fmt,where='mid',label=lab)
+    elif mode == 'scat': 
+        plt.scatter(x,y,label=lab)
+
+    gridon()
+
+    if 'title' in plotpar:
+        tit=plotpar['title']
+        plt.title(tit)
+      
+    if 'xlab' in plotpar:
+        xlab=plotpar['xlab']
+        plt.xlabel(xlab)
+      
+    if 'ylab' in plotpar:
+        ylab=plotpar['ylab']
+        plt.ylabel(ylab)
+      
+
+def legend(loc='lower right'):
+    '''
+    Legend creation using labels set by plot
+    For the location, use 'best' or any position; default 'lower right'
+    see https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html#matplotlib.pyplot.legend
+    '''
+    plt.legend(loc=loc)
 
 
 def close_fig():
