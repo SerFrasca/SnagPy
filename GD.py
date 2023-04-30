@@ -160,6 +160,9 @@ class gd:
         changes parameters of a gd or copy a gd
         'new'-1  -> new object
         in gdpar any couple varname=varvalue 
+        
+        Output:
+            outgd   edited gd
         """
 
         if 'new' in gdpar:
@@ -191,6 +194,9 @@ class gd:
 def x_gd(ingd):
     '''
     gd abscissa (real or realized) (operates also on arrays)
+    
+    Output:
+        x   gd abscissa
     '''
     if not isinstance(ingd,np.ndarray):
         if ingd.typ == 1 :
@@ -609,6 +615,13 @@ def stat_gd(ingd,nbins=20):
     Simple statistics (parameters and histogram)
     nbins number of bins of the output histogram (a gd). If = 0, no hist
     producs a simple dictionary with median, mean, std, skew and kurt
+
+    ingd    gd or array
+
+    OUTPUT:
+        stat,Hist   
+        or
+        stat
     '''
 
     if isinstance(ingd,np.ndarray):

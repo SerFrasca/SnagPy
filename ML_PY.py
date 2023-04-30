@@ -27,6 +27,13 @@ import GD,SERV,BASIC
 def dummy_v7():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def loadmat7(fil):
 # Generic load
@@ -87,6 +94,13 @@ def gdloaddicmat7(fil):
 def dummy_v73():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas
 
 def loadmat73(fil):
     '''
@@ -131,6 +145,13 @@ def gd_lm73(fil):
 def dummy_csv():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def csv_read(filn):
     with open(filn, newline='') as csvfile:

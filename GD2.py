@@ -14,16 +14,22 @@ Class and functions for GD2 management
  > map functions                -> dummy_map
 '''
 
+def sections():
+    sec=[
+    ]
+    return sec
+
 import numpy as np
 from scipy.fft import fft2, ifft2
-import cmath as cm
+import cmath
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import copy
 import time
 import SERV,BASIC,GD
 
-pi=cm.pi
+pi=cmath.pi
 deg2rad=pi/180
 
 # class gd2  -----------------------------------------------
@@ -31,6 +37,13 @@ deg2rad=pi/180
 def dummy_gd2():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 class gd2:    # gd2 creation
     """  
@@ -207,6 +220,13 @@ def zero_nan_gd2(ingd2,v=0.):
 def dummy_dict():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def dict2gd2(dicin):
     pass
@@ -221,6 +241,13 @@ def gd22dict(ingd):
 def dummy_disp():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def show_gd2(ingd2):
     print('type   ',ingd2.typ)
@@ -243,6 +270,13 @@ def show_gd2(ingd2):
 def dummy_mod():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def modif_gd2(ingd2,fun,par1=1,par2=0.1,par3=0):
     '''
@@ -308,12 +342,13 @@ def fft_gd2(ingd2,fif=1):
     return outgd2
 
 
-def im_cut(ingd2,iout,jout):
+def im_cut(ingd2,iout,jout,typ=1):
     '''
     image cut
-    ingd2    input gd2 or matrix
-    iout     range x1 out
-    jout     range x2 out
+    ingd2   input gd2 or matrix
+    iout    range x1 out
+    jout    range x2 out
+    typ     1 range in samples, 2 range in x
     '''
     if isinstance(ingd2,np.ndarray):
         ini1=0
@@ -321,33 +356,44 @@ def im_cut(ingd2,iout,jout):
         ini2=0
         dx2=1
         yy=ingd2
-        igd2=0
+        icgd2=0
     else:
         ini1=ingd2.ini
         dx1=ingd2.dx
         ini2=ingd2.ini2
         dx2=ingd2.dx2
         yy=ingd2.y
-        igd2=1
+        icgd2=1
 
     # print(iout[0],iout[1],ini1,dx1)
-    iiout0=BASIC.ind_from_inidx(iout[0],ini1,dx1)
-    iiout1=BASIC.ind_from_inidx(iout[1],ini1,dx1)
-    jjout0=BASIC.ind_from_inidx(jout[0],ini2,dx2)
-    jjout1=BASIC.ind_from_inidx(jout[1],ini2,dx2)
+    if typ == 1:
+        iiout0=iout[0]
+        iiout1=iout[1]
+        jjout0=jout[0]
+        jjout1=jout[1]
+    else:
+        iiout0=BASIC.ind_from_inidx(iout[0],ini1,dx1)
+        iiout1=BASIC.ind_from_inidx(iout[1],ini1,dx1)
+        jjout0=BASIC.ind_from_inidx(jout[0],ini2,dx2)
+        jjout1=BASIC.ind_from_inidx(jout[1],ini2,dx2)
 
+    ini=ingd2.ini+(iiout0-1)*ingd2.dx
+    ini2=ingd2.ini2+(jjout0-1)*ingd2.dx
     maxy,maxx=yy.shape
 
-    if iiout1 > maxy:
-        iiout1=maxy
-    if jjout1 > maxx:
-        jjout1=maxx
+    if iiout1 > maxx:
+        iiout1=maxx
+    if jjout1 > maxy:
+        jjout1=maxy
 
+    print(iout,jout)
+    print(iiout0,iiout1,jjout0,jjout1)
     # cut=yy[np.ix_(range(iiout0,iiout1),range(jjout0,jjout1))]
-    cut=yy[iiout0:iiout1+1,jjout0:jjout1+1]
+    cut=yy[jjout0:jjout1+1,iiout0:iiout1+1]
+    print(cut.shape)
 
-    if igd2 == 1:
-        cut=gd2(cut,dx=ingd2.dx,ini=iout[0],dx2=ingd2.dx2,ini2=jout[0])
+    if icgd2 == 1:
+        cut=gd2(cut,dx=ingd2.dx,ini=ini,dx2=ingd2.dx2,ini2=ini2)
 
     return cut
 
@@ -383,6 +429,13 @@ def gd2_stat_nz(ingd2):
 def dummy_map():
     '''
     '''
+    clas=[
+
+    ]
+    fun=[
+        
+    ]
+    return clas,fun
 
 def newfig2(siz=1):
     fig = plt.figure()
@@ -391,10 +444,36 @@ def newfig2(siz=1):
     return fig,ax
 
 
-def grey_map(ingd2,MH=0,fun='none'):
-# grey map of 2-D array or gd2
-    if MH == 0:
-        MH=map_helper()
+def grey_map(ingd2,fun='none',cmap='cool',modif=0,vmin=0,vmax=0,
+             MH=0,gridlin=0.5,gridstyl='--',gridcol='y',norm='linear',alpha=1):
+    ''' 
+    grey map of 2-D array or gd2
+
+    ingd2       a gd2 or 2D array
+    fun         function applied to ingd2 ('abs', 'log', 'sqrt')
+    cmap        colormap ('viridis','plasma','cool','hot')
+                 see https://matplotlib.org/stable/tutorials/colors/colormaps.html
+    modif       cmap modification (0 no (def), 1,...)
+    vmin,vmax   range of grey to be considered 
+                (if vmin=vmax not considered)
+    MH          helper dict
+    gridlin,gridstyl,gridcol    grid control
+    norm        scale "linear", "log", "symlog", "logit" 
+    alpha       transparency (0->1)
+    '''
+
+    if isinstance(MH,dict):
+        if 'gridlin' in MH:
+            gridlin=MH['gridlin']
+        if 'gridstyl' in MH:
+            gridstyl=MH['gridstyl']
+        if 'gridcol' in MH:
+            gridcol=MH['gridcol']
+        if 'norm' in MH:
+            norm=MH['norm']
+        if 'alpha' in MH:
+            alpha=MH['alpha']
+
     if isinstance(ingd2,np.ndarray):
         y=ingd2
         aa=y.shape
@@ -421,29 +500,38 @@ def grey_map(ingd2,MH=0,fun='none'):
     # plt.grid(True)
     plt.show()
     ax = fig.add_subplot(111)
-    im = ax.imshow(y, interpolation='none',aspect='auto',origin='lower',
-        cmap=MH['cmap'],alpha=MH['alpha'],extent=ext)
+    if modif != 0:
+        cmap=modif_colormap(cmap,typ=modif)
+    if vmin == vmax:
+        im = ax.imshow(y, interpolation='none', aspect='auto', origin='lower',
+            cmap=cmap,alpha=alpha,extent=ext)
+    else:
+        im = ax.imshow(y, interpolation='none',aspect='auto',origin='lower',
+            cmap=cmap,alpha=alpha,extent=ext,vmin=vmin,vmax=vmax)
 
-    ax.grid(which='major', color=MH['gridcol'], linestyle=MH['gridstyl'], linewidth=MH['gridlin'])
+    ax.grid(which='major', color=gridcol, linestyle=gridstyl, linewidth=gridlin)
 
     return im,ax
 
 
 def map_helper(cmap='cool',norm='linear',alpha=1,
         gridlin=0.5,gridstyl='--',gridcol='y'):
-# map helper 
-#  cmap   colormap ('viridis','plasma','cool','hot')
-#      see https://matplotlib.org/stable/tutorials/colors/colormaps.html
-#  norm   scale "linear", "log", "symlog", "logit" 
-#  vmin
-#  vmax
-#  alpha   transparency (0->1)
+    """ 
+    map helper 
+
+        norm   scale "linear", "log", "symlog", "logit" 
+        vmin
+        vmax
+        alpha   transparency (0->1) 
+
+    OUTPUT:
+        MH      a dictionary
+    """
 
     MH={'cmap':cmap,'norm':norm,'alpha':alpha,
         'gridlin':gridlin,'gridstyl':gridstyl,'gridcol':gridcol}
 
     return MH
-
 
 
 def post_map(tit,xlab,ylab):
@@ -464,3 +552,30 @@ def post_fig2(tit,xlab,ylab):
     plt.title(tit)
     plt.xlabel(xlab)
     plt.ylabel(ylab)
+
+
+def modif_colormap(cmap,typ=1,par=2):
+    '''
+    Creates a modified color map.
+
+    cmap    color map (ex: 'viridis')
+    typ     modification type
+            = 1 black for lower values
+    par     type parameters
+    '''
+
+    nres=256
+    ccmap=mpl.colormaps[cmap].resampled(nres)
+    newcolors = ccmap(np.linspace(0, 1, nres))
+    black=np.array([0.1, 0.1, 0.1, 0.5])
+    white=np.array([1, 1, 1, 1])
+    newcolors[:par,:]=black
+    newcolors[nres-par:nres,:]=white
+    modcmap=ListedColormap(newcolors,name='cm_modif')
+
+    return modcmap
+
+
+def list_cmaps():
+    cmaps = sorted(m for m in plt.cm.datad if not m.endswith("_r"))
+    BASIC.show_list(cmaps)

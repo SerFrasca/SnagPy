@@ -228,6 +228,28 @@ def isa(arg, typ=0):
     return out
 
 
+def dims(arr):
+    '''
+    Dimensions for arrays or gds
+
+    arr     array or gd or gd2
+    '''
+    if isinstance(arr,GD.gd):
+        arr=arr.y
+    if isinstance(arr,GD2.gd2):
+        arr=arr.y
+
+    dim=arr.shape
+    if len(dim) == 1:
+        nr=1
+        nc=dim[0]
+    else:
+        [nr,nc]=dim
+
+    return nr,nc
+
+
+
 def byte2str(dat):
     '''
     converts byte object or list of b.o. to str or list of str

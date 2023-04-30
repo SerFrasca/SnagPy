@@ -822,6 +822,13 @@ def sel_interv(ingd,interv):
     '''
     lar=interv.lar
     nar=interv.nar
+    [nr,nc]=BASIC.dims(ingd)
+
+    if nar != nr or lar != nc:
+        print('*** error!  nar,lar',nar,lar,'  nr,nc',nr,nc)
+        yy='Error'
+        return yy
+    
     if isinstance(ingd,GD.gd):
         ingd=ingd.y
     if isinstance(ingd,GD2.gd2):
@@ -833,15 +840,15 @@ def sel_interv(ingd,interv):
         nint=len(interv.ini)
         yy=np.array([])
         for i in range(nint):
-            yy.append(y[interv.ini[i]:interv.fin[i]])
+            yy=np.append(yy,y[interv.ini[i]:interv.fin[i]])
     else:
         yy=[]
         for k in range(nar):
             nint=len(interv.ini[k])
             yy0=np.array([])
             for i in range(nint):
-                yy0.append(y[k][interv.ini[k][i]:interv.fin[k][i]])
-                yy.append(yy0)
+                yy0=np.append(yy0,y[k][interv.ini[k][i]:interv.fin[k][i]])
+            yy.append(yy0)
 
     return yy
 
@@ -965,12 +972,17 @@ def dummy_nodata():
 
 def data_interv(dat,eps=1.e-5,lenz=2,dataon=1):
     '''
-    finds data intervals
+    Finds data intervals
 
         dat     gd, gd2 or np array
         eps     relative level of no data
         lenz    min length of zero for no data
         dataon  = 0 -> holes, = 1 -> data
+
+    Adds to interv Inan and eps
+
+    Output:
+        interv  interval containing data
     '''
 
     if isinstance(dat, np.ndarray) == False:
@@ -1032,7 +1044,7 @@ def data_interv(dat,eps=1.e-5,lenz=2,dataon=1):
                     for iz in range(lenz):
                         zer[k+iz] = 1
 
-        print(len(zer),sum(zer))
+        # print(len(zer),sum(zer))
         interv = mask2interv(zer)
         Ini[i] = interv.ini
         Fin[i] = interv.fin
@@ -1050,6 +1062,7 @@ def data_interv(dat,eps=1.e-5,lenz=2,dataon=1):
         interv.label='data'
 
     interv.Inan=Inan
+    interv.eps=eps
 
     return interv
     
@@ -1119,3 +1132,53 @@ def stat_interv(inter,low=150):
     
     stat,Hist=GD.stat_gd(w1,100)
     BASIC.show_simp(stat)
+
+
+def stat_interv_data(arr,inter):
+    '''
+    Statistics for interval data
+    '''
+
+    if hasattr(inter,'eps'):
+        eps=inter.eps
+    else:
+        eps=0
+
+    yy=sel_interv(arr,inter)
+    nar=inter.nar
+    print(type(yy))
+    print('len(yy)',len(yy))
+
+    eps1=max(yy.flatten())*eps
+
+    if nar > 1:
+        narstat=[]
+        yy0=np.array([])
+        for i in range(nar):
+            y=yy[i]
+            ii=np.argwhere(y > eps1)
+            y=y(ii)
+            mu=np.mean(y)
+            me=np.median(y)
+            std=np.std(y)
+            mi=min(y)
+            ma=max(y)
+            st={'mu':mu,'me':me,'std':std,'mi':mi,'ma':ma}
+            narstat.append(st)
+            yy0=np.append(yy0,y)
+
+        yy=yy0
+    else:
+        narstat=[]
+        ii=np.argwhere(yy > eps1)
+        yy=yy[ii]
+
+    mu=np.mean(yy)
+    me=np.median(yy)
+    std=np.std(yy)
+    mi=min(yy)
+    ma=max(yy)
+    stat={'mu':mu,'me':me,'std':std,'mi':mi,'ma':ma}
+
+    return stat,narstat
+        
