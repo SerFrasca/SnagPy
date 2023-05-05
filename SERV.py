@@ -955,6 +955,36 @@ def win_interv(inter,lwin,typ,verb=1):
     return win
 
 
+def interv_code(ingd,interv):
+    '''
+    compresses data from gds or array by intervals
+    '''
+    if isinstance(ingd,GD.gd):
+        icgd=1
+        y=ingd.y
+    else:
+        icgd=0
+        y=ingd
+    
+    yy=sel_interv(ingd,interv)
+    cod=(yy,interv)
+
+    if icgd == 1:
+        coded=copy.deepcopy(ingd)
+        coded.y=cod
+    else:
+        coded=cod
+    
+    return coded
+
+
+
+def interv_decode(coded):
+    '''
+    decompresses data from gds or array by intervals
+    '''
+    pass
+
 
 # no-data management -------------------------
 

@@ -846,6 +846,7 @@ def plot(ingd,**plotpar):
     x      changed x
 
     keywords:
+        figsize=[hor,ver] or siz 
         more=1          no newfig
         mode='step'
         mode='scatter'
@@ -864,9 +865,14 @@ def plot(ingd,**plotpar):
         label='Something'  sets a label to the line
     '''
 
+    if 'figsize' in plotpar:
+        siz=plotpar['figsize']
+    else:
+        siz=1
+
     if 'more' not in plotpar:
         print('New Fig')
-        newfig()
+        newfig(siz)
     else:
         print('No New Fig')
 
@@ -944,6 +950,42 @@ def legend(loc='lower right'):
     see https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html#matplotlib.pyplot.legend
     '''
     plt.legend(loc=loc)
+
+
+def semilogx(ingd,**plotpar):
+    '''
+    Wrapper for plot
+    '''
+
+    plotpar['xlog']=1
+    plot(ingd,**plotpar)
+
+
+def semilogy(ingd,**plotpar):
+    '''
+    Wrapper for plot
+    '''
+
+    plotpar['ylog']=1
+    plot(ingd,**plotpar)
+
+
+def loglog(ingd,**plotpar):
+    '''
+    Wrapper for plot
+    '''
+    
+    plotpar['loglog']=1
+    plot(ingd,**plotpar)
+
+
+def step(ingd,**plotpar):
+    '''
+    Wrapper for plot
+    '''
+
+    plotpar['mode']='step'
+    plot(ingd,**plotpar)
 
 
 def close_fig():

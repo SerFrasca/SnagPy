@@ -82,10 +82,18 @@ class gd2:    # gd2 creation
             self.ini=gdpar['ini']
         else:
             self.ini=0
+        if 'ini2' in gdpar:
+            self.ini2=gdpar['ini2']
+        else:
+            self.ini2=0
         if 'dx' in gdpar:
             self.dx=gdpar['dx']
         else:
             self.dx=1
+        if 'dx2' in gdpar:
+            self.dx2=gdpar['dx2']
+        else:
+            self.dx2=1
         if 'x' in gdpar:
             self.x=gdpar['x']
             if len(self.x) > 0:
@@ -389,7 +397,7 @@ def im_cut(ingd2,iout,jout,typ=1):
     print(iout,jout)
     print(iiout0,iiout1,jjout0,jjout1)
     # cut=yy[np.ix_(range(iiout0,iiout1),range(jjout0,jjout1))]
-    cut=yy[jjout0:jjout1+1,iiout0:iiout1+1]
+    cut=yy[jjout0:jjout1,iiout0:iiout1]
     print(cut.shape)
 
     if icgd2 == 1:
@@ -444,8 +452,9 @@ def newfig2(siz=1):
     return fig,ax
 
 
-def grey_map(ingd2,fun='none',cmap='cool',modif=0,vmin=0,vmax=0,
-             MH=0,gridlin=0.5,gridstyl='--',gridcol='y',norm='linear',alpha=1):
+def grey_map(ingd2,fun='none',cmap='cool',modif=0,modpar=1,vmin=0,vmax=0,
+             MH=0,gridlin=0.5,gridstyl='--',gridcol='y',norm='linear',alpha=1,
+             figsize=1,colorbar=1):
     ''' 
     grey map of 2-D array or gd2
 
@@ -495,21 +504,32 @@ def grey_map(ingd2,fun='none',cmap='cool',modif=0,vmin=0,vmax=0,
     if fun == 'sqrt':
         y=np.sqrt(abs(y))
     ext=(inix,finx,iniy,finy)
-    fig = plt.figure()
+    
+    siz=figsize
+    if not isinstance(siz,list):
+        siz1=siz
+        siz=[siz1,siz1]
+    hor=6.4*siz[0]
+    ver=4.8*siz[1]
+    if colorbar == 1:
+        hor=hor*1.2
+    fig = plt.figure(figsize=[hor,ver])
+    # fig = plt.figure()
     plt.ion()
-    # plt.grid(True)
-    plt.show()
     ax = fig.add_subplot(111)
     if modif != 0:
-        cmap=modif_colormap(cmap,typ=modif)
+        cmap=modif_colormap(cmap,typ=modif,par=modpar)
     if vmin == vmax:
         im = ax.imshow(y, interpolation='none', aspect='auto', origin='lower',
             cmap=cmap,alpha=alpha,extent=ext)
     else:
         im = ax.imshow(y, interpolation='none',aspect='auto',origin='lower',
             cmap=cmap,alpha=alpha,extent=ext,vmin=vmin,vmax=vmax)
+    if colorbar == 1:
+        plt.colorbar(im)
 
     ax.grid(which='major', color=gridcol, linestyle=gridstyl, linewidth=gridlin)
+    plt.show()
 
     return im,ax
 
@@ -554,7 +574,7 @@ def post_fig2(tit,xlab,ylab):
     plt.ylabel(ylab)
 
 
-def modif_colormap(cmap,typ=1,par=2):
+def modif_colormap(cmap,typ=1,par=1):
     '''
     Creates a modified color map.
 

@@ -11,6 +11,7 @@ Sections:
 > Power Spectra               -> dummy_ps
 > Spectrograms                -> dummy_spec
 > Period analysis             -> dummy_per
+> Fit                         -> dummy_fit
 > From Scipy                  -> dummy_scipy
 '''
 
@@ -180,6 +181,26 @@ def dummy_hist():
     ]
     return clas,fun
 
+
+def mean_xy(mat):
+   '''
+   means along the two directions of a matrix or gd2
+   '''
+   if isinstance(mat,np.ndarray):
+      mat=GD2.gd2(mat)
+
+   x=GD2.x_gd2(mat)
+   y=GD2.x2_gd2(mat)
+
+   meany=np.mean(mat.y,axis=1)
+   meanx=np.mean(mat.y,axis=0)
+
+   meanx=GD.gd(meany,ini=mat.ini,dx=mat.dx)
+   meany=GD.gd(meany,ini=mat.ini2,dx=mat.dx2)
+
+   return meanx,meany
+
+
 def CW_histogram(x,w=[],ini=[],step=1,n=[],enl=10,typ='tri',edg=0,verb=1):
    ''' 
    Convolutional weighted histogram
@@ -334,6 +355,123 @@ def param_from_hist(hist):
    sig=np.sqrt(np.sum(y*(x-mu)**2)*dx)
 
    return mu,sig
+
+
+def scat_marginal(x,y,namex='x',namey='y',tit='Scatterplot with Histograms'):
+   '''
+   Scatter plot with marginal histograms
+   '''
+   fig = plt.figure(figsize=(16, 10), dpi= 80)
+   
+   plt.ion()
+   grid = plt.GridSpec(4, 4, hspace=0.5, wspace=0.2)
+
+   # Define the axes
+   ax_main = fig.add_subplot(grid[:-1, :-1])
+   ax_right = fig.add_subplot(grid[:-1, -1], yticklabels=[])
+   ax_bottom = fig.add_subplot(grid[-1, 0:-1], xticklabels=[])
+   
+   ax_main.scatter(x,y,  alpha=.9, edgecolors='gray', linewidths=.5)
+   gridlin=0.5
+   gridstyl='--'
+   gridcol='g'
+   ax_main.grid(which='major', color=gridcol, linestyle=gridstyl, linewidth=gridlin)
+
+   # histogram on the right
+   ax_bottom.hist(x, 40, histtype='step', orientation='vertical', color='deeppink')
+   ax_bottom.grid(which='major', color=gridcol, linestyle=gridstyl, linewidth=gridlin)
+   ax_bottom.invert_yaxis()
+
+   # histogram in the bottom
+   
+   ax_right.hist(y, 40, histtype='step', orientation='horizontal', color='deeppink')
+   ax_right.grid(which='major', color=gridcol, linestyle=gridstyl, linewidth=gridlin)
+
+   # Decorations
+   ax_main.set(title=tit, xlabel=namex, ylabel=namey)
+   ax_main.title.set_fontsize(20)
+   for item in ([ax_main.xaxis.label, ax_main.yaxis.label] + ax_main.get_xticklabels() + ax_main.get_yticklabels()):
+      item.set_fontsize(14)
+
+   # xlabels = ax_main.get_xticks().tolist()
+   # ax_main.set_xticklabels(xlabels)
+   plt.show()
+
+
+def map_marginal(ingd2,namex='x',namey='y',tit='Map with Marginal Functions',
+            fun='none',cmap='cool',modif=0,modpar=1,vmin=0,vmax=0,
+             gridlin=0.5,gridstyl='--',gridcol='y',norm='linear',alpha=1,
+             figsize=1,colorbar=1):
+   '''
+   Map with marginal functions
+   '''
+
+   if isinstance(ingd2,GD2.gd2):
+      yy=ingd2.y
+      inix=ingd2.ini
+      finx=inix+(ingd2.n/ingd2.m-1)*ingd2.dx
+      iniy=ingd2.ini2
+      finy=iniy+(ingd2.m-1)*ingd2.dx2
+      icgd2=1
+   else:
+      yy=ingd2
+      aa=yy.shape
+      inix=0
+      finx=aa[1]-1
+      iniy=0
+      finy=aa[0]-1
+      icgd2=0
+   
+   if fun == 'abs':
+        yy=abs(yy)   
+   if fun == 'log':
+        yy=np.log10(abs(yy))  
+   if fun == 'sqrt':
+        yy=np.sqrt(abs(yy))
+   ext=(inix,finx,iniy,finy)
+
+   meanx,meany=mean_xy(ingd2)
+   x_x=GD.x_gd(meanx)
+   x_y=meanx.y
+   y_x=GD.x_gd(meany)
+   y_y=meany.y
+   
+   fig = plt.figure(figsize=(16, 10), dpi= 80)
+   
+   plt.ion()
+   grid = plt.GridSpec(4, 4, hspace=0.5, wspace=0.2)
+
+   # Define the axes
+   ax_main = fig.add_subplot(grid[:-1, :-1])
+   ax_right = fig.add_subplot(grid[:-1, -1], yticklabels=[])
+   ax_bottom = fig.add_subplot(grid[-1, 0:-1], xticklabels=[])
+   
+   ax_main.imshow(yy, interpolation='none',aspect='auto',origin='lower',
+            cmap=cmap,alpha=alpha,extent=ext)
+   gridlin=0.5
+   gridstyl='--'
+   gridcol='g'
+   ax_main.grid(which='major', color=gridcol, linestyle=gridstyl, linewidth=gridlin)
+
+   # distribution on the right
+   ax_bottom.step(x_x,x_y, color='deeppink')
+   ax_bottom.grid(which='major', color=gridcol, linestyle=gridstyl, linewidth=gridlin)
+   ax_bottom.invert_yaxis()
+
+   # distribution in the bottom
+   
+   ax_right.step(y_y,y_x, color='deeppink')
+   ax_right.grid(which='major', color=gridcol, linestyle=gridstyl, linewidth=gridlin)
+
+   # Decorations
+   ax_main.set(title=tit, xlabel=namex, ylabel=namey)
+   ax_main.title.set_fontsize(20)
+   for item in ([ax_main.xaxis.label, ax_main.yaxis.label] + ax_main.get_xticklabels() + ax_main.get_yticklabels()):
+      item.set_fontsize(14)
+
+   # xlabels = ax_main.get_xticks().tolist()
+   # ax_main.set_xticklabels(xlabels)
+   plt.show()
 
 
 # Power Spectra ----------------------------
@@ -753,6 +891,27 @@ def gd_tperiod(ingd,per,nbin=(20,48),nharm=5,ph=0,preproc=1):
 
 def gd_worm():
    pass
+
+
+# Fit -------------------------
+
+def dummy_fit():
+   '''
+   '''
+
+
+def gen_lin_fit():
+   '''
+   General linear fit
+
+
+   '''
+
+
+def data_polyfit():
+   '''
+   Analyzes x-y data
+   '''
 
 
 # From Scipy -------------------------
