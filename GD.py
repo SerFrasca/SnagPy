@@ -726,10 +726,12 @@ def newfig(siz=1):
         siz=[siz1,siz1]
     hor=6.4*siz[0]
     ver=4.8*siz[1]
-    plt.figure(figsize=[hor,ver])
+    fig=plt.figure(figsize=[hor,ver])
     plt.ion()
     plt.grid(True)
     plt.show()
+
+    return fig
 
 
 
@@ -872,7 +874,7 @@ def plot(ingd,**plotpar):
 
     if 'more' not in plotpar:
         print('New Fig')
-        newfig(siz)
+        fig=newfig(siz)
     else:
         print('No New Fig')
 
@@ -941,6 +943,11 @@ def plot(ingd,**plotpar):
     if 'ylab' in plotpar:
         ylab=plotpar['ylab']
         plt.ylabel(ylab)
+
+    global glob_pos
+    glob_pos=[]
+
+    return fig
       
 
 def legend(loc='lower right'):
