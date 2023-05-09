@@ -76,7 +76,7 @@ def dummy_small():
 def envir_var(var):
     '''
     value of environment variables
-      var    name of the environment variable (a string)
+      var    name of the environment variable (a string. ex.: BASIC.envir_var('SNAGPY_PATH'))
     '''
     AA = dict(os.environ)
     try:
