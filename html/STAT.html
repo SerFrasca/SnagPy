@@ -18,6 +18,7 @@ Sections:<br>
 &gt;&nbsp;Power&nbsp;Spectra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_ps<br>
 &gt;&nbsp;Spectrograms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_spec<br>
 &gt;&nbsp;Period&nbsp;analysis&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_per<br>
+&gt;&nbsp;Fit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_fit<br>
 &gt;&nbsp;From&nbsp;Scipy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;dummy_scipy</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
@@ -61,6 +62,8 @@ eps&nbsp;to&nbsp;the&nbsp;lowest&nbsp;meaningful&nbsp;value,&nbsp;as&nbsp;percen
 &nbsp;&nbsp;&nbsp;=&nbsp;0&nbsp;no&nbsp;enlarged&nbsp;0&nbsp;output</tt></dd></dl>
  <dl><dt><a name="-coher"><strong>coher</strong></a>(ingd1, ingd2)</dt></dl>
  <dl><dt><a name="-cross_pw"><strong>cross_pw</strong></a>(ingd1, ingd2)</dt></dl>
+ <dl><dt><a name="-data_polyfit"><strong>data_polyfit</strong></a>()</dt><dd><tt>Analyzes&nbsp;x-y&nbsp;data</tt></dd></dl>
+ <dl><dt><a name="-dummy_fit"><strong>dummy_fit</strong></a>()</dt></dl>
  <dl><dt><a name="-dummy_hist"><strong>dummy_hist</strong></a>()</dt></dl>
  <dl><dt><a name="-dummy_per"><strong>dummy_per</strong></a>()</dt></dl>
  <dl><dt><a name="-dummy_ps"><strong>dummy_ps</strong></a>()</dt></dl>
@@ -107,6 +110,7 @@ preproc&nbsp;&nbsp;pre-processing&nbsp;0&nbsp;nothing,&nbsp;1&nbsp;abs,&nbsp;2&n
 The&nbsp;gd&nbsp;sampling&nbsp;time&nbsp;must&nbsp;be&nbsp;in&nbsp;s,&nbsp;if&nbsp;physical&nbsp;periods&nbsp;are&nbsp;considered</tt></dd></dl>
  <dl><dt><a name="-gd_welch"><strong>gd_welch</strong></a>(ingd, lenfrac=1, res=1, shift=1, notrend=1, win='hann', singleb=1)</dt></dl>
  <dl><dt><a name="-gd_worm"><strong>gd_worm</strong></a>()</dt></dl>
+ <dl><dt><a name="-gen_lin_fit"><strong>gen_lin_fit</strong></a>()</dt><dd><tt>General&nbsp;linear&nbsp;fit</tt></dd></dl>
  <dl><dt><a name="-loghist"><strong>loghist</strong></a>(dat, nbins=20, rang=None, weights=None)</dt><dd><tt>Histogram&nbsp;on&nbsp;log&nbsp;bins<br>
 &nbsp;<br>
 dat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd&nbsp;or&nbsp;array<br>
@@ -114,6 +118,8 @@ bins&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;bins<br>
 range&nbsp;&nbsp;&nbsp;see&nbsp;numpy.histogram<br>
 weight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"</tt></dd></dl>
  <dl><dt><a name="-lombscargle"><strong>lombscargle</strong></a>(ingd)</dt></dl>
+ <dl><dt><a name="-map_marginal"><strong>map_marginal</strong></a>(ingd2, namex='x', namey='y', tit='Map with Marginal Functions', fun='none', cmap='cool', modif=0, modpar=1, vmin=0, vmax=0, gridlin=0.5, gridstyl='--', gridcol='y', norm='linear', alpha=1, figsize=1, colorbar=1)</dt><dd><tt>Map&nbsp;with&nbsp;marginal&nbsp;functions</tt></dd></dl>
+ <dl><dt><a name="-mean_xy"><strong>mean_xy</strong></a>(mat)</dt><dd><tt>means&nbsp;along&nbsp;the&nbsp;two&nbsp;directions&nbsp;of&nbsp;a&nbsp;matrix&nbsp;or&nbsp;gd2</tt></dd></dl>
  <dl><dt><a name="-param_from_hist"><strong>param_from_hist</strong></a>(hist)</dt><dd><tt>estimate&nbsp;population&nbsp;parameters&nbsp;from&nbsp;histogram<br>
 hist&nbsp;&nbsp;&nbsp;gd&nbsp;containing&nbsp;the&nbsp;histogram</tt></dd></dl>
  <dl><dt><a name="-pulse_spectrum"><strong>pulse_spectrum</strong></a>(ingd)</dt></dl>
@@ -124,6 +130,7 @@ pars&nbsp;&nbsp;parameters<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pars<br>
 norm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mu,sigma</tt></dd></dl>
+ <dl><dt><a name="-scat_marginal"><strong>scat_marginal</strong></a>(x, y, namex='x', namey='y', tit='Scatterplot with Histograms')</dt><dd><tt>Scatter&nbsp;plot&nbsp;with&nbsp;marginal&nbsp;histograms</tt></dd></dl>
  <dl><dt><a name="-sections"><strong>sections</strong></a>()</dt></dl>
  <dl><dt><a name="-stat_gd_interv"><strong>stat_gd_interv</strong></a>(gin, inter)</dt></dl>
  <dl><dt><a name="-stat_nozero"><strong>stat_nozero</strong></a>(indat)</dt><dd><tt>statistics&nbsp;on&nbsp;non-zero&nbsp;data</tt></dd></dl>

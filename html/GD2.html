@@ -124,13 +124,41 @@ Data descriptors defined here:<br>
 fif&nbsp;=&nbsp;-1&nbsp;ifft</tt></dd></dl>
  <dl><dt><a name="-gd22dict"><strong>gd22dict</strong></a>(ingd)</dt></dl>
  <dl><dt><a name="-gd2_stat_nz"><strong>gd2_stat_nz</strong></a>(ingd2)</dt></dl>
- <dl><dt><a name="-grey_map"><strong>grey_map</strong></a>(ingd2, MH=0, fun='none')</dt></dl>
- <dl><dt><a name="-im_cut"><strong>im_cut</strong></a>(ingd2, iout, jout)</dt><dd><tt>image&nbsp;cut<br>
-ingd2&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;<a href="#gd2">gd2</a>&nbsp;or&nbsp;matrix<br>
-iout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;range&nbsp;x1&nbsp;out<br>
-jout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;range&nbsp;x2&nbsp;out</tt></dd></dl>
+ <dl><dt><a name="-grey_map"><strong>grey_map</strong></a>(ingd2, fun='none', cmap='cool', modif=0, modpar=1, vmin=0, vmax=0, MH=0, gridlin=0.5, gridstyl='--', gridcol='y', norm='linear', alpha=1, figsize=1, colorbar=1)</dt><dd><tt>grey&nbsp;map&nbsp;of&nbsp;2-D&nbsp;array&nbsp;or&nbsp;<a href="#gd2">gd2</a><br>
+&nbsp;<br>
+ingd2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;<a href="#gd2">gd2</a>&nbsp;or&nbsp;2D&nbsp;array<br>
+fun&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;applied&nbsp;to&nbsp;ingd2&nbsp;('abs',&nbsp;'log',&nbsp;'sqrt')<br>
+cmap&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;colormap&nbsp;('viridis','plasma','cool','hot')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;<a href="https://matplotlib.org/stable/tutorials/colors/colormaps.html">https://matplotlib.org/stable/tutorials/colors/colormaps.html</a><br>
+modif&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmap&nbsp;modification&nbsp;(0&nbsp;no&nbsp;(def),&nbsp;1,...)<br>
+vmin,vmax&nbsp;&nbsp;&nbsp;range&nbsp;of&nbsp;grey&nbsp;to&nbsp;be&nbsp;considered&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;vmin=vmax&nbsp;not&nbsp;considered)<br>
+MH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;helper&nbsp;dict<br>
+gridlin,gridstyl,gridcol&nbsp;&nbsp;&nbsp;&nbsp;grid&nbsp;control<br>
+norm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scale&nbsp;"linear",&nbsp;"log",&nbsp;"symlog",&nbsp;"logit"&nbsp;<br>
+alpha&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transparency&nbsp;(0-&gt;1)</tt></dd></dl>
+ <dl><dt><a name="-im_cut"><strong>im_cut</strong></a>(ingd2, iout, jout, typ=1)</dt><dd><tt>image&nbsp;cut<br>
+ingd2&nbsp;&nbsp;&nbsp;input&nbsp;<a href="#gd2">gd2</a>&nbsp;or&nbsp;matrix<br>
+iout&nbsp;&nbsp;&nbsp;&nbsp;range&nbsp;x1&nbsp;out<br>
+jout&nbsp;&nbsp;&nbsp;&nbsp;range&nbsp;x2&nbsp;out<br>
+typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;range&nbsp;in&nbsp;samples,&nbsp;2&nbsp;range&nbsp;in&nbsp;x</tt></dd></dl>
  <dl><dt><a name="-im_reduce"><strong>im_reduce</strong></a>(ingd2, nr, nc, typ)</dt><dd><tt>image&nbsp;reduction</tt></dd></dl>
- <dl><dt><a name="-map_helper"><strong>map_helper</strong></a>(cmap='cool', norm='linear', alpha=1, gridlin=0.5, gridstyl='--', gridcol='y')</dt></dl>
+ <dl><dt><a name="-list_cmaps"><strong>list_cmaps</strong></a>()</dt></dl>
+ <dl><dt><a name="-map_helper"><strong>map_helper</strong></a>(cmap='cool', norm='linear', alpha=1, gridlin=0.5, gridstyl='--', gridcol='y')</dt><dd><tt>map&nbsp;helper&nbsp;<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;norm&nbsp;&nbsp;&nbsp;scale&nbsp;"linear",&nbsp;"log",&nbsp;"symlog",&nbsp;"logit"&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vmin<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vmax<br>
+&nbsp;&nbsp;&nbsp;&nbsp;alpha&nbsp;&nbsp;&nbsp;transparency&nbsp;(0-&gt;1)&nbsp;<br>
+&nbsp;<br>
+OUTPUT:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;dictionary</tt></dd></dl>
+ <dl><dt><a name="-modif_colormap"><strong>modif_colormap</strong></a>(cmap, typ=1, par=1)</dt><dd><tt>Creates&nbsp;a&nbsp;modified&nbsp;color&nbsp;map.<br>
+&nbsp;<br>
+cmap&nbsp;&nbsp;&nbsp;&nbsp;color&nbsp;map&nbsp;(ex:&nbsp;'viridis')<br>
+typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modification&nbsp;type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1&nbsp;black&nbsp;for&nbsp;lower&nbsp;values<br>
+par&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;parameters</tt></dd></dl>
  <dl><dt><a name="-modif_gd2"><strong>modif_gd2</strong></a>(ingd2, fun, par1=1, par2=0.1, par3=0)</dt><dd><tt>gd&nbsp;modification&nbsp;by&nbsp;a&nbsp;function&nbsp;fun<br>
 &nbsp;<br>
 fun&nbsp;&nbsp;ex.:'abs','real','imag','angle','log10','xlog10','loglog10'</tt></dd></dl>

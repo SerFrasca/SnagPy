@@ -102,7 +102,10 @@ Any&nbsp;copy&nbsp;of&nbsp;a&nbsp;<a href="#gd">gd</a>&nbsp;should&nbsp;be&nbsp;
 
 <dl><dt><a name="gd-edit_gd"><strong>edit_gd</strong></a>(ingd, **gdpar)</dt><dd><tt>changes&nbsp;parameters&nbsp;of&nbsp;a&nbsp;<a href="#gd">gd</a>&nbsp;or&nbsp;copy&nbsp;a&nbsp;<a href="#gd">gd</a><br>
 'new'-1&nbsp;&nbsp;-&gt;&nbsp;new&nbsp;<a href="builtins.html#object">object</a><br>
-in&nbsp;gdpar&nbsp;any&nbsp;couple&nbsp;varname=varvalue</tt></dd></dl>
+in&nbsp;gdpar&nbsp;any&nbsp;couple&nbsp;varname=varvalue&nbsp;<br>
+&nbsp;<br>
+Output:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;outgd&nbsp;&nbsp;&nbsp;edited&nbsp;<a href="#gd">gd</a></tt></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>
@@ -150,7 +153,14 @@ consists&nbsp;in&nbsp;four&nbsp;steps:<br>
 4)&nbsp;post_plot&nbsp;&nbsp;&nbsp;defines&nbsp;title&nbsp;and&nbsp;labels.<br>
 &nbsp;<br>
 The&nbsp;plot&nbsp;can&nbsp;be&nbsp;modified&nbsp;by&nbsp;the&nbsp;functions&nbsp;xlog,&nbsp;ylog,&nbsp;xlin,&nbsp;ylin,<br>
-xlim,&nbsp;ylim&nbsp;and&nbsp;others.</tt></dd></dl>
+xlim,&nbsp;ylim&nbsp;and&nbsp;others.<br>
+&nbsp;<br>
+----------------------------------------------------------------<br>
+&nbsp;<br>
+A&nbsp;different&nbsp;procedure,&nbsp;more&nbsp;synthetic&nbsp;is&nbsp;using&nbsp;simply&nbsp;the&nbsp;GD&nbsp;function&nbsp;"plot".<br>
+Among&nbsp;the&nbsp;arguments&nbsp;you&nbsp;can&nbsp;define&nbsp;the&nbsp;title,&nbsp;the&nbsp;x&nbsp;and&nbsp;y&nbsp;labels,&nbsp;the&nbsp;log&nbsp;or&nbsp;lin,&nbsp;<br>
+the&nbsp;mode,&nbsp;the&nbsp;color,&nbsp;if&nbsp;the&nbsp;plot&nbsp;is&nbsp;in&nbsp;a&nbsp;new&nbsp;or&nbsp;in&nbsp;the&nbsp;old&nbsp;figure&nbsp;and&nbsp;other.<br>
+Also&nbsp;a&nbsp;label&nbsp;can&nbsp;be&nbsp;attached&nbsp;and&nbsp;can&nbsp;be&nbsp;used&nbsp;in&nbsp;the&nbsp;legend&nbsp;with&nbsp;GD.<a href="#-legend">legend</a>(...).</tt></dd></dl>
  <dl><dt><a name="-dummy_set"><strong>dummy_set</strong></a>()</dt><dd><tt>To&nbsp;create&nbsp;gds&nbsp;with&nbsp;certain&nbsp;simple&nbsp;signals&nbsp;or&nbsp;random&nbsp;series</tt></dd></dl>
  <dl><dt><a name="-dummy_simp"><strong>dummy_simp</strong></a>()</dt></dl>
  <dl><dt><a name="-fft_gd"><strong>fft_gd</strong></a>(ingd, fif=1)</dt><dd><tt>fft&nbsp;of&nbsp;the&nbsp;ordianate&nbsp;of&nbsp;a&nbsp;<a href="#gd">gd</a><br>
@@ -161,6 +171,10 @@ fif&nbsp;=&nbsp;-1&nbsp;ifft</tt></dd></dl>
  <dl><dt><a name="-holdoff"><strong>holdoff</strong></a>()</dt></dl>
  <dl><dt><a name="-ioff"><strong>ioff</strong></a>()</dt><dd><tt>interactive&nbsp;off&nbsp;(use&nbsp;plt.show()&nbsp;to&nbsp;show&nbsp;the&nbsp;figure)</tt></dd></dl>
  <dl><dt><a name="-ion"><strong>ion</strong></a>()</dt></dl>
+ <dl><dt><a name="-legend"><strong>legend</strong></a>(loc='lower right')</dt><dd><tt>Legend&nbsp;creation&nbsp;using&nbsp;labels&nbsp;set&nbsp;by&nbsp;plot<br>
+For&nbsp;the&nbsp;location,&nbsp;use&nbsp;'best'&nbsp;or&nbsp;any&nbsp;position;&nbsp;default&nbsp;'lower&nbsp;right'<br>
+see&nbsp;<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html#matplotlib.pyplot.legend">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html#matplotlib.pyplot.legend</a></tt></dd></dl>
+ <dl><dt><a name="-loglog"><strong>loglog</strong></a>(ingd, **plotpar)</dt><dd><tt>Wrapper&nbsp;for&nbsp;plot</tt></dd></dl>
  <dl><dt><a name="-minmax_gd"><strong>minmax_gd</strong></a>(ingd)</dt><dd><tt>Min&nbsp;and&nbsp;max&nbsp;for&nbsp;abscissa&nbsp;and&nbsp;ordinate</tt></dd></dl>
  <dl><dt><a name="-modif_gd"><strong>modif_gd</strong></a>(ingd, fun, par1=1, par2=0.1, par3=0)</dt><dd><tt><a href="#gd">gd</a>&nbsp;modification&nbsp;by&nbsp;a&nbsp;function&nbsp;fun<br>
 &nbsp;<br>
@@ -168,6 +182,27 @@ fun&nbsp;&nbsp;ex.:'abs','real','imag','angle','log10','xlog10','loglog10'</tt><
  <dl><dt><a name="-newfig"><strong>newfig</strong></a>(siz=1)</dt><dd><tt>creates&nbsp;a&nbsp;new&nbsp;figure.&nbsp;siz&nbsp;is&nbsp;a&nbsp;two-element&nbsp;list&nbsp;<br>
 containing&nbsp;the&nbsp;enhancement&nbsp;of&nbsp;the&nbsp;horizontal&nbsp;and&nbsp;vertical&nbsp;dimensions</tt></dd></dl>
  <dl><dt><a name="-parallel_gd"><strong>parallel_gd</strong></a>(ingd1, ingd2, **gdpar)</dt></dl>
+ <dl><dt><a name="-plot"><strong>plot</strong></a>(ingd, **plotpar)</dt><dd><tt>ingd&nbsp;&nbsp;&nbsp;input&nbsp;<a href="#gd">gd</a>&nbsp;or&nbsp;array<br>
+x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changed&nbsp;x<br>
+&nbsp;<br>
+keywords:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;figsize=[hor,ver]&nbsp;or&nbsp;siz&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;more=1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no&nbsp;newfig<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mode='step'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mode='scatter'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;xlog=1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ylog=1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;loglog=1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;plmodif&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plot&nbsp;modifier&nbsp;(es.:&nbsp;'r+',&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;<a href="https://matplotlib.org/2.1.1/api/_as_gen/matplotlib.pyplot.plot.html">https://matplotlib.org/2.1.1/api/_as_gen/matplotlib.pyplot.plot.html</a>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;x=array&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abscissa&nbsp;modification<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fmt='r','b',...&nbsp;(for&nbsp;step)<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title='Something'&nbsp;&nbsp;put&nbsp;a&nbsp;title<br>
+&nbsp;&nbsp;&nbsp;&nbsp;xlab='Something'&nbsp;&nbsp;&nbsp;put&nbsp;a&nbsp;xlabel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ylab='Something'&nbsp;&nbsp;&nbsp;put&nbsp;a&nbsp;ylabel<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;label='Something'&nbsp;&nbsp;sets&nbsp;a&nbsp;label&nbsp;to&nbsp;the&nbsp;line</tt></dd></dl>
  <dl><dt><a name="-plot_gd"><strong>plot_gd</strong></a>(ingd, x=[], P_H=0)</dt><dd><tt>ingd&nbsp;&nbsp;&nbsp;input&nbsp;<a href="#gd">gd</a>&nbsp;or&nbsp;array<br>
 x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changed&nbsp;x<br>
 P_H&nbsp;&nbsp;&nbsp;&nbsp;output&nbsp;of&nbsp;plot_helper&nbsp;(can&nbsp;be&nbsp;defaulted)</tt></dd></dl>
@@ -191,6 +226,8 @@ nmax&nbsp;if&nbsp;&gt;&nbsp;0,&nbsp;impose&nbsp;fft&nbsp;length</tt></dd></dl>
  <dl><dt><a name="-rota_gd"><strong>rota_gd</strong></a>(ingd, n)</dt><dd><tt>circular&nbsp;shift&nbsp;of&nbsp;a&nbsp;<a href="#gd">gd</a>&nbsp;ordinate<br>
 n&nbsp;is&nbsp;a&nbsp;positive&nbsp;or&nbsp;negative&nbsp;integer</tt></dd></dl>
  <dl><dt><a name="-sections"><strong>sections</strong></a>()</dt></dl>
+ <dl><dt><a name="-semilogx"><strong>semilogx</strong></a>(ingd, **plotpar)</dt><dd><tt>Wrapper&nbsp;for&nbsp;plot</tt></dd></dl>
+ <dl><dt><a name="-semilogy"><strong>semilogy</strong></a>(ingd, **plotpar)</dt><dd><tt>Wrapper&nbsp;for&nbsp;plot</tt></dd></dl>
  <dl><dt><a name="-set_gd"><strong>set_gd</strong></a>(ingd, fun, par1=1, par2=0.1, par3=0)</dt><dd><tt>ingd&nbsp;a&nbsp;<a href="#gd">gd</a>&nbsp;or&nbsp;an&nbsp;integer&nbsp;that&nbsp;is&nbsp;the&nbsp;length&nbsp;of&nbsp;the&nbsp;new&nbsp;<a href="#gd">gd</a><br>
 fun&nbsp;is&nbsp;the&nbsp;function&nbsp;and&nbsp;can&nbsp;be:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;'delt','step','ramp','cos','sin','cexp','exp','power','rect'<br>
@@ -198,8 +235,19 @@ par1,pae2,par3&nbsp;&nbsp;are&nbsp;parameters&nbsp;for&nbsp;fun</tt></dd></dl>
  <dl><dt><a name="-show_gd"><strong>show_gd</strong></a>(ingd)</dt></dl>
  <dl><dt><a name="-stat_gd"><strong>stat_gd</strong></a>(ingd, nbins=20)</dt><dd><tt>Simple&nbsp;statistics&nbsp;(parameters&nbsp;and&nbsp;histogram)<br>
 nbins&nbsp;number&nbsp;of&nbsp;bins&nbsp;of&nbsp;the&nbsp;output&nbsp;histogram&nbsp;(a&nbsp;<a href="#gd">gd</a>).&nbsp;If&nbsp;=&nbsp;0,&nbsp;no&nbsp;hist<br>
-producs&nbsp;a&nbsp;simple&nbsp;dictionary&nbsp;with&nbsp;median,&nbsp;mean,&nbsp;std,&nbsp;skew&nbsp;and&nbsp;kurt</tt></dd></dl>
- <dl><dt><a name="-x_gd"><strong>x_gd</strong></a>(ingd)</dt><dd><tt><a href="#gd">gd</a>&nbsp;abscissa&nbsp;(real&nbsp;or&nbsp;realized)&nbsp;(operates&nbsp;also&nbsp;on&nbsp;arrays)</tt></dd></dl>
+producs&nbsp;a&nbsp;simple&nbsp;dictionary&nbsp;with&nbsp;median,&nbsp;mean,&nbsp;std,&nbsp;skew&nbsp;and&nbsp;kurt<br>
+&nbsp;<br>
+ingd&nbsp;&nbsp;&nbsp;&nbsp;<a href="#gd">gd</a>&nbsp;or&nbsp;array<br>
+&nbsp;<br>
+OUTPUT:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stat,Hist&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;or<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stat</tt></dd></dl>
+ <dl><dt><a name="-step"><strong>step</strong></a>(ingd, **plotpar)</dt><dd><tt>Wrapper&nbsp;for&nbsp;plot</tt></dd></dl>
+ <dl><dt><a name="-x_gd"><strong>x_gd</strong></a>(ingd)</dt><dd><tt><a href="#gd">gd</a>&nbsp;abscissa&nbsp;(real&nbsp;or&nbsp;realized)&nbsp;(operates&nbsp;also&nbsp;on&nbsp;arrays)<br>
+&nbsp;<br>
+Output:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;<a href="#gd">gd</a>&nbsp;abscissa</tt></dd></dl>
  <dl><dt><a name="-xlim"><strong>xlim</strong></a>(mi, ma)</dt></dl>
  <dl><dt><a name="-xlin"><strong>xlin</strong></a>()</dt></dl>
  <dl><dt><a name="-xlog"><strong>xlog</strong></a>()</dt></dl>

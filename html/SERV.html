@@ -114,12 +114,17 @@ Data descriptors defined here:<br>
  <dl><dt><a name="-check_interv"><strong>check_interv</strong></a>(inter)</dt></dl>
  <dl><dt><a name="-collect_interv"><strong>collect_interv</strong></a>(*inter)</dt><dd><tt>Collects&nbsp;a&nbsp;number&nbsp;of&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;to&nbsp;create&nbsp;a&nbsp;2-D&nbsp;<a href="#intervals">intervals</a></tt></dd></dl>
  <dl><dt><a name="-cover_calc"><strong>cover_calc</strong></a>(interv)</dt></dl>
- <dl><dt><a name="-data_interv"><strong>data_interv</strong></a>(dat, eps=1e-05, lenz=2, dataon=1)</dt><dd><tt>finds&nbsp;data&nbsp;<a href="#intervals">intervals</a><br>
+ <dl><dt><a name="-data_interv"><strong>data_interv</strong></a>(dat, eps=1e-05, lenz=2, dataon=1)</dt><dd><tt>Finds&nbsp;data&nbsp;<a href="#intervals">intervals</a><br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;dat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd,&nbsp;gd2&nbsp;or&nbsp;np&nbsp;array<br>
 &nbsp;&nbsp;&nbsp;&nbsp;eps&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;relative&nbsp;level&nbsp;of&nbsp;no&nbsp;data<br>
 &nbsp;&nbsp;&nbsp;&nbsp;lenz&nbsp;&nbsp;&nbsp;&nbsp;min&nbsp;length&nbsp;of&nbsp;zero&nbsp;for&nbsp;no&nbsp;data<br>
-&nbsp;&nbsp;&nbsp;&nbsp;dataon&nbsp;&nbsp;=&nbsp;0&nbsp;-&gt;&nbsp;holes,&nbsp;=&nbsp;1&nbsp;-&gt;&nbsp;data</tt></dd></dl>
+&nbsp;&nbsp;&nbsp;&nbsp;dataon&nbsp;&nbsp;=&nbsp;0&nbsp;-&gt;&nbsp;holes,&nbsp;=&nbsp;1&nbsp;-&gt;&nbsp;data<br>
+&nbsp;<br>
+Adds&nbsp;to&nbsp;interv&nbsp;Inan&nbsp;and&nbsp;eps<br>
+&nbsp;<br>
+Output:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;interv&nbsp;&nbsp;interval&nbsp;containing&nbsp;data</tt></dd></dl>
  <dl><dt><a name="-dict2interv"><strong>dict2interv</strong></a>(intdic)</dt></dl>
  <dl><dt><a name="-double_taper"><strong>double_taper</strong></a>(arrin, l, typ)</dt><dd><tt>Application&nbsp;of&nbsp;tapering&nbsp;on&nbsp;both&nbsp;sides&nbsp;of&nbsp;an&nbsp;array<br>
 &nbsp;<br>
@@ -138,8 +143,10 @@ typ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tapering&nbsp;type</tt></dd></dl>
 ATTENTION&nbsp;!&nbsp;mask&nbsp;is&nbsp;one-byte&nbsp;array.&nbsp;Convert&nbsp;to&nbsp;double&nbsp;if&nbsp;needed&nbsp;(newmask=np.double(mask))</tt></dd></dl>
  <dl><dt><a name="-interv_and"><strong>interv_and</strong></a>(*inter)</dt><dd><tt>AND&nbsp;of&nbsp;undefined&nbsp;number&nbsp;of&nbsp;arguments<br>
 ---&nbsp;only&nbsp;for&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;---</tt></dd></dl>
+ <dl><dt><a name="-interv_code"><strong>interv_code</strong></a>(ingd, interv)</dt><dd><tt>compresses&nbsp;data&nbsp;from&nbsp;gds&nbsp;or&nbsp;array&nbsp;by&nbsp;<a href="#intervals">intervals</a></tt></dd></dl>
  <dl><dt><a name="-interv_coverage"><strong>interv_coverage</strong></a>(*inter)</dt><dd><tt>Coverage&nbsp;function&nbsp;of&nbsp;undefined&nbsp;number&nbsp;of&nbsp;arguments<br>
 ---&nbsp;only&nbsp;for&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;---</tt></dd></dl>
+ <dl><dt><a name="-interv_decode"><strong>interv_decode</strong></a>(coded)</dt><dd><tt>decompresses&nbsp;data&nbsp;from&nbsp;gds&nbsp;or&nbsp;array&nbsp;by&nbsp;<a href="#intervals">intervals</a></tt></dd></dl>
  <dl><dt><a name="-interv_or"><strong>interv_or</strong></a>(*inter)</dt><dd><tt>OR&nbsp;of&nbsp;undefined&nbsp;number&nbsp;of&nbsp;arguments<br>
 &nbsp;&nbsp;&nbsp;&nbsp;---&nbsp;only&nbsp;for&nbsp;1-D&nbsp;<a href="#intervals">intervals</a>&nbsp;---</tt></dd></dl>
  <dl><dt><a name="-interv_reduc"><strong>interv_reduc</strong></a>(inter, mi, ma=0)</dt><dd><tt>Interval&nbsp;reduction,&nbsp;based&nbsp;on&nbsp;the&nbsp;length<br>
@@ -163,6 +170,7 @@ ingd&nbsp;&nbsp;&nbsp;&nbsp;gd,&nbsp;gd2&nbsp;or&nbsp;np&nbsp;array</tt></dd></d
 &nbsp;Ini,Fin,dim&nbsp;&nbsp;&nbsp;output&nbsp;of&nbsp;findnodata<br>
 &nbsp;dat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array&nbsp;or&nbsp;gd&nbsp;or&nbsp;gd2&nbsp;to&nbsp;set</tt></dd></dl>
  <dl><dt><a name="-stat_interv"><strong>stat_interv</strong></a>(inter, low=150)</dt><dd><tt>statistical&nbsp;analysis&nbsp;of&nbsp;an&nbsp;<a href="#intervals">intervals</a>&nbsp;<a href="builtins.html#object">object</a></tt></dd></dl>
+ <dl><dt><a name="-stat_interv_data"><strong>stat_interv_data</strong></a>(arr, inter)</dt><dd><tt>Statistics&nbsp;for&nbsp;interval&nbsp;data</tt></dd></dl>
  <dl><dt><a name="-taper"><strong>taper</strong></a>(l, typ)</dt><dd><tt>Tapering&nbsp;function<br>
 &nbsp;<br>
 l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length<br>
