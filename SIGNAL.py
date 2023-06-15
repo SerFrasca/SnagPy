@@ -134,6 +134,11 @@ def FiltFilt(ingd,a,b,norm=1):
     return out
 
 
+def multi_sour_adapt():
+    '''
+    '''
+
+
 def bode():
     pass
 

@@ -4,7 +4,7 @@
 
 import numpy as np
 import SNAGPY,GD,GD2,BASIC,ML_PY,SERV,STAT,SIGNAL,ASTROTIME,GD2,GWDATA
-import BSD,GUISNAG,GWDATA
+import BSD,GUISNAG,GUISNAG_QT,GUISNAG_TK,GWDATA
 import importlib,copy
 # importlib.reload(Module)
 from importlib import reload
@@ -14,7 +14,9 @@ from importlib import reload
 from BASIC import tic,toc
 tic()
 
-from BASIC import var
+from BASIC import var,Var
+
+global sh_edited_data
 
 # symbols -----------------
 

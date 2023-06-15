@@ -2,17 +2,18 @@
 
 # Inizialization
 
+
 import numpy as np
 import SNAGPY,GD,GD2,BASIC,ML_PY,SERV,STAT,SIGNAL,ASTROTIME,GD2,GWDATA
-import BSD,GUISNAG,GWDATA
-import importlib,h5py
-from importlib import reload
+import BSD,GUISNAG,GUISNAG_QT,GWDATA
+import importlib,copy
 # importlib.reload(Module)
+from importlib import reload
 
 # useful services -------------
 
 from BASIC import SnagH
-from BASIC import var
+from BASIC import var,Var
 
 from BASIC import tic,toc
 tic()

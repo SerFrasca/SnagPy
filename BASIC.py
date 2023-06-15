@@ -134,6 +134,15 @@ def var(v,typ=0):
 
 
 
+def Var(v):    
+    '''
+    Complete variable analysis
+      v     input variabl
+    '''
+    var(v,typ=3)
+
+
+
 def arr(v,typ=0):
     '''
     array analysis
@@ -806,13 +815,74 @@ def dummy_simpd():
     return clas,fun
 
 
+class simp_dict:
+    '''
+    A simple_dict is a "decorated" dictionary, with some limitations:
+    - the keys are always strings
+    - the values are never dictionaries (or simp_dict)
+
+    Attributes:
+
+    > dic       dictionary
+    > keys
+    > values
+    > len       length
+    > name
+    > capt
+    '''
+    def __init__(self,dic,**gdpar): 
+        self.dict=dic
+        keys=dic.keys()
+        values=list(dic.values())
+        N=len(dic)
+        self.len=N
+        self.keys=keys
+        self.values=values
+        flavor=np.zeros(N,dtype=int)
+        for i in range(N):
+            flavor[i]=isa(values[i])
+        self.flavor=flavor
+        self.level=0
+        ok=1
+        for i in keys:
+            if not isinstance(i,str):
+                ok=0
+                print('key ',i,' not a string')
+        ii=0
+        values=list(values)
+        for i in values:
+            if isinstance(i,simp_dict):
+                self.level=1+i.level
+            if isinstance(i,dict):
+            # if isinstance(i,dict):
+                ok=0
+                print('value ',ii,' not permitted')
+            ii+=1
+
+        if ok == 0:
+            print(' *** simp_dict not correct')
+
+        self.ok=ok
+
+        if 'name' in gdpar:
+            self.name=gdpar['name']
+        else:
+            self.name='simp_dict'
+
+        if 'capt' in gdpar:
+            self.capt=gdpar['capt']
+        else:
+            self.capt='no capt'
+
+
+
 def eq_interpr(line):
     '''
     line equation interpretation for simple tables
     '''
     k = line.find('=')
     lin1 = line[0:k].strip()
-    lin2 = line[k+1:-1].strip(' \n')
+    lin2 = line[k+1:].strip(' \n')
 
     if k == -1:
         lin1 = ''
@@ -833,7 +903,7 @@ def eq_interpr(line):
     return lin1, lin2, typ
 
 
-def simp2dict(file):
+def simp2sdict(file):
     '''
     puts the content of a simple table to a simple dictionary
     '''
@@ -854,7 +924,11 @@ def simp2dict(file):
     tot = tot[0:-1]+'}'
     tot
 
-    return eval(tot)
+    dic=eval(tot)
+    path,filnam,ext=path_fil_ext(file)
+    sdict=simp_dict(dic,name=filnam)
+
+    return sdict
 
 
 def show_simp(sdic, spac=10, file=0, tit=''):
@@ -864,6 +938,11 @@ def show_simp(sdic, spac=10, file=0, tit=''):
      file is the name of a desired output fil (if any, def no)
     '''
     print(tit)
+    print(sdic.name)
+    print(sdic.capt)
+    print(sdic.level)
+    print(sdic.ok)
+
     for key, value in sdic.items():
         print(key.ljust(spac), ' = ', value)
     if file != 0:
@@ -873,6 +952,7 @@ def show_simp(sdic, spac=10, file=0, tit=''):
             print(key.ljust(spac), ' = ', value)
         sys.stdout.close()
         sys.stdout = stdout0
+
 
 # numpy arrays -----------------------------------
 
@@ -1113,18 +1193,25 @@ class snag_table:
      nc      number of colums
      tup     = 1 list of tuples, = 0 list of lists
      titles  first row of data
+     name    name
      capt    caption
-     meta    meta data or control variable (typically a structure or dictionary)
+     cont    meta data or control variable (typically a structure or dictionary)
     '''
 
-    def __init__(self, data, capt='table', meta=0, tup=1):
+    def __init__(self, data, name='snag_table',capt='table', cont=0, tup=1):
         self.data = data
         self.nr = len(data)-1
         self.nc = len(data[1])
+        flavor=np.zeros([self.nr,self.nc],dtype=int)
+        for i in range(self.nr): 
+            for j in range(self.nc):
+                flavor[i][j]=isa(data[i+1][j])
+        self.flavor=flavor
         self.tup = tup
         self.titles = data[0]
+        self.name = name
         self.capt = capt
-        self.meta = meta
+        self.cont = cont
 
 
 def snag_table_show(st):
@@ -1232,7 +1319,8 @@ def csv2st(fil, tup=1):
      tup     = 1 list of tuples, = 0 list of lists
     '''
     data = csv2list(fil, tup=1)
-    st = snag_table(data, tup)
+    path,filnam,ext=path_fil_ext(fil)
+    st = snag_table(data, tup=tup, name=filnam)
 
     return st
 
@@ -1290,7 +1378,7 @@ class array_table:
      nr      number of rows
      nc      number of colums
      capt    caption
-     meta    meta data or control variable (typically a structure or dictionary)
+     cont    meta data or control variable (typically a structure or dictionary)
     '''
 
     def __init__(self, titles, data):
@@ -1299,7 +1387,7 @@ class array_table:
         self.nr = len(data)
         self.nc = len(data[1])
         self.capt = 'table'
-        self.meta = 0
+        self.cont = 0
 
 
 def text2array(fil, noline, nr, items):
@@ -1341,7 +1429,7 @@ def array_table_to_dict(at, fil=''):
     '''
 
     atdic = {'capt': at.capt, 'titles': at.titles, 'nr': at.nr, 'nc': at.nc, 'array': at.data,
-             'meta': at.meta}
+             'cont': at.cont}
 
     if fil != '':
         write_hdf5_s(atdic, fil)
