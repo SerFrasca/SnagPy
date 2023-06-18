@@ -16,7 +16,7 @@ tic()
 
 from BASIC import var,Var
 
-global sh_edited_data
+# global sh_edited_data
 
 # symbols -----------------
 

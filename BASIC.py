@@ -91,7 +91,7 @@ def envir_var(var):
 def var(v,typ=0):
     '''
     variable analysis
-      v     input variable
+      v     input variable or module
       typ   =1 methods, =2 attributes, =3 methods and attributes
     '''
     if isinstance(v,np.ndarray):
@@ -105,13 +105,14 @@ def var(v,typ=0):
 
     siz=sys.getsizeof(v)
     print('Memory occupancy ',siz,' bytes \n')
-    print('Recursive occupancy (ESTIMATION):')
 
-    rsiz=len(pickle.dumps(v))
-    print('   ',rsiz,'bytes')
-    print('   ',rsiz/1024,'kbytes')
-    print('   ',rsiz/1024**2,'Mbytes')
-    print('   ',rsiz/1024**3,'Gbytes')
+    if type(v) != type(GD): 
+        print('Recursive occupancy (ESTIMATION):')
+        rsiz=len(pickle.dumps(v))
+        print('   ',rsiz,'bytes')
+        print('   ',rsiz/1024,'kbytes')
+        print('   ',rsiz/1024**2,'Mbytes')
+        print('   ',rsiz/1024**3,'Gbytes')
 
     if typ > 0:
         di = dir(v)

@@ -27,11 +27,12 @@ def dummy_muta():
     print("\nEsempio mutable:")
     l=[1,2,3]
     l1=l
-    print(l,l1)
+    print('l,l1 =',l,l1)
     print('id(l)',id(l),'id(l1)',id(l1))
-    l[1]=34
-    print(l,l1)
-    print('id(l)',id(l),'id(l1)',id(l1))
+    l[1]=5
+    print('l[1]=5  l =',l)
+
+    print('id(l)',id(l),'id(l1)',id(l1),'id(l[1])',id(l[1]))
 
 
 
@@ -39,22 +40,23 @@ def dummy_int():
     '''
     '''
     a=1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
-    a=a*1000000
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
+    a=a*1000000-1
 
     print(a)
     print(float(a))
@@ -72,7 +74,7 @@ def dummy_fact(n):
     print('\n   Uso di lffact')
     lffact(n)
 
-    print(' \n  Uso di rec_fact')
+    print(' \n  Uso di rec_fact (funz. ricorsiva)')
     r=rec_fact(n)
     print('The factorial of',n,'is',r)
 

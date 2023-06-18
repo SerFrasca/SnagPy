@@ -57,13 +57,20 @@ def gui_table(stordic):
             # qt_data=[]
             # for i in range(nr):
             #     qt_data.append([keys[i],values[i]])
+        data=[]
+        for i in range(nr):
+            data.append([keys[i],values[i]])
     else:
         print('*** ERROR : ',type(stordic))
     print('table with nr,nc',nr,nc)
     print(len(data),len(data[0]))
+    print('name:',name)
     root = tk.Tk()
     root.title=name
     sheet = tksheet.Sheet(root)
+    sheet.headers(titles)
+    # print(dir(sheet))
+    # sheet.title=name
     sheet.pack(fill="both", expand=True)
     
     # sheet.grid()
@@ -101,6 +108,8 @@ def gui_table(stordic):
     # sheet.set_sheet_data(data=data)
     sheet_9399=sheet
     sheet.extra_bindings([("cell_select", on_cell_change)])
+    
+    root.title=name
 
     root.mainloop()
 
