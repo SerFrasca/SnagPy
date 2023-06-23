@@ -28,6 +28,12 @@ def get_edited_data():
     print(dat_9399)
 
 
+def get_table_data():
+    global sheet_9399, dat_9399
+    dat_9399 = sheet_9399.get_sheet_data()
+    sheet_9399.quit()
+
+
 def gui_table(stordic):
     '''
     Offers GUI for snag_table and simp_dict 
@@ -66,15 +72,11 @@ def gui_table(stordic):
     print(len(data),len(data[0]))
     print('name:',name)
     root = tk.Tk()
-    root.title=name
+    root.title(name)
     sheet = tksheet.Sheet(root)
     sheet.headers(titles)
-    # print(dir(sheet))
-    # sheet.title=name
     sheet.pack(fill="both", expand=True)
     
-    # sheet.grid()
-
     sheet.set_sheet_data([[data[ri][cj] for cj in range(nc)] for ri in range(nr)])# table enable choices listed below:
 
     sheet.enable_bindings(("single_select",
@@ -105,15 +107,18 @@ def gui_table(stordic):
 
                        "edit_cell"))
 
-    # sheet.set_sheet_data(data=data)
+   
     sheet_9399=sheet
     sheet.extra_bindings([("cell_select", on_cell_change)])
+   
     
-    root.title=name
+    confirm_button = tk.Button(root, text="Confirm", command=get_table_data)
+    confirm_button.pack(pady=10)
 
     root.mainloop()
 
     print('ciao')
+    root.destroy()
 
     return dat_9399
 

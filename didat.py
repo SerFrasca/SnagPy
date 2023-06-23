@@ -6,6 +6,7 @@ Sections:
 > Mutable e immutable       -> dummy_muta
 > int                       -> dummy_int
 > Factorial                 -> dummy_fact
+> Stringhe                 -> dummy_strin
 
 
 '''
@@ -145,3 +146,25 @@ def stirling(n):
 
     print('Formula di Stirling',r)
 
+
+
+def dummy_string():
+    '''
+    '''
+
+    a="Guido"
+    b='van Rossum'
+
+    print(a,b)
+
+    a+b
+    a+' '+b
+    c=b[0:3]
+
+    print(a+b,'|',a+' '+b,'|',c,'|')
+    
+    a='10'
+    b=int(a)
+    c=float(a)
+    print(a,b,c)
+            
